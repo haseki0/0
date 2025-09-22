@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İki Sütunlu Sayfa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .left-column {
+            width: 2.5%;
+            background: linear-gradient(180deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
+            border-right: 3px solid #fff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 2px;
+            gap: 15px;
+        }
+        
+        .right-column {
+            width: 97.5%;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #a29bfe 100%);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .nav-button {
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            border: none;
+            padding: 15px 5px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            min-height: 80px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(45deg, #fd79a8, #e84393);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nav-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .nav-button:nth-child(1) {
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+        }
+        
+        .nav-button:nth-child(2) {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+        }
+        
+        .nav-button:nth-child(3) {
+            background: linear-gradient(45deg, #00b894, #55efc4);
+        }
+        
+        .content-area {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            min-height: 400px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        p {
+            color: #2d3436;
+            line-height: 1.8;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="left-column">
+        <button class="nav-button" onclick="openPage('istem.html')">İSTEM</button>
+        <button class="nav-button" onclick="openPage('cagri.html')">ÇAĞRI</button>
+        <button class="nav-button" onclick="openPage('ekran.html')">EKRAN</button>
+    </div>
+    
+    <div class="right-column">
+        <div class="content-area">
+            <h1>Hoş Geldiniz</h1>
+            <p>Sol taraftaki butonları kullanarak farklı sayfalar arasında gezinebilirsiniz.</p>
+            <p>Bu alan seçtiğiniz sayfa içeriğini gösterecektir.</p>
+        </div>
+    </div>
+
+    <script>
+        function openPage(pageName) {
+            // Sağ sütunda iframe ile içeriği göster
+            const rightColumn = document.querySelector('.right-column');
+            rightColumn.innerHTML = `
+                <div class="content-area">
+                    <iframe src="${pageName}" 
+                            style="width: 100%; height: 100%; border: none; border-radius: 10px;">
+                        <p>Sayfa yüklenemedi. Lütfen "${pageName}" dosyasının mevcut olduğundan emin olun.</p>
+                    </iframe>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

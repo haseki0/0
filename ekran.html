@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasta Çağrı Ekranı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2c3e50, #34495e);
+            --secondary-gradient: linear-gradient(135deg, #3498db, #2980b9);
+            --accent-gradient: linear-gradient(135deg, #e74c3c, #c0392b);
+            --success-gradient: linear-gradient(135deg, #27ae60, #229954);
+            --warning-gradient: linear-gradient(135deg, #f39c12, #e67e22);
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --border-color: #dee2e6;
+            
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
+            --shadow-xl: 0 12px 24px rgba(0,0,0,0.2);
+            
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
+            
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #3b6db0, #1e3c72);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            margin: 0;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            height: 100vh;
+            gap: 0;
+        }
+
+        /* Sol Sütun - Sıra Listesi */
+        .left-column {
+            background: var(--bg-primary);
+            border-right: 3px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .queue-section {
+            flex: 1;
+            padding: 0;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .queue-section:last-child {
+            border-bottom: none;
+        }
+
+        /* Her bölüm için farklı arka plan renkleri */
+        .queue-section:nth-child(1) {
+            background: linear-gradient(135deg, #3498db, #2980b9, #1e5799);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+        }
+
+        .queue-section:nth-child(2) {
+            background: linear-gradient(135deg, #f39c12, #e67e22, #d35400);
+            background-size: 400% 400%;
+            animation: gradientShift 14s ease infinite;
+        }
+
+        .queue-section:nth-child(3) {
+            background: linear-gradient(135deg, #e74c3c, #c0392b, #a93226);
+            background-size: 400% 400%;
+            animation: gradientShift 16s ease infinite;
+        }
+
+        .queue-header {
+            text-align: center;
+            padding: 15px 20px;
+            margin: 15px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius-lg);
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .queue-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
+            height: calc(100% - 110px);
+            overflow: hidden;
+            position: relative;
+            margin: 0 15px 15px 15px;
+        }
+
+        .queue-page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+        }
+
+        .queue-page.active {
+            transform: translateX(0%) scale(1);
+            opacity: 1;
+        }
+
+        .queue-page.prev {
+            transform: translateX(-100%) scale(0.8);
+            opacity: 0;
+        }
+
+        .queue-page.next {
+            transform: translateX(100%) scale(0.8);
+            opacity: 0;
+        }
+
+        .page-indicator {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: var(--transition-normal);
+        }
+
+        .page-dot.active {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .queue-number {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 10px;
+            border-radius: var(--border-radius-md);
+            font-weight: 800;
+            font-size: 67px;
+            border: 3px solid #34495e;
+            transition: var(--transition-normal);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .queue-number:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: #34495e;
+            border-color: #4a6741;
+        }
+
+        /* Sağ Sütun - Ana Gösterim */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+        }
+
+        .current-call-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1b4332, #2d6a4f, #40916c, #52b788);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+            color: white;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .current-call-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .call-display {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .call-label {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .current-number {
+            font-size: 360px;
+            font-weight: 900;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
+            margin: 30px 0;
+            letter-spacing: -4px;
+            line-height: 1;
+            transition: var(--transition-slow);
+            color: white;
+        }
+
+        .current-number.animate {
+            animation: numberPulse 1.5s ease-in-out;
+        }
+
+        @keyframes numberPulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .no-call {
+            font-size: 48px;
+            font-weight: 400;
+            opacity: 0.8;
+            font-style: italic;
+            color: white;
+        }
+
+        .info-section {
+            flex: 1;
+            background: linear-gradient(135deg, #2c3e50, #34495e, #3d566e, #2c3e50);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 3px solid rgba(255,255,255,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .info-text {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .info-slide {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px) rotateX(-15deg);
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: blur(3px);
+        }
+
+        .info-slide.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+            filter: blur(0px);
+        }
+
+        .info-slide.prev {
+            opacity: 0;
+            transform: translateY(-50px) rotateX(15deg);
+            filter: blur(3px);
+        }
+
+        .info-line {
+            font-size: 64px;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto;
+            padding: 30px 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--border-radius-xl);
+            border: 3px solid rgba(255,255,255,0.2);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+            backdrop-filter: blur(15px);
+            max-width: 95%;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        /* Animasyonlar */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Tasarım */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 35% 65%;
+            }
+
+            .current-number {
+                font-size: 140px;
+            }
+
+            .call-label {
+                font-size: 28px;
+            }
+
+            .scroll-content {
+                font-size: 20px;
+            }
+
+            .queue-number {
+                font-size: 67px;
+                padding: 20px 10px;
+                min-height: 100px;
+            }
+
+            .queue-header {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 40% 60%;
+            }
+
+            .left-column {
+                border-right: none;
+                border-bottom: 3px solid var(--border-color);
+            }
+
+            .queue-section {
+                padding: 15px;
+            }
+
+            .queue-header {
+                font-size: 14px;
+                padding: 10px;
+                margin: 10px;
+            }
+
+            .queue-number {
+                padding: 15px 8px;
+                font-size: 58px;
+                min-height: 80px;
+            }
+
+            .current-number {
+                font-size: 100px;
+            }
+
+            .call-label {
+                font-size: 24px;
+            }
+
+            .info-section {
+                padding: 20px;
+            }
+
+            .scroll-content {
+                font-size: 16px;
+            }
+
+            .scroll-content span {
+                padding: 10px 20px;
+                margin-right: 80px;
+            }
+
+            .info-line {
+                font-size: 32px;
+                padding: 20px 30px;
+            }
+        }
+
+        /* Loading State */
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+            grid-column: 1 / -1;
+            justify-self: center;
+            align-self: center;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .no-records {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            padding: 40px 20px;
+            font-style: italic;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius-md);
+            margin: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sol Sütun - Sıra Listesi -->
+        <div class="left-column">
+            <!-- Doktor İşlemleri (100-199) -->
+            <div class="queue-section">
+                <div class="queue-header doctor">
+                    <i class="fas fa-user-md"></i>
+                    <span>DOKTOR İŞLEMLERİ</span>
+                </div>
+                <div class="queue-grid" id="queue-100">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+
+            <!-- Kontrol ve Muayeneler (200-299) -->
+            <div class="queue-section">
+                <div class="queue-header control">
+                    <i class="fas fa-stethoscope"></i>
+                    <span>KONTROL VE MUAYENELER</span>
+                </div>
+                <div class="queue-grid" id="queue-200">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+
+            <!-- Dikiş ve Pansuman (300-499) -->
+            <div class="queue-section">
+                <div class="queue-header treatment">
+                    <i class="fas fa-band-aid"></i>
+                    <span>DİKİŞ VE PANSUMAN</span>
+                </div>
+                <div class="queue-grid" id="queue-300">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Sütun - Ana Gösterim -->
+        <div class="right-column">
+            <!-- Çağrılan Hasta Gösterimi -->
+            <div class="current-call-section">
+                <div class="call-display">
+                    <div class="call-label">
+                        <i class="fas fa-volume-up"></i>
+                        <span>ÇAĞRILAN HASTA</span>
+                    </div>
+                    <div class="current-number" id="currentNumber">
+                        <span class="no-call">Bekleyiniz...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bilgilendirme Bölümü -->
+            <div class="info-section">
+                <div class="info-text">
+                    <div class="info-slide active">
+                        <div class="info-line">
+                            DOKTORA MUAYENE OLMADAN DİKİŞ PANSUMAN İŞLEMLERİ YAPILMAMAKTADIR
+                        </div>
+                    </div>
+                    <div class="info-slide">
+                        <div class="info-line">
+                            HASTALAR ÖNCELİK SIRASINA GÖRE ÇAĞRILACAKTIR
+                        </div>
+                    </div>
+                    <div class="info-slide">
+                        <div class="info-line">
+                            SIRA NUMARANIZI BEKLEYİNİZ
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBoiZFdN-elWsn0LEeT-YdZnOcrbYCrCeI",
+            authDomain: "yeniboard-af11c.firebaseapp.com",
+            projectId: "yeniboard-af11c",
+            storageBucket: "yeniboard-af11c.firebasestorage.app",
+            messagingSenderId: "661813442383",
+            appId: "1:661813442383:web:f2fccb4dca2e9788cc373a",
+            measurementId: "G-SCNPPSJ12W"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let currentCallNumber = null;
+        let allRecords = [];
+        let queueAnimationIntervals = {};
+        let infoSlideInterval;
+
+        // Sayfa yüklendiğinde başlat
+        document.addEventListener('DOMContentLoaded', function() {
+            setupRealtimeListeners();
+            loadCurrentCall();
+            startInfoSlideshow();
+        });
+
+        // Bugünün tarih anahtarını al
+        function getCurrentDateKey() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).slice(-2);
+            return `${day}.${month}.${year}`;
+        }
+
+        // Mevcut çağrıyı dinle
+        function loadCurrentCall() {
+            const hastaPanelRef = db.collection('hastapanel').doc('hastapanel');
+            
+            hastaPanelRef.onSnapshot((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const newCallNumber = data && data.cagrisirasi ? data.cagrisirasi : null;
+                    
+                    if (newCallNumber !== currentCallNumber) {
+                        currentCallNumber = newCallNumber;
+                        updateCurrentCallDisplay();
+                    }
+                } else {
+                    currentCallNumber = null;
+                    updateCurrentCallDisplay();
+                }
+            }, (error) => {
+                console.error('Error loading current call:', error);
+            });
+        }
+
+        // Kayıtları dinle
+        function setupRealtimeListeners() {
+            const todayKey = getCurrentDateKey();
+            
+            db.collection('processes')
+                .where('dateKey', '==', todayKey)
+                .orderBy('timestamp', 'asc')
+                .onSnapshot((snapshot) => {
+                    allRecords = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        data.id = doc.id;
+                        if (data.timestamp && data.timestamp.toDate) {
+                            data.date = data.timestamp.toDate().toISOString();
+                        }
+                        allRecords.push(data);
+                    });
+                    
+                    updateQueueNumbers();
+                }, (error) => {
+                    console.error('Error loading records:', error);
+                    // Fallback: load all recent records if dateKey filter fails
+                    loadFallbackRecords();
+                });
+        }
+
+        // Fallback fonksiyonu
+        function loadFallbackRecords() {
+            const todayKey = getCurrentDateKey();
+            
+            db.collection('processes')
+                .orderBy('timestamp', 'desc')
+                .limit(100)
+                .onSnapshot((snapshot) => {
+                    allRecords = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        // Sadece bugünün kayıtlarını filtrele
+                        if (data.sequenceNumber && data.sequenceNumber.startsWith(todayKey)) {
+                            data.id = doc.id;
+                            if (data.timestamp && data.timestamp.toDate) {
+                                data.date = data.timestamp.toDate().toISOString();
+                            }
+                            allRecords.push(data);
+                        }
+                    });
+                    
+                    // Tarihe göre sırala
+                    allRecords.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    updateQueueNumbers();
+                }, (error) => {
+                    console.error('Fallback also failed:', error);
+                });
+        }
+
+        // Mevcut çağrıyı güncelle
+        function updateCurrentCallDisplay() {
+            const numberElement = document.getElementById('currentNumber');
+            
+            if (currentCallNumber) {
+                numberElement.innerHTML = currentCallNumber;
+                numberElement.classList.add('animate');
+                
+                setTimeout(() => {
+                    numberElement.classList.remove('animate');
+                }, 1500);
+            } else {
+                numberElement.innerHTML = '<span class="no-call">Bekleyiniz...</span>';
+            }
+        }
+
+        // Sıra numaralarını güncelle
+        function updateQueueNumbers() {
+            const containers = {
+                '100': document.getElementById('queue-100'),
+                '200': document.getElementById('queue-200'),
+                '300': document.getElementById('queue-300')
+            };
+
+            // Her aralık için kayıtları grupla (sadece çağrılmamış olanlar)
+            const groupedRecords = {
+                '100': [],
+                '200': [],
+                '300': []
+            };
+
+            allRecords.forEach(record => {
+                // Çağrılmış hastaları gösterme
+                if (!record.isCalled) {
+                    const range = getRange(record.sequenceNumber);
+                    if (range && groupedRecords[range]) {
+                        groupedRecords[range].push(record);
+                    }
+                }
+            });
+
+            // Her aralık için sıra numaralarını göster
+            Object.keys(groupedRecords).forEach(range => {
+                const container = containers[range];
+                const records = groupedRecords[range];
+                
+                // Önceki animasyonu temizle
+                if (queueAnimationIntervals[range]) {
+                    clearInterval(queueAnimationIntervals[range]);
+                    delete queueAnimationIntervals[range];
+                }
+                
+                if (records.length === 0) {
+                    container.innerHTML = '<div class="no-records">Bekleyen hasta yok</div>';
+                    return;
+                }
+
+                // Sayfaları oluştur (her sayfada 4 hasta)
+                const pagesCount = Math.ceil(records.length / 4);
+                const pages = [];
+                
+                for (let i = 0; i < pagesCount; i++) {
+                    const startIndex = i * 4;
+                    const endIndex = Math.min(startIndex + 4, records.length);
+                    pages.push(records.slice(startIndex, endIndex));
+                }
+
+                let html = '';
+                
+                // Sayfa göstergeleri ekle
+                if (pagesCount > 1) {
+                    html += '<div class="page-indicator">';
+                    for (let i = 0; i < pagesCount; i++) {
+                        html += `<div class="page-dot ${i === 0 ? 'active' : ''}"></div>`;
+                    }
+                    html += '</div>';
+                }
+
+                // Sayfaları oluştur
+                pages.forEach((pageRecords, pageIndex) => {
+                    html += `<div class="queue-page ${pageIndex === 0 ? 'active' : 'next'}">`;
+                    pageRecords.forEach((record, index) => {
+                        const sequenceOnly = record.sequenceNumber.split('-')[1] || record.sequenceNumber;
+                        html += `<div class="queue-number" style="animation-delay: ${index * 0.1}s">${sequenceOnly}</div>`;
+                    });
+                    html += '</div>';
+                });
+                
+                container.innerHTML = html;
+
+                // Birden fazla sayfa varsa animasyon başlat
+                if (pagesCount > 1) {
+                    startPageAnimation(range, pagesCount);
+                }
+            });
+        }
+
+        // Sayfa animasyonunu başlat
+        function startPageAnimation(range, pagesCount) {
+            let currentPage = 0;
+            const container = document.getElementById(`queue-${range}`);
+            
+            queueAnimationIntervals[range] = setInterval(() => {
+                const pages = container.querySelectorAll('.queue-page');
+                const dots = container.querySelectorAll('.page-dot');
+                
+                // Mevcut sayfayı gizle
+                pages[currentPage].classList.remove('active');
+                pages[currentPage].classList.add('prev');
+                dots[currentPage].classList.remove('active');
+                
+                // Sonraki sayfaya geç
+                currentPage = (currentPage + 1) % pagesCount;
+                
+                // Yeni sayfayı göster
+                setTimeout(() => {
+                    pages.forEach(page => {
+                        page.classList.remove('active', 'prev', 'next');
+                    });
+                    
+                    pages[currentPage].classList.add('active');
+                    dots[currentPage].classList.add('active');
+                    
+                    // Diğer sayfaları konumlandır
+                    for (let i = 0; i < pagesCount; i++) {
+                        if (i !== currentPage) {
+                            pages[i].classList.add('next');
+                        }
+                    }
+                }, 100);
+                
+            }, 4000); // 4 saniyede bir sayfa değiştir
+        }
+
+        // Bilgi slaytları animasyonu
+        function startInfoSlideshow() {
+            const slides = document.querySelectorAll('.info-slide');
+            let currentSlide = 0;
+            
+            infoSlideInterval = setInterval(() => {
+                // Mevcut slaytı gizle
+                slides[currentSlide].classList.remove('active');
+                slides[currentSlide].classList.add('prev');
+                
+                // Sonraki slayta geç
+                currentSlide = (currentSlide + 1) % slides.length;
+                
+                // Yeni slaytı göster
+                setTimeout(() => {
+                    slides.forEach(slide => {
+                        slide.classList.remove('active', 'prev');
+                    });
+                    
+                    slides[currentSlide].classList.add('active');
+                }, 500);
+                
+            }, 5000); // 5 saniyede bir değiştir
+        }
+
+        // Sıra numarasının aralığını belirle
+        function getRange(sequenceNumber) {
+            const number = parseInt(sequenceNumber.split('-')[1] || sequenceNumber);
+            if (number >= 100 && number <= 199) return '100';
+            if (number >= 200 && number <= 299) return '200';
+            if (number >= 300 && number <= 499) return '300';
+            return null;
+        }
+
+        // Sayfa yenilendiğinde temizlik
+        window.addEventListener('beforeunload', function() {
+            console.log('Cleaning up listeners...');
+        });
+
+        // Periyodik yenileme (güvenlik için)
+        setInterval(() => {
+            if (document.hidden) return; // Sayfa görünür değilse atlat
+            
+            const now = new Date().getHours();
+            // Sadece mesai saatlerinde yenile (8-18 arası)
+            if (now >= 8 && now <= 18) {
+                console.log('Periodic refresh check...');
+                setupRealtimeListeners();
+            }
+        }, 60000); // 1 dakikada bir kontrol
+    </script>
+</body>
+</html>

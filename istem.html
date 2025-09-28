@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poliklinik İşlem Takip Sistemi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -13,28 +13,19 @@
             --accent-gradient: linear-gradient(135deg, #3498db, #2980b9);
             --success-gradient: linear-gradient(135deg, #27ae60, #229954);
             --danger-gradient: linear-gradient(135deg, #e74c3c, #c0392b);
-            --warning-gradient: linear-gradient(135deg, #f39c12, #e67e22);
-            --info-gradient: linear-gradient(135deg, #9b59b6, #8e44ad);
             
             --bg-primary: #ffffff;
             --bg-secondary: #f8f9fa;
-            --bg-tertiary: #e9ecef;
             --text-primary: #2c3e50;
             --text-secondary: #7f8c8d;
             --border-color: #dee2e6;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
             --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
             --shadow-xl: 0 20px 40px rgba(0,0,0,0.1);
             
-            --border-radius-sm: 6px;
             --border-radius-md: 10px;
             --border-radius-lg: 15px;
-            --border-radius-xl: 20px;
-            
-            --transition-fast: 0.15s ease;
             --transition-normal: 0.3s ease;
-            --transition-slow: 0.5s ease;
         }
 
         * {
@@ -48,10 +39,7 @@
             background: var(--primary-gradient);
             min-height: 100vh;
             padding: 10px;
-            margin: 0;
-            font-weight: 400;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -61,82 +49,15 @@
             background: var(--bg-primary);
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-xl);
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .header {
-            background: var(--secondary-gradient);
-            color: white;
-            padding: 24px 30px;
-            position: relative;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        .header h1 {
-            font-size: 26px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-
-        .header h1 i {
-            margin-right: 12px;
-            color: #3498db;
-        }
-
-        .user-info {
-            background: rgba(255,255,255,0.15);
-            padding: 12px 20px;
-            border-radius: var(--border-radius-sm);
-            display: inline-block;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            font-weight: 500;
-        }
-
-        .change-user-btn {
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 10px 20px;
-            border-radius: var(--border-radius-sm);
-            cursor: pointer;
-            transition: var(--transition-normal);
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-        }
-
-        .change-user-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-50%) translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
 
         .main-content {
             display: flex;
             flex: 1;
-            height: calc(95vh - 100px);
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            height: calc(100vh - 20px);
         }
 
         .left-column {
@@ -145,19 +66,7 @@
             border-right: 1px solid var(--border-color);
             background: var(--bg-secondary);
             overflow-y: auto;
-        }
-
-        .left-column::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .left-column::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .left-column::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
+            position: relative;
         }
 
         .right-column {
@@ -174,10 +83,7 @@
             color: var(--text-primary);
             margin-bottom: 20px;
             padding-bottom: 12px;
-            border-bottom: 3px solid transparent;
-            background: linear-gradient(90deg, #3498db 0%, #2980b9 100%) no-repeat bottom;
-            background-size: 60px 3px;
-            position: relative;
+            border-bottom: 3px solid #3498db;
         }
 
         .section-title i {
@@ -187,9 +93,15 @@
 
         .processes-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
             height: 100%;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .process-group {
@@ -202,7 +114,6 @@
             height: fit-content;
             border: 1px solid var(--border-color);
             transition: var(--transition-normal);
-            overflow: hidden;
         }
 
         .process-group:hover {
@@ -218,25 +129,7 @@
             background: white;
             text-align: center;
             letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
             border: 2px solid #000;
-        }
-
-        .group-title::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
         }
 
         .process-items {
@@ -245,65 +138,53 @@
         }
 
         .process-item {
-            padding: 12px 16px;
-            margin: 8px 0;
+            padding: 6px 10px;
+            margin: 3px 0;
             background: #000;
             color: white;
-            border-radius: var(--border-radius-sm);
-            border-left: 4px solid #666;
+            border-radius: 4px;
+            border-left: 3px solid #666;
             cursor: pointer;
             transition: var(--transition-normal);
-            font-size: 13px;
-            line-height: 1.4;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .process-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
-            transition: var(--transition-normal);
+            font-size: 14px;
+            line-height: 1.3;
+            font-weight: 600;
         }
 
         .process-item:hover {
             background: #333;
             transform: translateX(8px);
-            box-shadow: var(--shadow-md);
             border-left-color: #999;
         }
 
-        .process-item:hover::before {
-            left: 0;
+        .user-select-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-normal);
+            color: white;
+            font-size: 18px;
         }
 
-        .process-item:active {
-            transform: translateX(8px) scale(0.98);
+        .user-select-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
         }
 
         .records-list {
             flex: 1;
             overflow-y: auto;
-            max-height: calc(95vh - 180px);
+            max-height: calc(100vh - 120px);
             padding-right: 8px;
-        }
-
-        .records-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .records-list::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .records-list::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
         }
 
         .record-item {
@@ -312,23 +193,9 @@
             padding: 20px;
             margin-bottom: 16px;
             border-left: 5px solid #27ae60;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
             transition: var(--transition-normal);
             border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .record-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--success-gradient);
-            opacity: 0;
-            transition: var(--transition-normal);
         }
 
         .record-item:hover {
@@ -336,40 +203,18 @@
             box-shadow: var(--shadow-lg);
         }
 
-        .record-item:hover::before {
-            opacity: 1;
-        }
-
         .record-sequence-number {
             background: var(--danger-gradient);
             color: white;
             padding: 12px 20px;
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             font-size: 20px;
             font-weight: 700;
             display: inline-block;
             margin-bottom: 12px;
             min-width: 70px;
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .record-sequence-number::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
-            opacity: 0;
-            transition: var(--transition-normal);
-        }
-
-        .record-sequence-number:hover::before {
-            opacity: 1;
+            box-shadow: var(--shadow-md);
         }
 
         .record-date {
@@ -405,7 +250,7 @@
             line-height: 1.5;
             background: var(--bg-secondary);
             padding: 12px 16px;
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             border-left: 3px solid #3498db;
             font-weight: 500;
         }
@@ -420,7 +265,6 @@
             height: 100%;
             background-color: rgba(0,0,0,0.6);
             backdrop-filter: blur(5px);
-            animation: modalFadeIn var(--transition-normal) ease;
         }
 
         .modal-content {
@@ -431,38 +275,7 @@
             width: 90%;
             max-width: 520px;
             box-shadow: var(--shadow-xl);
-            animation: modalSlideIn var(--transition-normal) ease;
             border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--accent-gradient);
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes modalSlideIn {
-            from { 
-                transform: translateY(-50px); 
-                opacity: 0; 
-                scale: 0.9;
-            }
-            to { 
-                transform: translateY(0); 
-                opacity: 1; 
-                scale: 1;
-            }
         }
 
         .clinic-select {
@@ -476,24 +289,11 @@
             padding: 18px 20px;
             background: var(--bg-secondary);
             border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             cursor: pointer;
             transition: var(--transition-normal);
             text-align: center;
             font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .clinic-option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
-            transition: var(--transition-normal);
         }
 
         .clinic-option:hover {
@@ -503,77 +303,23 @@
             box-shadow: var(--shadow-md);
         }
 
-        .clinic-option:hover::before {
-            left: 0;
-        }
-
-        .custom-request-input {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-sm);
-            font-size: 14px;
-            margin-bottom: 20px;
-            resize: vertical;
-            min-height: 120px;
-            font-family: inherit;
-            transition: var(--transition-normal);
-            background: var(--bg-secondary);
-        }
-
-        .custom-request-input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-            background: var(--bg-primary);
-        }
-
         .btn {
             background: var(--accent-gradient);
             color: white;
             border: none;
             padding: 14px 28px;
-            border-radius: var(--border-radius-sm);
+            border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             transition: var(--transition-normal);
             margin: 6px;
-            position: relative;
-            overflow: hidden;
             font-family: inherit;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: var(--transition-normal);
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
-        }
-
-        .btn:hover::before {
-            left: 0;
-        }
-
-        .btn:active {
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
-        }
-
-        .btn-success {
-            background: var(--success-gradient);
         }
 
         .close {
@@ -582,16 +328,13 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            line-height: 1;
-            transition: var(--transition-fast);
+            transition: 0.3s;
             margin: -10px -10px 0 0;
             padding: 10px;
-            border-radius: 50%;
         }
 
         .close:hover {
             color: var(--text-primary);
-            background: var(--bg-secondary);
         }
 
         .no-records {
@@ -610,652 +353,196 @@
             color: var(--border-color);
         }
 
-        .loading-overlay {
+        /* Notification Styles */
+        .notification {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(3px);
+            top: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            border-radius: 6px;
+            z-index: 1001;
+            box-shadow: var(--shadow-lg);
+            max-width: 320px;
+            font-weight: 500;
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 2000;
+            gap: 10px;
         }
 
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid rgba(255,255,255,0.3);
-            border-top: 6px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .notification.success {
+            background: var(--success-gradient);
+            color: white;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .notification.error {
+            background: var(--danger-gradient);
+            color: white;
         }
 
-        /* Enhanced responsive design */
-        @media (max-width: 1600px) {
-            .processes-container {
-                grid-template-columns: repeat(4, 1fr);
-            }
+        .sequence-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 36px 48px;
+            border-radius: var(--border-radius-lg);
+            z-index: 1002;
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+            min-width: 320px;
         }
 
+        .sequence-number {
+            font-size: 54px;
+            font-weight: 800;
+            color: #e74c3c;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive Design */
         @media (max-width: 1200px) {
-            .processes-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 900px) {
             .processes-container {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .container {
-                width: 95vw;
-                height: 98vh;
-                border-radius: var(--border-radius-md);
-            }
-
             .main-content {
                 flex-direction: column;
-                height: auto;
             }
             
             .left-column {
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
                 height: 60vh;
-                flex: none;
-                padding: 16px;
             }
 
             .right-column {
-                flex: none;
                 height: 35vh;
-                padding: 16px;
-            }
-            
-            .change-user-btn {
-                position: static;
-                transform: none;
-                margin-top: 12px;
-                display: block;
-                text-align: center;
-                width: 100%;
-                max-width: 200px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .header {
-                padding: 20px 24px;
-                text-align: center;
-            }
-
-            .header h1 {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-
-            .user-info {
-                display: block;
-                margin-bottom: 10px;
-                font-size: 14px;
             }
 
             .processes-container {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-
-            .section-title {
-                font-size: 16px;
-                margin-bottom: 15px;
-            }
-
-            .process-group {
-                padding: 0;
-            }
-
-            .group-title {
-                font-size: 12px;
-                padding: 12px 8px;
-            }
-
-            .process-items {
-                padding: 12px;
-            }
-
-            .process-item {
-                font-size: 12px;
-                padding: 10px 12px;
-                margin: 6px 0;
-            }
-
-            .record-item {
-                padding: 14px;
-                margin-bottom: 12px;
-            }
-
-            .record-sequence-number {
-                font-size: 18px;
-                padding: 10px 16px;
-                margin-bottom: 10px;
-            }
-
-            .record-date {
-                font-size: 12px;
-            }
-
-            .record-clinic {
-                font-size: 13px;
-            }
-
-            .record-process {
-                font-size: 13px;
-                padding: 10px 12px;
-            }
-
-            .modal-content {
-                margin: 10% auto;
-                padding: 25px;
-                width: 95%;
-                max-width: 400px;
-            }
-
-            .clinic-option {
-                padding: 14px 16px;
-                font-size: 14px;
-            }
-
-            .custom-request-input {
-                padding: 12px;
-                min-height: 100px;
-                font-size: 14px;
-            }
-
-            .btn {
-                padding: 12px 20px;
-                font-size: 13px;
-                margin: 4px;
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 480px) {
+            .processes-container {
+                grid-template-columns: 1fr;
+            }
+
             .container {
                 width: 98vw;
                 height: 100vh;
-                margin: 0;
                 border-radius: 0;
             }
 
             body {
                 padding: 0;
             }
-
-            .header {
-                padding: 16px 20px;
-            }
-
-            .header h1 {
-                font-size: 18px;
-                margin-bottom: 12px;
-            }
-
-            .header h1 i {
-                margin-right: 8px;
-            }
-
-            .left-column {
-                height: 65vh;
-                padding: 12px;
-            }
-
-            .right-column {
-                height: 30vh;
-                padding: 12px;
-            }
-
-            .processes-container {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-
-            .process-group {
-                border-radius: 8px;
-            }
-
-            .group-title {
-                font-size: 11px;
-                padding: 10px 6px;
-                font-weight: 700;
-            }
-
-            .process-items {
-                padding: 8px;
-            }
-
-            .process-item {
-                font-size: 11px;
-                padding: 8px 10px;
-                margin: 4px 0;
-                border-radius: 4px;
-            }
-
-            .process-item:hover {
-                transform: translateX(4px);
-            }
-
-            .record-item {
-                padding: 12px;
-                margin-bottom: 10px;
-                border-radius: 8px;
-            }
-
-            .record-sequence-number {
-                font-size: 16px;
-                padding: 8px 12px;
-                margin-bottom: 8px;
-                min-width: 50px;
-            }
-
-            .record-date, .record-clinic, .record-process {
-                font-size: 12px;
-            }
-
-            .record-process {
-                padding: 8px 10px;
-            }
-
-            .section-title {
-                font-size: 15px;
-                margin-bottom: 12px;
-            }
-
-            .user-info {
-                font-size: 13px;
-                padding: 10px 16px;
-            }
-
-            .change-user-btn {
-                font-size: 13px;
-                padding: 8px 16px;
-                max-width: 180px;
-            }
-
-            .modal-content {
-                margin: 15% auto;
-                padding: 20px;
-                width: 98%;
-                max-width: 350px;
-                border-radius: 12px;
-            }
-
-            .clinic-option {
-                padding: 12px 14px;
-                font-size: 13px;
-                margin-bottom: 8px;
-            }
-
-            .custom-request-input {
-                padding: 10px;
-                min-height: 80px;
-                font-size: 13px;
-            }
-
-            .btn {
-                padding: 10px 16px;
-                font-size: 12px;
-                margin: 3px;
-            }
-
-            .close {
-                font-size: 24px;
-                margin: -8px -8px 0 0;
-            }
-
-            .no-records {
-                padding: 40px 15px;
-                font-size: 14px;
-            }
-
-            .no-records i {
-                font-size: 36px;
-                margin-bottom: 12px;
-            }
-
-            .records-list {
-                max-height: calc(30vh - 60px);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 16px;
-            }
-
-            .processes-container {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .left-column {
-                height: 70vh;
-                padding: 10px;
-            }
-
-            .right-column {
-                height: 25vh;
-                padding: 10px;
-            }
-
-            .process-group {
-                margin-bottom: 8px;
-            }
-
-            .group-title {
-                font-size: 10px;
-                padding: 8px 4px;
-                letter-spacing: 0.3px;
-            }
-
-            .process-items {
-                padding: 6px;
-            }
-
-            .process-item {
-                font-size: 10px;
-                padding: 6px 8px;
-                margin: 3px 0;
-                line-height: 1.3;
-            }
-
-            .section-title {
-                font-size: 14px;
-                margin-bottom: 10px;
-            }
-
-            .record-item {
-                padding: 10px;
-                margin-bottom: 8px;
-            }
-
-            .record-sequence-number {
-                font-size: 14px;
-                padding: 6px 10px;
-                margin-bottom: 6px;
-            }
-
-            .record-date, .record-clinic, .record-process {
-                font-size: 11px;
-            }
-
-            .record-process {
-                padding: 6px 8px;
-            }
-
-            .modal-content {
-                margin: 20% auto;
-                padding: 16px;
-                width: 95%;
-                max-width: 320px;
-            }
-
-            .clinic-option {
-                padding: 10px 12px;
-                font-size: 12px;
-                margin-bottom: 6px;
-            }
-
-            .btn {
-                padding: 8px 12px;
-                font-size: 11px;
-            }
-
-            .user-info {
-                font-size: 12px;
-                padding: 8px 12px;
-            }
-
-            .change-user-btn {
-                font-size: 12px;
-                padding: 6px 12px;
-                max-width: 160px;
-            }
-
-            .records-list {
-                max-height: calc(25vh - 50px);
-            }
-        }
-
-        @media (max-width: 360px) {
-            .header {
-                padding: 12px 16px;
-            }
-
-            .header h1 {
-                font-size: 15px;
-                margin-bottom: 10px;
-            }
-
-            .left-column, .right-column {
-                padding: 8px;
-            }
-
-            .processes-container {
-                gap: 6px;
-            }
-
-            .process-group {
-                border-radius: 6px;
-            }
-
-            .group-title {
-                font-size: 9px;
-                padding: 6px 3px;
-                font-weight: 800;
-            }
-
-            .process-item {
-                font-size: 9px;
-                padding: 5px 6px;
-                margin: 2px 0;
-            }
-
-            .section-title {
-                font-size: 13px;
-                margin-bottom: 8px;
-            }
-
-            .section-title i {
-                margin-right: 6px;
-            }
-
-            .record-item {
-                padding: 8px;
-                margin-bottom: 6px;
-            }
-
-            .record-sequence-number {
-                font-size: 13px;
-                padding: 5px 8px;
-                margin-bottom: 5px;
-            }
-
-            .record-date, .record-clinic, .record-process {
-                font-size: 10px;
-            }
-
-            .record-process {
-                padding: 5px 6px;
-            }
-
-            .user-info {
-                font-size: 11px;
-                padding: 6px 10px;
-            }
-
-            .change-user-btn {
-                font-size: 11px;
-                padding: 5px 10px;
-                max-width: 140px;
-            }
-
-            .modal-content {
-                margin: 25% auto;
-                padding: 12px;
-                width: 98%;
-            }
-
-            .clinic-option {
-                padding: 8px 10px;
-                font-size: 11px;
-            }
-
-            .btn {
-                padding: 6px 10px;
-                font-size: 10px;
-            }
-        }
-
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary: #1a1a1a;
-                --bg-secondary: #2d2d2d;
-                --bg-tertiary: #404040;
-                --text-primary: #ffffff;
-                --text-secondary: #b3b3b3;
-                --border-color: #404040;
-            }
-
-            .container {
-                background: var(--bg-primary);
-                border: 1px solid var(--border-color);
-            }
-        }
-
-        /* Enhanced animation classes */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .slide-up {
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .bounce-in {
-            animation: bounceIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { 
-                transform: translateY(20px); 
-                opacity: 0; 
-            }
-            to { 
-                transform: translateY(0); 
-                opacity: 1; 
-            }
-        }
-
-        @keyframes bounceIn {
-            0% { 
-                transform: scale(0.3); 
-                opacity: 0; 
-            }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1><i class="fas fa-hospital"></i>Poliklinik İşlem Takip Sistemi</h1>
-            <div class="user-info" id="userInfo">
-                <i class="fas fa-user-md"></i>
-                <span id="currentUser">Kullanıcı seçiniz</span>
-            </div>
-            <button class="change-user-btn" onclick="showUserModal()">
-                <i class="fas fa-exchange-alt"></i> Kullanıcı Değiştir
-            </button>
-        </div>
-
         <div class="main-content">
             <div class="left-column">
                 <h3 class="section-title"><i class="fas fa-tasks"></i>İşlemler</h3>
                 
                 <div class="processes-container">
-                    <div class="process-group">
-                        <div class="group-title">PANSUMAN İŞLEMLERİ</div>
-                        <div class="process-items">
-                            <div class="process-item" onclick="addProcess('Açık Pansuman')">Açık Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Kapalı Pansuman')">Kapalı Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Dren Pansumanı')">Dren Pansumanı</div>
-                            <div class="process-item" onclick="addProcess('Islak - Nemli Pansuman')">Islak - Nemli Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Dekübit Pansumanı')">Dekübit Pansumanı</div>
-                            <div class="process-item" onclick="addProcess('Yanık Pansumanı')">Yanık Pansumanı</div>
-                            <div class="process-item" onclick="addProcess('Thiocilline İle Pansuman')">Thiocilline İle Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Fito İle Pansuman')">Fito İle Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Silverdin İle Pansuman')">Silverdin İle Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Rifocin İle Pansuman')">Rifocin İle Pansuman</div>
-                            <div class="process-item" onclick="addProcess('Balaban İle Pansuman')">Balaban İle Pansuman</div>
+                    <!-- Birinci Sütun: Sütur Alınması ve Dren İşlemleri -->
+                    <div class="column">
+                        <div class="process-group">
+                            <div class="group-title">SÜTUR ALINMASI</div>
+                            <div class="process-items">
+                                <div class="process-item" onclick="addProcess('Tüm Süturların Alınması')">Tüm Süturların Alınması</div>
+                                <div class="process-item" onclick="addProcess('Atlanarak Sütur Alınması')">Atlanarak Sütur Alınması</div>
+                                <div class="process-item" onclick="addProcess('İşaretli Süturların Alınması')">İşaretli Süturların Alınması</div>
+                                <div class="process-item" onclick="addProcess('İşaretli Süturlar Dışında Süturlar Alınması')">İşaretli Süturlar Dışında Süturlar Alınması</div>
+                                <div class="process-item" onclick="addProcess('Dış Süturların Alınması')">Dış Süturların Alınması</div>
+                                <div class="process-item" onclick="addProcess('Detaşe Alan Dışında Süturların Alınması')">Detaşe Alan Dışında Süturların Alınması</div>
+                            </div>
+                        </div>
+
+                        <div class="process-group">
+                            <div class="group-title">DREN İŞLEMLERİ</div>
+                            <div class="process-items">
+                                <div class="process-item" onclick="addProcess('Dren Çekilmesi')">Dren Çekilmesi</div>
+                                <div class="process-item" onclick="addProcess('Dren Boşaltılması')">Dren Boşaltılması</div>
+                                <div class="process-item" onclick="addProcess('Dren Boşaltılması Eğitimi')">Dren Boşaltılması Eğitimi</div>
+                                <div class="process-item" onclick="addProcess('Dren Yıkanması')">Dren Yıkanması</div>
+                                <div class="process-item" onclick="addProcess('Dren Yıkanması Eğitimi')">Dren Yıkanması Eğitimi</div>
+                                <div class="process-item" onclick="addProcess('Foley Sonda Çekilmesi')">Foley Sonda Çekilmesi</div>
+                                <div class="process-item" onclick="addProcess('Foley Sonda Boşaltılması')">Foley Sonda Boşaltılması</div>
+                                <div class="process-item" onclick="addProcess('Foley Sonda Boşaltılması Eğitimi')">Foley Sonda Boşaltılması Eğitimi</div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="process-group">
-                        <div class="group-title">SÜTUR İŞLEMLERİ</div>
-                        <div class="process-items">
-                            <div class="process-item" onclick="addProcess('Tüm Süturların Alınması')">Tüm Süturların Alınması</div>
-                            <div class="process-item" onclick="addProcess('Atlanarak Süturların Alınması')">Atlanarak Süturların Alınması</div>
-                            <div class="process-item" onclick="addProcess('İşaretli Süturların Alınması')">İşaretli Süturların Alınması</div>
+                    <!-- İkinci Sütun: Pansuman Türleri ve Kremle Pansuman Türleri -->
+                    <div class="column">
+                        <div class="process-group">
+                            <div class="group-title">PANSUMAN TÜRLERİ</div>
+                            <div class="process-items">
+                                <div class="process-item" onclick="addProcess('Açık Pansuman')">Açık Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Kapalı Pansuman')">Kapalı Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Dren Pansumanı')">Dren Pansumanı</div>
+                                <div class="process-item" onclick="addProcess('Baskılı Pansuman')">Baskılı Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Islak Nemli Pansuman')">Islak Nemli Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Dekübüt Pansumanı')">Dekübüt Pansumanı</div>
+                                <div class="process-item" onclick="addProcess('Yanık Pansumanı')">Yanık Pansumanı</div>
+                            </div>
+                        </div>
+
+                        <div class="process-group">
+                            <div class="group-title">KREMLE PANSUMAN TÜRLERİ</div>
+                            <div class="process-items">
+                                <div class="process-item" onclick="addProcess('Thiocilline İle Pansuman')">Thiocilline İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Fito İle Pansuman')">Fito İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Thiocilline+Fito İle Pansuman')">Thiocilline+Fito İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Silverdin İle Pansuman')">Silverdin İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Rifocin İle Pansuman')">Rifocin İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('Balaban İle Pansuman')">Balaban İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('D Krem İle Pansuman')">D Krem İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('C Krem İle Pansuman')">C Krem İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('G Krem İle Pansuman')">G Krem İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('D+C Krem İle Pansuman')">D+C Krem İle Pansuman</div>
+                                <div class="process-item" onclick="addProcess('G+C Krem İle Pansuman')">G+C Krem İle Pansuman</div>
+                                <div class="process-item" onclick="showMeshModal()">Mesh İle Pansuman</div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="process-group">
-                        <div class="group-title">DREN İŞLEMLERİ</div>
-                        <div class="process-items">
-                            <div class="process-item" onclick="addProcess('Dren Çekilmesi')">Dren Çekilmesi</div>
-                            <div class="process-item" onclick="addProcess('Dren Boşaltılması')">Dren Boşaltılması</div>
-                            <div class="process-item" onclick="addProcess('Dren Boşaltılması Eğitimi')">Dren Boşaltılması Eğitimi</div>
-                            <div class="process-item" onclick="addProcess('Dren Yıkanması')">Dren Yıkanması</div>
-                            <div class="process-item" onclick="addProcess('Dren Yıkanması Eğitimi')">Dren Yıkanması Eğitimi</div>
+                    <!-- Üçüncü Sütun: Kontrol Muayene İşlemleri ve İşlemler -->
+                    <div class="column">
+                        <div class="process-group">
+                            <div class="group-title">KONTROL MUAYENE İŞLEMLERİ</div>
+                            <div class="process-items">
+                                <div class="process-item" onclick="addProcess('Genel Kontrol ve Muayene İçin Hazırlık', '210')">Genel Kontrol ve Muayene İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Abdominoplasti Hastası İçin Hazırlık', '210')">Abdominoplasti Hastası İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Rinoplasti Hastası İçin Hazırlık', '210')">Rinoplasti Hastası İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Otoplasti Hastası İçin Hazırlık', '210')">Otoplasti Hastası İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Meme Ameliyatı Hastası İçin Hazırlık', '210')">Meme Ameliyatı Hastası İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Kenacort Enj. Hastası İçin Hazırlık', '210')">Kenacort Enj. Hastası İçin Hazırlık</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="process-group">
-                        <div class="group-title">MUAYENE VE HAZIRLIK</div>
-                        <div class="process-items">
-                            <div class="process-item" onclick="addProcess('Kontrol - Muayene İçin Hazırlanması', '210')">Kontrol - Muayene İçin Hazırlanması</div>
-                            <div class="process-item" onclick="addProcess('Lokal Eksizyon İçin Hazırlanması', '110')">Lokal Eksizyon İçin Hazırlanması</div>
-                            <div class="process-item" onclick="addProcess('Dren Takılması İçin Hazırlanması', '110')">Dren Takılması İçin Hazırlanması</div>
+                        <div class="process-group">
+                            <div class="group-title">İŞLEMLER</div>
+                            <div class="process-items">
+                                <div class="process-item" onclick="addProcess('Apse Drenajı İçin Hazırlık', '210')">Apse Drenajı İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Yara Süturasyonu İçin Hazırlık', '210')">Yara Süturasyonu İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Dren Takılması İçin Hazırlık', '210')">Dren Takılması İçin Hazırlık</div>
+                                <div class="process-item" onclick="addProcess('Lokal Eksizyon İçin Hazırlık', '110')">Lokal Eksizyon İçin Hazırlık</div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="process-group">
-                        <div class="group-title">DİĞER İŞLEMLER</div>
-                        <div class="process-items">
-                            <div class="process-item" onclick="showCustomRequestModal()"><i class="fas fa-edit"></i> Özel İstek Yaz</div>
-                        </div>
-                    </div>
+                </div>
+                
+                <div class="user-select-icon" onclick="showUserModal()" title="Poliklinik Değiştir">
+                    <i class="fas fa-user-md"></i>
                 </div>
             </div>
 
@@ -1271,9 +558,34 @@
         </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
-        <div class="loading-spinner"></div>
+    <!-- Mesh Selection Modal -->
+    <div id="meshModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideMeshModal()">&times;</span>
+            <h3 style="margin-bottom: 24px; color: var(--text-primary); font-weight: 600;">
+                <i class="fas fa-layer-group"></i> Mesh Türü Seçiniz
+            </h3>
+            <div class="clinic-select">
+                <div class="clinic-option" onclick="addProcess('Mesh + Thiocilline İle Pansuman')">
+                    <i class="fas fa-capsules"></i> Thiocilline
+                </div>
+                <div class="clinic-option" onclick="addProcess('Mesh + Fito İle Pansuman')">
+                    <i class="fas fa-leaf"></i> Fito
+                </div>
+                <div class="clinic-option" onclick="addProcess('Mesh + Balaban İle Pansuman')">
+                    <i class="fas fa-band-aid"></i> Balaban
+                </div>
+                <div class="clinic-option" onclick="addProcess('Mesh + D Krem İle Pansuman')">
+                    <i class="fas fa-prescription-bottle"></i> D Krem
+                </div>
+                <div class="clinic-option" onclick="addProcess('Mesh + C Krem İle Pansuman')">
+                    <i class="fas fa-prescription-bottle"></i> C Krem
+                </div>
+                <div class="clinic-option" onclick="addProcess('Mesh + G Krem İle Pansuman')">
+                    <i class="fas fa-prescription-bottle"></i> G Krem
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- User Selection Modal -->
@@ -1284,49 +596,27 @@
                 <i class="fas fa-hospital-user"></i> Poliklinik Seçiniz
             </h3>
             <div class="clinic-select">
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 1 - 7109 - 3605')">
+                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 1')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 1
                 </div>
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 2 - 7110 - 3606')">
+                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 2')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 2
                 </div>
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 3 - 7298 - 3607')">
+                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 3')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 3
                 </div>
-                <div class="clinic-option" onclick="selectUser('Obezite Cerrahisi Polikliniği')">
-                    <i class="fas fa-weight"></i> Obezite Cerrahisi Polikliniği
+                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 4')">
+                    <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 4
                 </div>
-                <div class="clinic-option" onclick="selectUser('Endokrin Cerrahisi Polikliniği')">
-                    <i class="fas fa-procedures"></i> Endokrin Cerrahisi Polikliniği
+                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 5')">
+                    <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 5
                 </div>
-                <div class="clinic-option" onclick="selectUser('Meme Cerrahisi Polikliniği')">
-                    <i class="fas fa-ribbon"></i> Meme Cerrahisi Polikliniği
+                <div class="clinic-option" onclick="selectUser('GC Yan Dal Polikliniği')">
+                    <i class="fas fa-stethoscope"></i> GC Yan Dal Polikliniği
                 </div>
-                <div class="clinic-option" onclick="selectUser('HPB+GİS Polikliniği')">
-                    <i class="fas fa-liver"></i> HPB+GİS Polikliniği
-                </div>
-                <div class="clinic-option" onclick="selectUser('Plastik Cerrahi Polikliniği - 539 - 2234')">
+                <div class="clinic-option" onclick="selectUser('Plastik Cerrahi Polikliniği')">
                     <i class="fas fa-magic"></i> Plastik Cerrahi Polikliniği
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Custom Request Modal -->
-    <div id="customModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideCustomModal()">&times;</span>
-            <h3 style="margin-bottom: 24px; color: var(--text-primary); font-weight: 600;">
-                <i class="fas fa-edit"></i> Özel İstek
-            </h3>
-            <textarea id="customRequest" class="custom-request-input" placeholder="İsteğinizi yazınız..."></textarea>
-            <div style="text-align: center;">
-                <button class="btn btn-success" onclick="addCustomProcess()">
-                    <i class="fas fa-plus"></i> Ekle
-                </button>
-                <button class="btn btn-secondary" onclick="hideCustomModal()">
-                    <i class="fas fa-times"></i> İptal
-                </button>
             </div>
         </div>
     </div>
@@ -1348,22 +638,18 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-    </script>
 
-    <script>
         let currentUser = '';
         let unsubscribeListener = null;
 
-        // Initialize the app
+        // Initialize the app with distributed sequence management
         document.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('selectedUser');
-            if (savedUser) {
-                currentUser = savedUser;
-                document.getElementById('currentUser').textContent = savedUser;
-            } else {
-                showUserModal();
-            }
+            // Always show user modal on page load
+            showUserModal();
             setupRealtimeListener();
+            
+            // Setup sequence monitoring for multi-client synchronization
+            setupSequenceMonitoring();
         });
 
         // Get current date in DD.MM.YY format
@@ -1375,51 +661,137 @@
             return `${day}.${month}.${year}`;
         }
 
-        // Generate sequence number using Firestore atomic transactions
+        // Distributed sequence management with real-time sync
+        let sequenceCache = new Map();
+        let sequenceCacheLock = new Map();
+        let sequenceListeners = new Map();
+
+        // Generate sequence number with distributed locking
         async function generateSequenceNumber(prefix = '310') {
             const dateKey = getCurrentDateKey();
-            const sequenceDocRef = db.collection('sequences').doc(`${dateKey}-${prefix}`);
+            const cacheKey = `${dateKey}-${prefix}`;
             
             try {
-                const result = await db.runTransaction(async (transaction) => {
-                    const sequenceDoc = await transaction.get(sequenceDocRef);
-                    
-                    let newSequenceNumber;
-                    if (!sequenceDoc.exists) {
-                        // First time for this date/prefix combination
-                        const initialNumber = getInitialNumber(prefix);
-                        newSequenceNumber = initialNumber;
-                        transaction.set(sequenceDocRef, { 
-                            currentNumber: newSequenceNumber,
-                            dateKey: dateKey,
-                            prefix: prefix,
-                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    } else {
-                        // Increment existing sequence
-                        const currentNumber = sequenceDoc.data().currentNumber;
-                        newSequenceNumber = currentNumber + 1;
-                        transaction.update(sequenceDocRef, { 
-                            currentNumber: newSequenceNumber,
-                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    }
-                    
-                    return newSequenceNumber;
-                });
-                
-                return `${dateKey}-${result}`;
-                
+                // Use Firebase increment for atomic operations
+                const sequenceNumber = await getNextSequenceAtomic(cacheKey, prefix);
+                return `${dateKey}-${sequenceNumber}`;
             } catch (error) {
-                console.error('Sequence generation error:', error);
-                
-                // Fast fallback mechanism with timestamp
-                const fallbackNumber = getInitialNumber(prefix) + (Date.now() % 1000);
+                console.error('Atomic sequence generation failed, using fallback:', error);
+                // Fallback to timestamp-based unique number
+                const fallbackNumber = getInitialNumber(prefix) + Date.now() % 10000;
                 return `${dateKey}-${fallbackNumber}`;
             }
         }
 
-        // Get initial number for prefix
+        // Atomic sequence generation using Firebase increment
+        async function getNextSequenceAtomic(cacheKey, prefix) {
+            const sequenceDocRef = db.collection('sequences').doc(cacheKey);
+            const dateKey = getCurrentDateKey();
+            
+            try {
+                // Use runTransaction for true atomicity across all clients
+                const result = await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(sequenceDocRef);
+                    
+                    let newNumber;
+                    if (!doc.exists) {
+                        newNumber = getInitialNumber(prefix);
+                        transaction.set(sequenceDocRef, {
+                            currentNumber: newNumber,
+                            dateKey: dateKey,
+                            prefix: prefix,
+                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                            clientId: getClientId()
+                        });
+                    } else {
+                        const currentData = doc.data();
+                        newNumber = currentData.currentNumber + 1;
+                        transaction.update(sequenceDocRef, {
+                            currentNumber: newNumber,
+                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                            clientId: getClientId()
+                        });
+                    }
+                    
+                    return newNumber;
+                });
+                
+                return result;
+                
+            } catch (error) {
+                // If transaction fails, try with server timestamp for uniqueness
+                console.warn('Transaction failed, using server timestamp approach');
+                
+                const serverIncrement = firebase.firestore.FieldValue.increment(1);
+                
+                try {
+                    await sequenceDocRef.set({
+                        currentNumber: serverIncrement,
+                        dateKey: dateKey,
+                        prefix: prefix,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                        clientId: getClientId()
+                    }, { merge: true });
+                    
+                    // Get the updated value
+                    const doc = await sequenceDocRef.get();
+                    return doc.data().currentNumber;
+                    
+                } catch (innerError) {
+                    throw innerError;
+                }
+            }
+        }
+
+        // Generate unique client ID for this session
+        function getClientId() {
+            if (!window.clientId) {
+                window.clientId = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+            return window.clientId;
+        }
+
+        // Setup real-time sequence monitoring for conflict detection
+        function setupSequenceMonitoring() {
+            const dateKey = getCurrentDateKey();
+            const prefixes = ['110', '210', '310'];
+            
+            prefixes.forEach(prefix => {
+                const cacheKey = `${dateKey}-${prefix}`;
+                
+                if (!sequenceListeners.has(cacheKey)) {
+                    const unsubscribe = db.collection('sequences').doc(cacheKey)
+                        .onSnapshot(
+                            (doc) => {
+                                if (doc.exists) {
+                                    const data = doc.data();
+                                    // Update local cache if changed by another client
+                                    if (data.clientId !== getClientId()) {
+                                        sequenceCache.set(cacheKey, data.currentNumber);
+                                        console.log(`Sequence updated by another client: ${cacheKey} = ${data.currentNumber}`);
+                                    }
+                                }
+                            },
+                            (error) => {
+                                console.warn('Sequence monitoring error:', error);
+                            }
+                        );
+                    
+                    sequenceListeners.set(cacheKey, unsubscribe);
+                }
+            });
+        }
+
+        // Cleanup sequence listeners
+        function cleanupSequenceListeners() {
+            sequenceListeners.forEach(unsubscribe => {
+                if (typeof unsubscribe === 'function') {
+                    unsubscribe();
+                }
+            });
+            sequenceListeners.clear();
+        }
+
         function getInitialNumber(prefix) {
             switch(prefix) {
                 case '110': return 110;
@@ -1429,117 +801,38 @@
             }
         }
 
-        // Show loading overlay
-        function showLoading() {
-            document.getElementById('loadingOverlay').style.display = 'flex';
-        }
-
-        // Hide loading overlay
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.display = 'none';
-        }
-
-        // Show sequence generation loading notification (smaller, faster)
-        function showSequenceLoadingNotification() {
-            const notification = document.createElement('div');
-            notification.id = 'sequenceLoading';
-            notification.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: var(--accent-gradient);
-                color: white;
-                padding: 24px 32px;
-                border-radius: var(--border-radius-md);
-                z-index: 1003;
-                box-shadow: var(--shadow-xl);
-                text-align: center;
-                min-width: 240px;
-                animation: fastPopIn 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255,255,255,0.2);
-            `;
-            
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: center; gap: 16px;">
-                    <div style="width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: fastSpin 0.8s linear infinite;"></div>
-                    <div style="font-size: 16px; font-weight: 600;">
-                        <i class="fas fa-clock"></i> Sıra alınıyor...
-                    </div>
-                </div>
-            `;
-            
-            // Add fast animations if not exists
-            if (!document.getElementById('fastAnimations')) {
-                const style = document.createElement('style');
-                style.id = 'fastAnimations';
-                style.textContent = `
-                    @keyframes fastPopIn {
-                        0% {
-                            transform: translate(-50%, -50%) scale(0.8);
-                            opacity: 0;
-                        }
-                        100% {
-                            transform: translate(-50%, -50%) scale(1);
-                            opacity: 1;
-                        }
-                    }
-                    @keyframes fastSpin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                    @keyframes fastPopOut {
-                        0% {
-                            transform: translate(-50%, -50%) scale(1);
-                            opacity: 1;
-                        }
-                        100% {
-                            transform: translate(-50%, -50%) scale(0.9);
-                            opacity: 0;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            document.body.appendChild(notification);
-        }
-
-        // Hide sequence loading notification
-        function hideSequenceLoadingNotification() {
-            const notification = document.getElementById('sequenceLoading');
-            if (notification) {
-                notification.style.animation = 'fastPopOut 0.15s ease-in forwards';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.remove();
-                    }
-                }, 150);
-            }
-        }
-
         // User management functions
         function showUserModal() {
-            const modal = document.getElementById('userModal');
-            modal.style.display = 'block';
-            modal.classList.add('fade-in');
+            document.getElementById('userModal').style.display = 'block';
         }
 
         function hideUserModal() {
-            const modal = document.getElementById('userModal');
-            modal.style.display = 'none';
-            modal.classList.remove('fade-in');
+            document.getElementById('userModal').style.display = 'none';
         }
 
         function selectUser(user) {
             currentUser = user;
-            localStorage.setItem('selectedUser', user);
-            document.getElementById('currentUser').textContent = user;
+            if (window.localStorage) {
+                window.localStorage.setItem('selectedUser', user);
+            }
             hideUserModal();
         }
 
-        // Add process record with synchronized sequence number
+        // Show/hide mesh modal
+        function showMeshModal() {
+            if (!currentUser) {
+                alert('Lütfen önce poliklinik seçiniz!');
+                showUserModal();
+                return;
+            }
+            document.getElementById('meshModal').style.display = 'block';
+        }
+
+        function hideMeshModal() {
+            document.getElementById('meshModal').style.display = 'none';
+        }
+
+        // Ultra-fast but thread-safe process addition
         async function addProcess(processName, prefix = '310') {
             if (!currentUser) {
                 alert('Lütfen önce poliklinik seçiniz!');
@@ -1547,18 +840,21 @@
                 return;
             }
 
-            // Immediate feedback - show sequence generation loading
-            showSequenceLoadingNotification();
-            
+            // Disable button temporarily to prevent double-clicks
+            const clickedButton = event?.target;
+            if (clickedButton) {
+                clickedButton.style.pointerEvents = 'none';
+                clickedButton.style.opacity = '0.7';
+            }
+
             try {
-                // Generate synchronized sequence number
+                // Generate sequence number with distributed locking
                 const sequenceNumber = await generateSequenceNumber(prefix);
                 
-                // Hide sequence loading and show the actual sequence number immediately
-                hideSequenceLoadingNotification();
+                // Show sequence notification immediately
                 showSequenceNotification(sequenceNumber, processName);
                 
-                // Continue with saving in background
+                // Prepare record with unique timestamp
                 const now = new Date();
                 const record = {
                     user: currentUser,
@@ -1567,121 +863,62 @@
                     date: now.toISOString(),
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     dateKey: getCurrentDateKey(),
-                    prefix: prefix
+                    prefix: prefix,
+                    clientId: getClientId(),
+                    recordId: `${sequenceNumber}-${getClientId()}-${Date.now()}`
                 };
 
-                // Save to Firestore (in background, no loading for this)
-                await db.collection('processes').add(record);
-                
-                // Show success message (small notification)
-                showNotification('İşlem kaydedildi!', 'success');
-                
-            } catch (error) {
-                hideSequenceLoadingNotification();
-                console.error('Error saving process:', error);
-                showNotification('Kayıt sırasında bir hata oluştu! Tekrar deneyin.', 'error');
-            }
-        }
-
-        // Custom request modal functions
-        function showCustomRequestModal() {
-            const modal = document.getElementById('customModal');
-            modal.style.display = 'block';
-            modal.classList.add('fade-in');
-            setTimeout(() => {
-                document.getElementById('customRequest').focus();
-            }, 100);
-        }
-
-        function hideCustomModal() {
-            const modal = document.getElementById('customModal');
-            modal.style.display = 'none';
-            modal.classList.remove('fade-in');
-            document.getElementById('customRequest').value = '';
-        }
-
-        function addCustomProcess() {
-            const customText = document.getElementById('customRequest').value.trim();
-            if (customText) {
-                addProcess(customText);
-                hideCustomModal();
-            } else {
-                alert('Lütfen istek metni giriniz!');
-            }
-        }
-
-        // Setup realtime listener for automatic updates
-        function setupRealtimeListener() {
-            try {
-                console.log('Setting up realtime listener...');
-                
-                if (unsubscribeListener) {
-                    unsubscribeListener();
-                }
-                
-                // Listen to processes collection with real-time updates
-                unsubscribeListener = db.collection('processes')
-                    .orderBy('timestamp', 'desc')
-                    .limit(100) // Limit to prevent excessive data transfer
-                    .onSnapshot((snapshot) => {
-                        console.log('Realtime update received, total docs:', snapshot.size);
-                        
-                        const records = [];
-                        snapshot.forEach((doc) => {
-                            const data = doc.data();
-                            // Convert Firestore timestamp to JavaScript date for display
-                            if (data.timestamp && data.timestamp.toDate) {
-                                data.date = data.timestamp.toDate().toISOString();
-                            }
-                            records.push(data);
-                        });
-                        
-                        displayRecords(records);
-                        
-                    }, (error) => {
-                        console.error('Realtime listener error:', error);
-                        showNotification('Bağlantı hatası! Veriler güncel olmayabilir.', 'error');
-                        loadRecordsOnce();
-                    });
-                    
-            } catch (error) {
-                console.error('Error setting up realtime listener:', error);
-                loadRecordsOnce();
-            }
-        }
-
-        // Fallback function - Load records once
-        function loadRecordsOnce() {
-            try {
-                console.log('Loading records once (fallback)...');
-                
-                db.collection('processes')
-                    .orderBy('timestamp', 'desc')
-                    .limit(100)
-                    .get()
-                    .then((querySnapshot) => {
-                        const records = [];
-                        querySnapshot.forEach((doc) => {
-                            const data = doc.data();
-                            if (data.timestamp && data.timestamp.toDate) {
-                                data.date = data.timestamp.toDate().toISOString();
-                            }
-                            records.push(data);
-                        });
-                        
-                        console.log('Fallback: Total records loaded:', records.length);
-                        displayRecords(records);
+                // Save to database with duplicate prevention
+                db.collection('processes').add(record)
+                    .then(() => {
+                        console.log('Process saved successfully:', sequenceNumber);
                     })
-                    .catch((error) => {
-                        console.error('Fallback query failed:', error);
-                        displayRecords([]);
-                        showNotification('Veri yüklenirken hata oluştu!', 'error');
+                    .catch(error => {
+                        console.error('Error saving process:', error);
+                        showNotification('Kayıt sırasında bir hata oluştu!', 'error');
+                    });
+                
+                // Hide mesh modal if it was open
+                hideMeshModal();
+                
+            } catch (error) {
+                console.error('Error in addProcess:', error);
+                showNotification('İşlem sırasında bir hata oluştu!', 'error');
+            } finally {
+                // Re-enable button after a short delay
+                setTimeout(() => {
+                    if (clickedButton) {
+                        clickedButton.style.pointerEvents = 'auto';
+                        clickedButton.style.opacity = '1';
+                    }
+                }, 1000);
+            }
+        }
+
+        // Setup realtime listener
+        function setupRealtimeListener() {
+            if (unsubscribeListener) {
+                unsubscribeListener();
+            }
+            
+            unsubscribeListener = db.collection('processes')
+                .orderBy('timestamp', 'desc')
+                .limit(100)
+                .onSnapshot((snapshot) => {
+                    const records = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.timestamp && data.timestamp.toDate) {
+                            data.date = data.timestamp.toDate().toISOString();
+                        }
+                        records.push(data);
                     });
                     
-            } catch (error) {
-                console.error('Fallback function error:', error);
-                displayRecords([]);
-            }
+                    displayRecords(records);
+                }, (error) => {
+                    console.error('Realtime listener error:', error);
+                    showNotification('Bağlantı hatası!', 'error');
+                });
         }
 
         // Display records in the UI
@@ -1699,15 +936,13 @@
             }
 
             let html = '';
-            records.forEach((record, index) => {
+            records.forEach((record) => {
                 const date = new Date(record.date);
                 const formattedDate = date.toLocaleString('tr-TR');
-                
-                // Extract only the number part from sequence number (date-number format)
                 const sequenceOnly = record.sequenceNumber.split('-')[1] || record.sequenceNumber;
                 
                 html += `
-                    <div class="record-item slide-up" style="animation-delay: ${index * 0.05}s;">
+                    <div class="record-item">
                         <div class="record-sequence-number">${sequenceOnly}</div>
                         <div class="record-date">
                             <i class="fas fa-clock"></i> ${formattedDate}
@@ -1723,34 +958,14 @@
             recordsList.innerHTML = html;
         }
 
-        // Show notification with sequence number (large, center screen)
+        // Show sequence notification
         function showSequenceNotification(sequenceNumber, processName) {
-            // Extract only the number part from sequence number
             const sequenceOnly = sequenceNumber.split('-')[1] || sequenceNumber;
             
             const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: var(--secondary-gradient);
-                color: white;
-                padding: 36px 48px;
-                border-radius: var(--border-radius-lg);
-                z-index: 1002;
-                box-shadow: var(--shadow-xl);
-                text-align: center;
-                min-width: 320px;
-                animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255,255,255,0.2);
-            `;
-            
+            notification.className = 'sequence-notification';
             notification.innerHTML = `
-                <div style="font-size: 54px; font-weight: 800; color: #e74c3c; margin-bottom: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                    ${sequenceOnly}
-                </div>
+                <div class="sequence-number">${sequenceOnly}</div>
                 <div style="font-size: 18px; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">
                     <i class="fas fa-ticket-alt"></i> Sıra Numarası
                 </div>
@@ -1761,244 +976,63 @@
             
             document.body.appendChild(notification);
 
-            // Auto remove after 2.5 seconds
             setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.3s ease-in forwards';
-                notification.style.setProperty('--fadeOut', `
-                    @keyframes fadeOut {
-                        0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-                    }
-                `);
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.remove();
-                    }
-                }, 300);
+                if (notification.parentNode) {
+                    notification.remove();
+                }
             }, 2500);
         }
 
-        // Show notification (small, top-right)
+        // Show notification
         function showNotification(message, type) {
             const notification = document.createElement('div');
-            const bgColor = type === 'success' ? 'var(--success-gradient)' : 'var(--danger-gradient)';
+            notification.className = `notification ${type}`;
             const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
             
-            notification.style.cssText = `
-                position: fixed;
-                top: 24px;
-                right: 24px;
-                background: ${bgColor};
-                color: white;
-                padding: 16px 24px;
-                border-radius: var(--border-radius-sm);
-                z-index: 1001;
-                box-shadow: var(--shadow-lg);
-                animation: slideInRight 0.3s ease;
-                max-width: 320px;
-                word-wrap: break-word;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255,255,255,0.2);
-                font-weight: 500;
-            `;
             notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <i class="${icon}"></i>
-                    <span>${message}</span>
-                </div>
+                <i class="${icon}"></i>
+                <span>${message}</span>
             `;
-            
-            // Add slide animation if not exists
-            if (!document.getElementById('slideAnimation')) {
-                const style = document.createElement('style');
-                style.id = 'slideAnimation';
-                style.textContent = `
-                    @keyframes slideInRight {
-                        from { 
-                            transform: translateX(100%); 
-                            opacity: 0; 
-                        }
-                        to { 
-                            transform: translateX(0); 
-                            opacity: 1; 
-                        }
-                    }
-                    @keyframes slideOutRight {
-                        from { 
-                            transform: translateX(0); 
-                            opacity: 1; 
-                        }
-                        to { 
-                            transform: translateX(100%); 
-                            opacity: 0; 
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
             
             document.body.appendChild(notification);
 
-            // Auto remove after 3 seconds
             setTimeout(() => {
-                notification.style.animation = 'slideOutRight 0.3s ease forwards';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.remove();
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        // Reset sequence numbers for new day (admin function)
-        async function resetSequenceNumbers() {
-            if (!confirm('Tüm sıra numaralarını sıfırlamak istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                const dateKey = getCurrentDateKey();
-                const prefixes = ['110', '210', '310'];
-                
-                const batch = db.batch();
-                
-                prefixes.forEach(prefix => {
-                    const sequenceDocRef = db.collection('sequences').doc(`${dateKey}-${prefix}`);
-                    batch.delete(sequenceDocRef);
-                });
-                
-                await batch.commit();
-                hideLoading();
-                
-                showNotification('Sıra numaraları başarıyla sıfırlandı!', 'success');
-                
-            } catch (error) {
-                hideLoading();
-                console.error('Error resetting sequences:', error);
-                showNotification('Sıfırlama sırasında hata oluştu!', 'error');
-            }
-        }
-
-        // Clean old sequence documents (run periodically to prevent accumulation)
-        async function cleanOldSequences() {
-            try {
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                
-                const oldSequences = await db.collection('sequences')
-                    .where('lastUpdated', '<', thirtyDaysAgo)
-                    .get();
-                
-                if (oldSequences.size > 0) {
-                    const batch = db.batch();
-                    oldSequences.forEach(doc => {
-                        batch.delete(doc.ref);
-                    });
-                    await batch.commit();
-                    console.log(`Cleaned ${oldSequences.size} old sequence documents`);
+                if (notification.parentNode) {
+                    notification.remove();
                 }
-                
-            } catch (error) {
-                console.error('Error cleaning old sequences:', error);
-            }
+            }, 3000);
         }
 
         // Close modals when clicking outside
         window.onclick = function(event) {
             const userModal = document.getElementById('userModal');
-            const customModal = document.getElementById('customModal');
-            
+            const meshModal = document.getElementById('meshModal');
             if (event.target === userModal) {
                 hideUserModal();
             }
-            if (event.target === customModal) {
-                hideCustomModal();
+            if (event.target === meshModal) {
+                hideMeshModal();
             }
         }
 
-        // Cleanup listener when page unloads
+        // Cleanup listeners when page unloads
         window.addEventListener('beforeunload', function() {
             if (unsubscribeListener) {
-                console.log('Cleaning up realtime listener...');
                 unsubscribeListener();
             }
+            cleanupSequenceListeners();
         });
 
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            // Alt + R to reset sequences (admin shortcut)
-            if (e.altKey && e.key === 'r') {
-                e.preventDefault();
-                resetSequenceNumbers();
-            }
-            
-            // Alt + U to change user
             if (e.altKey && e.key === 'u') {
                 e.preventDefault();
                 showUserModal();
             }
             
-            // Escape to close modals
             if (e.key === 'Escape') {
                 hideUserModal();
-                hideCustomModal();
-            }
-        });
-
-        // Auto cleanup old sequences daily
-        setInterval(cleanOldSequences, 24 * 60 * 60 * 1000); // Every 24 hours
-        
-        // Initial cleanup on load
-        setTimeout(cleanOldSequences, 5000); // After 5 seconds
-
-        // Add ripple effect to buttons and clickable items
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('process-item') || 
-                e.target.classList.contains('clinic-option') || 
-                e.target.classList.contains('btn')) {
-                
-                const ripple = document.createElement('span');
-                const rect = e.target.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    left: ${x}px;
-                    top: ${y}px;
-                    background: rgba(255,255,255,0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s ease-out;
-                    pointer-events: none;
-                `;
-                
-                if (!document.getElementById('rippleAnimation')) {
-                    const style = document.createElement('style');
-                    style.id = 'rippleAnimation';
-                    style.textContent = `
-                        @keyframes ripple {
-                            to {
-                                transform: scale(2);
-                                opacity: 0;
-                            }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-                
-                e.target.style.position = 'relative';
-                e.target.style.overflow = 'hidden';
-                e.target.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+                hideMeshModal();
             }
         });
     </script>

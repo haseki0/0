@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poliklinik İşlem Takip Sistemi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -13,19 +13,31 @@
             --accent-gradient: linear-gradient(135deg, #3498db, #2980b9);
             --success-gradient: linear-gradient(135deg, #27ae60, #229954);
             --danger-gradient: linear-gradient(135deg, #e74c3c, #c0392b);
+            --purple-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --blue-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --green-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #2c3e50;
-            --text-secondary: #7f8c8d;
-            --border-color: #dee2e6;
-            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.1);
+            --bg-secondary: #f7f9fc;
+            --bg-tertiary: #eef2f7;
+            --text-primary: #1a202c;
+            --text-secondary: #718096;
+            --text-muted: #a0aec0;
+            --border-color: #e2e8f0;
+            --border-color-dark: #cbd5e0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12);
+            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.15);
             
+            --border-radius-sm: 6px;
             --border-radius-md: 10px;
-            --border-radius-lg: 15px;
-            --transition-normal: 0.3s ease;
+            --border-radius-lg: 14px;
+            --border-radius-xl: 18px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -36,22 +48,22 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            padding: 10px;
+            padding: 0;
+            margin: 0;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            width: 98vw;
-            height: 95vh;
-            margin: 0 auto;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
             background: var(--bg-primary);
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-xl);
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 60px rgba(0,0,0,0.1);
         }
 
         .main-content {
@@ -62,51 +74,70 @@
 
         .left-column {
             flex: 3.5;
-            padding: 20px;
+            padding: 24px;
             border-right: 1px solid var(--border-color);
             background: var(--bg-secondary);
-            overflow-y: auto;
+            overflow: hidden;
             position: relative;
         }
 
         .right-column {
             flex: 1.5;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             background: var(--bg-primary);
         }
 
         .section-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid #3498db;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 3px solid transparent;
+            background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
+            border-radius: 2px;
         }
 
         .section-title i {
-            margin-right: 10px;
-            color: #3498db;
+            margin-right: 12px;
+            background: linear-gradient(135deg, #3498db, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .processes-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            gap: 18px;
             height: 100%;
         }
 
         .column {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
         }
 
         .process-group {
             background: var(--bg-primary);
-            border-radius: var(--border-radius-md);
+            border-radius: var(--border-radius-lg);
             padding: 0;
             box-shadow: var(--shadow-md);
             display: flex;
@@ -114,56 +145,94 @@
             height: fit-content;
             border: 1px solid var(--border-color);
             transition: var(--transition-normal);
+            overflow: hidden;
         }
 
         .process-group:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--border-color-dark);
         }
 
         .group-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: black;
-            padding: 16px;
-            background: white;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding: 18px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             text-align: center;
-            letter-spacing: 0.5px;
-            border: 2px solid #000;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .group-title::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #3498db, #667eea);
         }
 
         .process-items {
-            padding: 16px;
+            padding: 18px;
             flex: 1;
+            background: var(--bg-primary);
         }
 
         .process-item {
             padding: 6px 10px;
             margin: 3px 0;
-            background: #000;
+            background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
             color: white;
-            border-radius: 4px;
-            border-left: 3px solid #666;
+            border-radius: var(--border-radius-sm);
+            border-left: 3px solid #3498db;
             cursor: pointer;
             transition: var(--transition-normal);
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.3;
             font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .process-item:hover::before {
+            left: 100%;
         }
 
         .process-item:hover {
-            background: #333;
-            transform: translateX(8px);
-            border-left-color: #999;
+            background: linear-gradient(135deg, #3498db 0%, #667eea 100%);
+            transform: translateX(8px) scale(1.02);
+            border-left-color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .process-item:active {
+            transform: translateX(6px) scale(0.98);
         }
 
         .user-select-icon {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--accent-gradient);
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -172,85 +241,153 @@
             box-shadow: var(--shadow-lg);
             transition: var(--transition-normal);
             color: white;
-            font-size: 18px;
+            font-size: 20px;
+            border: 3px solid white;
         }
 
         .user-select-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px) rotate(360deg);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .user-select-icon:active {
+            transform: translateY(-2px) scale(0.95);
         }
 
         .records-list {
             flex: 1;
             overflow-y: auto;
             max-height: calc(100vh - 120px);
-            padding-right: 8px;
+            padding-right: 12px;
+        }
+
+        .records-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .records-list::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        .records-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3498db, #667eea);
+            border-radius: 4px;
+        }
+
+        .records-list::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
         }
 
         .record-item {
             background: var(--bg-primary);
             border-radius: var(--border-radius-md);
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
             border-left: 5px solid #27ae60;
             box-shadow: var(--shadow-md);
             transition: var(--transition-normal);
             border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #27ae60, #11998e);
         }
 
         .record-item:hover {
-            transform: translateY(-3px);
+            transform: translateY(-3px) translateX(2px);
             box-shadow: var(--shadow-lg);
+            border-color: var(--border-color-dark);
+        }
+
+        .record-item.current-user {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-left: 5px solid #ff9800;
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.25);
+            border: 2px solid #ffa726;
+        }
+
+        .record-item.current-user::before {
+            background: linear-gradient(180deg, #ff9800, #f57c00);
+        }
+
+        .record-item.current-user:hover {
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.35);
+            transform: translateY(-4px) translateX(2px);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 14px;
         }
 
         .record-sequence-number {
-            background: var(--danger-gradient);
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             color: white;
             padding: 12px 20px;
-            border-radius: 6px;
-            font-size: 20px;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 12px;
-            min-width: 70px;
+            border-radius: var(--border-radius-sm);
+            font-size: 19px;
+            font-weight: 800;
+            min-width: 65px;
             text-align: center;
             box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .record-info {
+            flex: 1;
+            min-width: 0;
         }
 
         .record-date {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             font-weight: 500;
             display: flex;
             align-items: center;
         }
 
         .record-date i {
-            margin-right: 6px;
+            margin-right: 8px;
+            color: #3498db;
         }
 
         .record-clinic {
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             align-items: center;
         }
 
         .record-clinic i {
             margin-right: 8px;
-            color: #3498db;
+            background: linear-gradient(135deg, #3498db, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .record-process {
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.5;
             background: var(--bg-secondary);
-            padding: 12px 16px;
-            border-radius: 6px;
+            padding: 12px 14px;
+            border-radius: var(--border-radius-sm);
             border-left: 3px solid #3498db;
             font-weight: 500;
         }
@@ -263,119 +400,182 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
             background: var(--bg-primary);
-            margin: 8% auto;
-            padding: 35px;
-            border-radius: var(--border-radius-lg);
+            margin: 6% auto;
+            padding: 40px;
+            border-radius: var(--border-radius-xl);
             width: 90%;
-            max-width: 520px;
-            box-shadow: var(--shadow-xl);
+            max-width: 540px;
+            box-shadow: var(--shadow-2xl);
             border: 1px solid var(--border-color);
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .clinic-select {
             display: grid;
             grid-template-columns: 1fr;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .clinic-option {
             padding: 18px 20px;
             background: var(--bg-secondary);
             border: 2px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
             transition: var(--transition-normal);
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
+            position: relative;
+            color: var(--text-primary);
         }
 
         .clinic-option:hover {
-            background: #e3f2fd;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             border-color: #3498db;
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
+        .clinic-option.selected {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border-color: #27ae60;
+            box-shadow: var(--shadow-md);
+        }
+
+        .clinic-option.selected:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+            border-color: #1e8449;
+        }
+
+        .selection-check {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: white;
+        }
+
         .btn {
-            background: var(--accent-gradient);
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
             border: none;
             padding: 14px 28px;
-            border-radius: 6px;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             transition: var(--transition-normal);
             margin: 6px;
             font-family: inherit;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: 0.3px;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
         }
 
         .close {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             float: right;
-            font-size: 28px;
-            font-weight: bold;
+            font-size: 32px;
+            font-weight: 300;
             cursor: pointer;
-            transition: 0.3s;
-            margin: -10px -10px 0 0;
+            transition: var(--transition-fast);
+            margin: -15px -15px 0 0;
             padding: 10px;
+            line-height: 1;
         }
 
         .close:hover {
             color: var(--text-primary);
+            transform: rotate(90deg);
         }
 
         .no-records {
             text-align: center;
             color: var(--text-secondary);
             font-style: italic;
-            padding: 60px 20px;
+            padding: 70px 24px;
             background: var(--bg-secondary);
-            border-radius: var(--border-radius-md);
-            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius-lg);
+            border: 2px dashed var(--border-color-dark);
         }
 
         .no-records i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            color: var(--border-color);
+            font-size: 56px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            opacity: 0.5;
         }
 
-        /* Notification Styles */
         .notification {
             position: fixed;
-            top: 24px;
-            right: 24px;
-            padding: 16px 24px;
-            border-radius: 6px;
+            top: 28px;
+            right: 28px;
+            padding: 18px 28px;
+            border-radius: var(--border-radius-md);
             z-index: 1001;
-            box-shadow: var(--shadow-lg);
-            max-width: 320px;
-            font-weight: 500;
+            box-shadow: var(--shadow-xl);
+            max-width: 360px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .notification.success {
-            background: var(--success-gradient);
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
             color: white;
         }
 
         .notification.error {
-            background: var(--danger-gradient);
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             color: white;
         }
 
@@ -384,24 +584,81 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: var(--secondary-gradient);
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            padding: 36px 48px;
-            border-radius: var(--border-radius-lg);
+            padding: 42px 54px;
+            border-radius: var(--border-radius-xl);
             z-index: 1002;
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-2xl);
             text-align: center;
-            min-width: 320px;
+            min-width: 360px;
+            max-width: 640px;
+            border: 3px solid rgba(255,255,255,0.1);
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
 
         .sequence-number {
-            font-size: 54px;
-            font-weight: 800;
-            color: #e74c3c;
-            margin-bottom: 16px;
+            font-size: 62px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #e74c3c, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 18px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        /* Responsive Design */
+        .sut-codes-info {
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 2px solid rgba(255,255,255,0.2);
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .sut-codes-info h4 {
+            font-size: 15px;
+            margin-bottom: 14px;
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .sut-codes-info p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sut-codes-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sut-codes-info li {
+            padding: 8px 0;
+            font-weight: 500;
+        }
+
+        .sut-codes-info .code {
+            color: #ffd700;
+            font-weight: 800;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
         @media (max-width: 1200px) {
             .processes-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -452,7 +709,6 @@
                 <h3 class="section-title"><i class="fas fa-tasks"></i>İşlemler</h3>
                 
                 <div class="processes-container">
-                    <!-- Birinci Sütun: Sütur Alınması ve Dren İşlemleri -->
                     <div class="column">
                         <div class="process-group">
                             <div class="group-title">SÜTUR ALINMASI</div>
@@ -481,7 +737,6 @@
                         </div>
                     </div>
 
-                    <!-- İkinci Sütun: Pansuman Türleri ve Kremle Pansuman Türleri -->
                     <div class="column">
                         <div class="process-group">
                             <div class="group-title">PANSUMAN TÜRLERİ</div>
@@ -515,12 +770,12 @@
                         </div>
                     </div>
 
-                    <!-- Üçüncü Sütun: Kontrol Muayene İşlemleri ve İşlemler -->
                     <div class="column">
                         <div class="process-group">
                             <div class="group-title">KONTROL MUAYENE İŞLEMLERİ</div>
                             <div class="process-items">
                                 <div class="process-item" onclick="addProcess('Genel Kontrol ve Muayene İçin Hazırlık', '210')">Genel Kontrol ve Muayene İçin Hazırlık</div>
+<div class="process-item" onclick="addProcess('Kolostomi Bageti Çıkarılması', '210')">Kolostomi Bageti Çıkarılması</div>
                                 <div class="process-item" onclick="addProcess('Abdominoplasti Hastası İçin Hazırlık', '210')">Abdominoplasti Hastası İçin Hazırlık</div>
                                 <div class="process-item" onclick="addProcess('Rinoplasti Hastası İçin Hazırlık', '210')">Rinoplasti Hastası İçin Hazırlık</div>
                                 <div class="process-item" onclick="addProcess('Otoplasti Hastası İçin Hazırlık', '210')">Otoplasti Hastası İçin Hazırlık</div>
@@ -536,6 +791,8 @@
                                 <div class="process-item" onclick="addProcess('Yara Süturasyonu İçin Hazırlık', '210')">Yara Süturasyonu İçin Hazırlık</div>
                                 <div class="process-item" onclick="addProcess('Dren Takılması İçin Hazırlık', '210')">Dren Takılması İçin Hazırlık</div>
                                 <div class="process-item" onclick="addProcess('Lokal Eksizyon İçin Hazırlık', '110')">Lokal Eksizyon İçin Hazırlık</div>
+                                <div class="process-item" onclick="showCustomRequestModal('310')">Özel İstek Yazınız (Hemşire)</div>
+                                <div class="process-item" onclick="showCustomRequestModal('210')">Özel İstek Yazınız (Doktor)</div>
                             </div>
                         </div>
                     </div>
@@ -562,28 +819,45 @@
     <div id="meshModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="hideMeshModal()">&times;</span>
-            <h3 style="margin-bottom: 24px; color: var(--text-primary); font-weight: 600;">
+            <h3 style="margin-bottom: 16px; color: var(--text-primary); font-weight: 600;">
                 <i class="fas fa-layer-group"></i> Mesh Türü Seçiniz
             </h3>
+            <p style="margin-bottom: 20px; color: var(--text-secondary); font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Birden fazla seçenek seçebilirsiniz
+            </p>
             <div class="clinic-select">
-                <div class="clinic-option" onclick="addProcess('Mesh + Thiocilline İle Pansuman')">
+                <div class="clinic-option mesh-option" data-mesh="Thiocilline" onclick="toggleMeshSelection(this)">
                     <i class="fas fa-capsules"></i> Thiocilline
+                    <i class="fas fa-check selection-check" style="display: none;"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + Fito İle Pansuman')">
+                <div class="clinic-option mesh-option" data-mesh="Fito" onclick="toggleMeshSelection(this)">
                     <i class="fas fa-leaf"></i> Fito
+                    <i class="fas fa-check selection-check" style="display: none;"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + Balaban İle Pansuman')">
+                <div class="clinic-option mesh-option" data-mesh="Balaban" onclick="toggleMeshSelection(this)">
                     <i class="fas fa-band-aid"></i> Balaban
+                    <i class="fas fa-check selection-check" style="display: none;"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + D Krem İle Pansuman')">
+                <div class="clinic-option mesh-option" data-mesh="D Krem" onclick="toggleMeshSelection(this)">
                     <i class="fas fa-prescription-bottle"></i> D Krem
+                    <i class="fas fa-check selection-check" style="display: none;"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + C Krem İle Pansuman')">
+                <div class="clinic-option mesh-option" data-mesh="C Krem" onclick="toggleMeshSelection(this)">
                     <i class="fas fa-prescription-bottle"></i> C Krem
+                    <i class="fas fa-check selection-check" style="display: none;"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + G Krem İle Pansuman')">
+                <div class="clinic-option mesh-option" data-mesh="G Krem" onclick="toggleMeshSelection(this)">
                     <i class="fas fa-prescription-bottle"></i> G Krem
+                    <i class="fas fa-check selection-check" style="display: none;"></i>
                 </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="confirmMeshSelection()">
+                    <i class="fas fa-check"></i> Onayla
+                </button>
+                <button class="btn" onclick="clearMeshSelection()" style="background: var(--secondary-gradient);">
+                    <i class="fas fa-times"></i> Temizle
+                </button>
             </div>
         </div>
     </div>
@@ -621,7 +895,30 @@
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
+    <!-- Custom Request Modal -->
+    <div id="customRequestModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideCustomRequestModal()">&times;</span>
+            <h3 style="margin-bottom: 16px; color: var(--text-primary); font-weight: 600;">
+                <i class="fas fa-edit"></i> Özel İstek Yazınız
+            </h3>
+            <p style="margin-bottom: 20px; color: var(--text-secondary); font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Lütfen işlem detaylarını yazınız
+            </p>
+            <textarea id="customRequestText" 
+                      style="width: 100%; min-height: 120px; padding: 12px; border: 2px solid var(--border-color); border-radius: 6px; font-family: inherit; font-size: 14px; resize: vertical;" 
+                      placeholder="İşlem detaylarını buraya yazınız..."></textarea>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="confirmCustomRequest()">
+                    <i class="fas fa-check"></i> Onayla
+                </button>
+                <button class="btn" onclick="hideCustomRequestModal()" style="background: var(--secondary-gradient);">
+                    <i class="fas fa-times"></i> İptal
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
@@ -641,18 +938,15 @@
 
         let currentUser = '';
         let unsubscribeListener = null;
+        let selectedMeshOptions = [];
+        let customRequestPrefix = '310';
 
-        // Initialize the app with distributed sequence management
         document.addEventListener('DOMContentLoaded', function() {
-            // Always show user modal on page load
             showUserModal();
             setupRealtimeListener();
-            
-            // Setup sequence monitoring for multi-client synchronization
             setupSequenceMonitoring();
         });
 
-        // Get current date in DD.MM.YY format
         function getCurrentDateKey() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
@@ -661,35 +955,29 @@
             return `${day}.${month}.${year}`;
         }
 
-        // Distributed sequence management with real-time sync
         let sequenceCache = new Map();
         let sequenceCacheLock = new Map();
         let sequenceListeners = new Map();
 
-        // Generate sequence number with distributed locking
         async function generateSequenceNumber(prefix = '310') {
             const dateKey = getCurrentDateKey();
             const cacheKey = `${dateKey}-${prefix}`;
             
             try {
-                // Use Firebase increment for atomic operations
                 const sequenceNumber = await getNextSequenceAtomic(cacheKey, prefix);
                 return `${dateKey}-${sequenceNumber}`;
             } catch (error) {
                 console.error('Atomic sequence generation failed, using fallback:', error);
-                // Fallback to timestamp-based unique number
                 const fallbackNumber = getInitialNumber(prefix) + Date.now() % 10000;
                 return `${dateKey}-${fallbackNumber}`;
             }
         }
 
-        // Atomic sequence generation using Firebase increment
         async function getNextSequenceAtomic(cacheKey, prefix) {
             const sequenceDocRef = db.collection('sequences').doc(cacheKey);
             const dateKey = getCurrentDateKey();
             
             try {
-                // Use runTransaction for true atomicity across all clients
                 const result = await db.runTransaction(async (transaction) => {
                     const doc = await transaction.get(sequenceDocRef);
                     
@@ -719,7 +1007,6 @@
                 return result;
                 
             } catch (error) {
-                // If transaction fails, try with server timestamp for uniqueness
                 console.warn('Transaction failed, using server timestamp approach');
                 
                 const serverIncrement = firebase.firestore.FieldValue.increment(1);
@@ -733,7 +1020,6 @@
                         clientId: getClientId()
                     }, { merge: true });
                     
-                    // Get the updated value
                     const doc = await sequenceDocRef.get();
                     return doc.data().currentNumber;
                     
@@ -743,7 +1029,6 @@
             }
         }
 
-        // Generate unique client ID for this session
         function getClientId() {
             if (!window.clientId) {
                 window.clientId = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -751,7 +1036,6 @@
             return window.clientId;
         }
 
-        // Setup real-time sequence monitoring for conflict detection
         function setupSequenceMonitoring() {
             const dateKey = getCurrentDateKey();
             const prefixes = ['110', '210', '310'];
@@ -765,7 +1049,6 @@
                             (doc) => {
                                 if (doc.exists) {
                                     const data = doc.data();
-                                    // Update local cache if changed by another client
                                     if (data.clientId !== getClientId()) {
                                         sequenceCache.set(cacheKey, data.currentNumber);
                                         console.log(`Sequence updated by another client: ${cacheKey} = ${data.currentNumber}`);
@@ -782,7 +1065,6 @@
             });
         }
 
-        // Cleanup sequence listeners
         function cleanupSequenceListeners() {
             sequenceListeners.forEach(unsubscribe => {
                 if (typeof unsubscribe === 'function') {
@@ -801,7 +1083,6 @@
             }
         }
 
-        // User management functions
         function showUserModal() {
             document.getElementById('userModal').style.display = 'block';
         }
@@ -816,23 +1097,102 @@
                 window.localStorage.setItem('selectedUser', user);
             }
             hideUserModal();
+            
+            const recordsList = document.getElementById('recordsList');
+            if (recordsList.children.length > 0 && !recordsList.querySelector('.no-records')) {
+                setupRealtimeListener();
+            }
         }
 
-        // Show/hide mesh modal
         function showMeshModal() {
             if (!currentUser) {
                 alert('Lütfen önce poliklinik seçiniz!');
                 showUserModal();
                 return;
             }
+            selectedMeshOptions = [];
+            clearMeshSelection();
             document.getElementById('meshModal').style.display = 'block';
         }
 
         function hideMeshModal() {
             document.getElementById('meshModal').style.display = 'none';
+            selectedMeshOptions = [];
+            clearMeshSelection();
         }
 
-        // Ultra-fast but thread-safe process addition
+        function toggleMeshSelection(element) {
+            const meshType = element.getAttribute('data-mesh');
+            const checkIcon = element.querySelector('.selection-check');
+            
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                checkIcon.style.display = 'none';
+                const index = selectedMeshOptions.indexOf(meshType);
+                if (index > -1) {
+                    selectedMeshOptions.splice(index, 1);
+                }
+            } else {
+                element.classList.add('selected');
+                checkIcon.style.display = 'block';
+                selectedMeshOptions.push(meshType);
+            }
+        }
+
+        function clearMeshSelection() {
+            selectedMeshOptions = [];
+            const meshOptions = document.querySelectorAll('.mesh-option');
+            meshOptions.forEach(option => {
+                option.classList.remove('selected');
+                const checkIcon = option.querySelector('.selection-check');
+                if (checkIcon) {
+                    checkIcon.style.display = 'none';
+                }
+            });
+        }
+
+        function confirmMeshSelection() {
+            if (selectedMeshOptions.length === 0) {
+                alert('Lütfen en az bir mesh türü seçiniz!');
+                return;
+            }
+
+            const meshString = selectedMeshOptions.join(' + ');
+            const processName = `Mesh + ${meshString} İle Pansuman`;
+            
+            addProcess(processName);
+            hideMeshModal();
+        }
+
+        function showCustomRequestModal(prefix) {
+            if (!currentUser) {
+                alert('Lütfen önce poliklinik seçiniz!');
+                showUserModal();
+                return;
+            }
+            customRequestPrefix = prefix;
+            document.getElementById('customRequestText').value = '';
+            document.getElementById('customRequestModal').style.display = 'block';
+        }
+
+        function hideCustomRequestModal() {
+            document.getElementById('customRequestModal').style.display = 'none';
+            document.getElementById('customRequestText').value = '';
+        }
+
+        function confirmCustomRequest() {
+            const requestText = document.getElementById('customRequestText').value.trim();
+            
+            if (requestText === '') {
+                alert('Lütfen bir istek yazınız!');
+                return;
+            }
+
+            const processName = requestText;
+            addProcess(processName, customRequestPrefix);
+            hideCustomRequestModal();
+        }
+
         async function addProcess(processName, prefix = '310') {
             if (!currentUser) {
                 alert('Lütfen önce poliklinik seçiniz!');
@@ -840,7 +1200,6 @@
                 return;
             }
 
-            // Disable button temporarily to prevent double-clicks
             const clickedButton = event?.target;
             if (clickedButton) {
                 clickedButton.style.pointerEvents = 'none';
@@ -848,13 +1207,9 @@
             }
 
             try {
-                // Generate sequence number with distributed locking
                 const sequenceNumber = await generateSequenceNumber(prefix);
+                showSequenceNotification(sequenceNumber, processName, prefix);
                 
-                // Show sequence notification immediately
-                showSequenceNotification(sequenceNumber, processName);
-                
-                // Prepare record with unique timestamp
                 const now = new Date();
                 const record = {
                     user: currentUser,
@@ -868,7 +1223,6 @@
                     recordId: `${sequenceNumber}-${getClientId()}-${Date.now()}`
                 };
 
-                // Save to database with duplicate prevention
                 db.collection('processes').add(record)
                     .then(() => {
                         console.log('Process saved successfully:', sequenceNumber);
@@ -878,14 +1232,12 @@
                         showNotification('Kayıt sırasında bir hata oluştu!', 'error');
                     });
                 
-                // Hide mesh modal if it was open
                 hideMeshModal();
                 
             } catch (error) {
                 console.error('Error in addProcess:', error);
                 showNotification('İşlem sırasında bir hata oluştu!', 'error');
             } finally {
-                // Re-enable button after a short delay
                 setTimeout(() => {
                     if (clickedButton) {
                         clickedButton.style.pointerEvents = 'auto';
@@ -895,7 +1247,6 @@
             }
         }
 
-        // Setup realtime listener
         function setupRealtimeListener() {
             if (unsubscribeListener) {
                 unsubscribeListener();
@@ -921,7 +1272,6 @@
                 });
         }
 
-        // Display records in the UI
         function displayRecords(records) {
             const recordsList = document.getElementById('recordsList');
             
@@ -941,14 +1291,21 @@
                 const formattedDate = date.toLocaleString('tr-TR');
                 const sequenceOnly = record.sequenceNumber.split('-')[1] || record.sequenceNumber;
                 
+                const isCurrentUser = currentUser && record.user === currentUser;
+                const currentUserClass = isCurrentUser ? 'current-user' : '';
+                
                 html += `
-                    <div class="record-item">
-                        <div class="record-sequence-number">${sequenceOnly}</div>
-                        <div class="record-date">
-                            <i class="fas fa-clock"></i> ${formattedDate}
-                        </div>
-                        <div class="record-clinic">
-                            <i class="fas fa-hospital"></i> ${record.user}
+                    <div class="record-item ${currentUserClass}">
+                        <div class="record-header">
+                            <div class="record-sequence-number">${sequenceOnly}</div>
+                            <div class="record-info">
+                                <div class="record-date">
+                                    <i class="fas fa-clock"></i> ${formattedDate}
+                                </div>
+                                <div class="record-clinic">
+                                    <i class="fas fa-hospital"></i> ${record.user}
+                                </div>
+                            </div>
                         </div>
                         <div class="record-process">${record.process}</div>
                     </div>
@@ -958,12 +1315,41 @@
             recordsList.innerHTML = html;
         }
 
-        // Show sequence notification
-        function showSequenceNotification(sequenceNumber, processName) {
+        function showSequenceNotification(sequenceNumber, processName, prefix = '310') {
             const sequenceOnly = sequenceNumber.split('-')[1] || sequenceNumber;
             
             const notification = document.createElement('div');
             notification.className = 'sequence-notification';
+            
+            let additionalInfoHtml = '';
+            
+            if (prefix === '310') {
+                additionalInfoHtml = `
+                    <div class="sut-codes-info">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Önemli Bilgilendirme</h4>
+                        <p style="margin-bottom: 12px;">Sağlık Uygulama Tebliği (SUT) ve Girişimsel İşlem Yönergesi (GİY) kodlarını hastaların tetkikler kısmına giriniz:</p>
+                        <ul>
+                            <li><span class="code">530570</span> Yara Pansumanı Büyük</li>
+                            <li><span class="code">530580</span> Yara Pansumanı Küçük</li>
+                            <li><span class="code">530410</span> Sütur Alınması</li>
+                            <li><span class="code">530680</span> Kateter Pansumanı</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            if (prefix === '110') {
+                additionalInfoHtml = `
+                    <div class="sut-codes-info">
+                        <h4><i class="fas fa-bed"></i> Günübirlik Servis Uyarısı</h4>
+                        <p style="line-height: 1.7;">
+                            Hastayı <strong style="color: #ffd700;">Günübirlik Servise</strong> yatırmayı unutmayınız. 
+                            İşlem kodları <strong style="color: #ffd700;">Günübirlik Servis</strong> üzerinden atılacaktır.
+                        </p>
+                    </div>
+                `;
+            }
+            
             notification.innerHTML = `
                 <div class="sequence-number">${sequenceOnly}</div>
                 <div style="font-size: 18px; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">
@@ -972,18 +1358,19 @@
                 <div style="font-size: 15px; opacity: 0.8; line-height: 1.5; font-weight: 500;">
                     ${processName}
                 </div>
+                ${additionalInfoHtml}
             `;
             
             document.body.appendChild(notification);
 
+            const displayDuration = (prefix === '310' || prefix === '110') ? 5000 : 2500;
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.remove();
                 }
-            }, 2500);
+            }, displayDuration);
         }
 
-        // Show notification
         function showNotification(message, type) {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
@@ -1003,19 +1390,21 @@
             }, 3000);
         }
 
-        // Close modals when clicking outside
         window.onclick = function(event) {
             const userModal = document.getElementById('userModal');
             const meshModal = document.getElementById('meshModal');
+            const customRequestModal = document.getElementById('customRequestModal');
             if (event.target === userModal) {
                 hideUserModal();
             }
             if (event.target === meshModal) {
                 hideMeshModal();
             }
+            if (event.target === customRequestModal) {
+                hideCustomRequestModal();
+            }
         }
 
-        // Cleanup listeners when page unloads
         window.addEventListener('beforeunload', function() {
             if (unsubscribeListener) {
                 unsubscribeListener();
@@ -1023,7 +1412,6 @@
             cleanupSequenceListeners();
         });
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.altKey && e.key === 'u') {
                 e.preventDefault();
@@ -1033,6 +1421,7 @@
             if (e.key === 'Escape') {
                 hideUserModal();
                 hideMeshModal();
+                hideCustomRequestModal();
             }
         });
     </script>

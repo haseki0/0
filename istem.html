@@ -4,258 +4,353 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poliklinik İşlem Takip Sistemi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #2c3e50, #34495e);
-            --accent-gradient: linear-gradient(135deg, #3498db, #2980b9);
-            --success-gradient: linear-gradient(135deg, #27ae60, #229954);
-            --danger-gradient: linear-gradient(135deg, #e74c3c, #c0392b);
-            
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #2c3e50;
-            --text-secondary: #7f8c8d;
-            --border-color: #dee2e6;
-            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.1);
-            
-            --border-radius-md: 10px;
-            --border-radius-lg: 15px;
-            --transition-normal: 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #2c3e50, #34495e);
+            --gradient-success: linear-gradient(135deg, #27ae60, #229954);
+            --gradient-danger: linear-gradient(135deg, #e74c3c, #c0392b);
+            --gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --bg-main: #ffffff;
+            --bg-light: #f7f9fc;
+            --bg-lighter: #eef2f7;
+            --text-dark: #1a202c;
+            --text-medium: #718096;
+            --text-light: #a0aec0;
+            --border: #e2e8f0;
+            --border-dark: #cbd5e0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12);
+            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.15);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-gradient);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            padding: 10px;
             -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            width: 98vw;
-            height: 95vh;
-            margin: 0 auto;
-            background: var(--bg-primary);
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-xl);
+        .app-container {
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-main);
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 60px rgba(0,0,0,0.1);
         }
 
-        .main-content {
+        .main-layout {
             display: flex;
+            flex-direction: column;
             flex: 1;
             height: calc(100vh - 20px);
         }
 
-        .left-column {
-            flex: 3.5;
-            padding: 20px;
-            border-right: 1px solid var(--border-color);
-            background: var(--bg-secondary);
+        .processes-section {
+            padding: 22px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-light);
             overflow-y: auto;
             position: relative;
+            height: 75vh;
         }
 
-        .right-column {
-            flex: 1.5;
-            padding: 20px;
+        .records-section {
+            padding: 22px;
             display: flex;
             flex-direction: column;
-            background: var(--bg-primary);
+            background: var(--bg-main);
+            height: 25vh;
+            overflow: hidden;
         }
 
-        .section-title {
+        .section-header {
             font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid #3498db;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 22px;
+            padding-bottom: 13px;
+            position: relative;
+            background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .section-title i {
-            margin-right: 10px;
-            color: #3498db;
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 72px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
+            border-radius: 2px;
         }
 
-        .processes-container {
+        .section-header i {
+            margin-right: 11px;
+        }
+
+        .process-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            height: 100%;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            height: auto;
         }
 
-        .column {
+        .process-column {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 16px;
         }
 
-        .process-group {
-            background: var(--bg-primary);
-            border-radius: var(--border-radius-md);
-            padding: 0;
+        .process-card {
+            background: var(--bg-main);
+            border-radius: 14px;
             box-shadow: var(--shadow-md);
             display: flex;
             flex-direction: column;
             height: fit-content;
-            border: 1px solid var(--border-color);
-            transition: var(--transition-normal);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-        .process-group:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+        .process-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
         }
 
-        .group-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: black;
+        .card-header {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dark);
             padding: 16px;
-            background: white;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             text-align: center;
-            letter-spacing: 0.5px;
-            border: 2px solid #000;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border);
+            text-transform: uppercase;
+            position: relative;
         }
 
-        .process-items {
+        .card-header::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 2px;
+            background: linear-gradient(90deg, #3498db, #667eea);
+        }
+
+        .card-body {
             padding: 16px;
-            flex: 1;
         }
 
-        .process-item {
-            padding: 6px 10px;
+        .process-button {
+            padding: 5px 9px;
             margin: 3px 0;
-            background: #000;
+            background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
             color: white;
-            border-radius: 4px;
-            border-left: 3px solid #666;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
             cursor: pointer;
-            transition: var(--transition-normal);
-            font-size: 14px;
+            transition: all 0.3s ease;
+            font-size: 12px;
             line-height: 1.3;
             font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            width: 100%;
+            text-align: left;
         }
 
-        .process-item:hover {
-            background: #333;
-            transform: translateX(8px);
-            border-left-color: #999;
-        }
-
-        .user-select-icon {
+        .process-button::before {
+            content: '';
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .process-button:hover::before {
+            left: 100%;
+        }
+
+        .process-button:hover {
+            background: linear-gradient(135deg, #3498db 0%, #667eea 100%);
+            transform: translateX(8px) scale(1.02);
+            border-left-color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .clinic-toggle {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
             width: 50px;
             height: 50px;
-            background: var(--accent-gradient);
+            background: var(--gradient-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             box-shadow: var(--shadow-lg);
-            transition: var(--transition-normal);
+            transition: all 0.3s ease;
             color: white;
             font-size: 18px;
+            border: 3px solid white;
+            z-index: 999;
         }
 
-        .user-select-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
+        .clinic-toggle:hover {
+            transform: translateY(-4px) rotate(360deg);
+            box-shadow: var(--shadow-2xl);
         }
 
-        .records-list {
+        .records-container {
             flex: 1;
-            overflow-y: auto;
-            max-height: calc(100vh - 120px);
-            padding-right: 8px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-height: 100%;
+            padding-bottom: 12px;
+            display: flex;
+            gap: 13px;
         }
 
-        .record-item {
-            background: var(--bg-primary);
-            border-radius: var(--border-radius-md);
-            padding: 20px;
-            margin-bottom: 16px;
-            border-left: 5px solid #27ae60;
+        .records-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .records-container::-webkit-scrollbar-track {
+            background: var(--bg-light);
+            border-radius: 4px;
+        }
+
+        .records-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3498db, #667eea);
+            border-radius: 4px;
+        }
+
+        .record-card {
+            background: var(--bg-main);
+            border-radius: 8px;
+            padding: 14px;
+            border-left: 4px solid #27ae60;
             box-shadow: var(--shadow-md);
-            transition: var(--transition-normal);
-            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            min-width: 22.5%;
+            max-width: 22.5%;
+            flex-shrink: 0;
         }
 
-        .record-item:hover {
-            transform: translateY(-3px);
+        .record-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #27ae60, #11998e);
+        }
+
+        .record-card:hover {
+            transform: translateY(-3px) translateX(2px);
             box-shadow: var(--shadow-lg);
         }
 
-        .record-sequence-number {
-            background: var(--danger-gradient);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-size: 20px;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 12px;
-            min-width: 70px;
-            text-align: center;
-            box-shadow: var(--shadow-md);
+        .record-card.highlighted {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-left: 4px solid #ff9800;
+            box-shadow: 0 5px 18px rgba(255, 152, 0, 0.25);
+            border: 2px solid #ffa726;
         }
 
-        .record-date {
-            font-size: 13px;
-            color: var(--text-secondary);
+        .record-card.highlighted::before {
+            background: linear-gradient(180deg, #ff9800, #f57c00);
+        }
+
+        .record-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 10px;
+            gap: 12px;
+        }
+
+        .sequence-badge {
+            background: var(--gradient-danger);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: 800;
+            min-width: 53px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+        }
+
+        .record-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .record-timestamp {
+            font-size: 10px;
+            color: var(--text-medium);
+            margin-bottom: 4px;
             font-weight: 500;
             display: flex;
             align-items: center;
         }
 
-        .record-date i {
+        .record-timestamp i {
             margin-right: 6px;
+            color: #3498db;
         }
 
         .record-clinic {
             font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            font-size: 14px;
+            color: var(--text-dark);
+            font-size: 11px;
             display: flex;
             align-items: center;
         }
 
         .record-clinic i {
-            margin-right: 8px;
-            color: #3498db;
+            margin-right: 6px;
+            color: #667eea;
         }
 
-        .record-process {
-            color: var(--text-primary);
-            font-size: 14px;
+        .record-description {
+            color: var(--text-dark);
+            font-size: 11px;
             line-height: 1.5;
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            border-radius: 6px;
+            background: var(--bg-light);
+            padding: 10px 12px;
+            border-radius: 5px;
             border-left: 3px solid #3498db;
             font-weight: 500;
         }
 
-        .modal {
+        .modal-overlay {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -263,293 +358,419 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
         }
 
-        .modal-content {
-            background: var(--bg-primary);
-            margin: 8% auto;
-            padding: 35px;
-            border-radius: var(--border-radius-lg);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-box {
+            background: var(--bg-main);
+            margin: 6% auto;
+            padding: 36px;
+            border-radius: 16px;
             width: 90%;
-            max-width: 520px;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid var(--border-color);
+            max-width: 486px;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid var(--border);
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .clinic-select {
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            color: var(--text-light);
+            float: right;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: -15px -15px 0 0;
+            padding: 10px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+            transform: rotate(90deg);
+        }
+
+        .option-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 11px;
+            margin-bottom: 25px;
         }
 
-        .clinic-option {
-            padding: 18px 20px;
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
+        .option-item {
+            padding: 16px 18px;
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 9px;
             cursor: pointer;
-            transition: var(--transition-normal);
+            transition: all 0.3s ease;
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
+            position: relative;
+            color: var(--text-dark);
         }
 
-        .clinic-option:hover {
-            background: #e3f2fd;
+        .option-item:hover {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             border-color: #3498db;
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
-        .btn {
-            background: var(--accent-gradient);
+        .option-item.active {
+            background: var(--gradient-success);
             color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: var(--transition-normal);
-            margin: 6px;
-            font-family: inherit;
+            border-color: #27ae60;
+            box-shadow: var(--shadow-md);
         }
 
-        .btn:hover {
+        .check-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: white;
+            display: none;
+        }
+
+        .option-item.active .check-icon {
+            display: block;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+            font-family: inherit;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
-        .close {
-            color: var(--text-secondary);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: -10px -10px 0 0;
-            padding: 10px;
+        .action-button.secondary {
+            background: var(--gradient-secondary);
         }
 
-        .close:hover {
-            color: var(--text-primary);
-        }
-
-        .no-records {
+        .empty-state {
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--text-medium);
             font-style: italic;
-            padding: 60px 20px;
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius-md);
-            border: 2px dashed var(--border-color);
+            padding: 57px 20px;
+            background: var(--bg-light);
+            border-radius: 13px;
+            border: 2px dashed var(--border-dark);
+            min-width: 22.5%;
+            flex-shrink: 0;
         }
 
-        .no-records i {
-            font-size: 48px;
+        .empty-state i {
+            font-size: 45px;
             margin-bottom: 16px;
-            color: var(--border-color);
+            color: var(--text-light);
+            opacity: 0.5;
         }
 
-        /* Notification Styles */
-        .notification {
+        .toast {
             position: fixed;
-            top: 24px;
-            right: 24px;
-            padding: 16px 24px;
-            border-radius: 6px;
+            top: 25px;
+            right: 25px;
+            padding: 16px 25px;
+            border-radius: 9px;
             z-index: 1001;
-            box-shadow: var(--shadow-lg);
-            max-width: 320px;
-            font-weight: 500;
+            box-shadow: var(--shadow-xl);
+            max-width: 324px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 11px;
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .notification.success {
-            background: var(--success-gradient);
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast.success {
+            background: var(--gradient-success);
             color: white;
         }
 
-        .notification.error {
-            background: var(--danger-gradient);
+        .toast.error {
+            background: var(--gradient-danger);
             color: white;
         }
 
-        .sequence-notification {
+        .sequence-popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: var(--secondary-gradient);
+            background: var(--gradient-secondary);
             color: white;
-            padding: 36px 48px;
-            border-radius: var(--border-radius-lg);
+            padding: 38px 49px;
+            border-radius: 16px;
             z-index: 1002;
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-2xl);
             text-align: center;
-            min-width: 320px;
+            min-width: 324px;
+            max-width: 576px;
+            border: 3px solid rgba(255,255,255,0.1);
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .sequence-number {
-            font-size: 54px;
-            font-weight: 800;
-            color: #e74c3c;
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .sequence-display {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #e74c3c, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 16px;
+            letter-spacing: 2px;
         }
 
-        /* Responsive Design */
+        .info-panel {
+            margin-top: 25px;
+            padding-top: 22px;
+            border-top: 2px solid rgba(255,255,255,0.2);
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .info-panel h4 {
+            font-size: 14px;
+            margin-bottom: 13px;
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-panel li {
+            padding: 7px 0;
+            font-weight: 500;
+        }
+
+        .info-panel .highlight {
+            color: #ffd700;
+            font-weight: 800;
+            margin-right: 9px;
+            font-size: 13px;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 108px;
+            padding: 11px;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        @media (max-width: 1600px) {
+            .process-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
         @media (max-width: 1200px) {
-            .processes-container {
-                grid-template-columns: repeat(2, 1fr);
+            .process-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .left-column {
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
+            .processes-section {
                 height: 60vh;
             }
 
-            .right-column {
-                height: 35vh;
-            }
-
-            .processes-container {
-                grid-template-columns: 1fr;
+            .records-section {
+                height: 40vh;
             }
         }
 
         @media (max-width: 480px) {
-            .processes-container {
+            .process-grid {
                 grid-template-columns: 1fr;
             }
-
-            .container {
-                width: 98vw;
-                height: 100vh;
-                border-radius: 0;
+            
+            .processes-section {
+                height: 50vh;
             }
 
-            body {
-                padding: 0;
+            .records-section {
+                height: 50vh;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="main-content">
-            <div class="left-column">
-                <h3 class="section-title"><i class="fas fa-tasks"></i>İşlemler</h3>
+    <div class="app-container">
+        <div class="main-layout">
+            <div class="processes-section">
+                <h3 class="section-header"><i class="fas fa-tasks"></i>İşlemler</h3>
                 
-                <div class="processes-container">
-                    <!-- Birinci Sütun: Sütur Alınması ve Dren İşlemleri -->
-                    <div class="column">
-                        <div class="process-group">
-                            <div class="group-title">SÜTUR ALINMASI</div>
-                            <div class="process-items">
-                                <div class="process-item" onclick="addProcess('Tüm Süturların Alınması')">Tüm Süturların Alınması</div>
-                                <div class="process-item" onclick="addProcess('Atlanarak Sütur Alınması')">Atlanarak Sütur Alınması</div>
-                                <div class="process-item" onclick="addProcess('İşaretli Süturların Alınması')">İşaretli Süturların Alınması</div>
-                                <div class="process-item" onclick="addProcess('İşaretli Süturlar Dışında Süturlar Alınması')">İşaretli Süturlar Dışında Süturlar Alınması</div>
-                                <div class="process-item" onclick="addProcess('Dış Süturların Alınması')">Dış Süturların Alınması</div>
-                                <div class="process-item" onclick="addProcess('Detaşe Alan Dışında Süturların Alınması')">Detaşe Alan Dışında Süturların Alınması</div>
-                            </div>
-                        </div>
-
-                        <div class="process-group">
-                            <div class="group-title">DREN İŞLEMLERİ</div>
-                            <div class="process-items">
-                                <div class="process-item" onclick="addProcess('Dren Çekilmesi')">Dren Çekilmesi</div>
-                                <div class="process-item" onclick="addProcess('Dren Boşaltılması')">Dren Boşaltılması</div>
-                                <div class="process-item" onclick="addProcess('Dren Boşaltılması Eğitimi')">Dren Boşaltılması Eğitimi</div>
-                                <div class="process-item" onclick="addProcess('Dren Yıkanması')">Dren Yıkanması</div>
-                                <div class="process-item" onclick="addProcess('Dren Yıkanması Eğitimi')">Dren Yıkanması Eğitimi</div>
-                                <div class="process-item" onclick="addProcess('Foley Sonda Çekilmesi')">Foley Sonda Çekilmesi</div>
-                                <div class="process-item" onclick="addProcess('Foley Sonda Boşaltılması')">Foley Sonda Boşaltılması</div>
-                                <div class="process-item" onclick="addProcess('Foley Sonda Boşaltılması Eğitimi')">Foley Sonda Boşaltılması Eğitimi</div>
+                <div class="process-grid">
+                    <div class="process-column">
+                        <div class="process-card">
+                            <div class="card-header">SÜTUR ALINMASI</div>
+                            <div class="card-body">
+                                <button class="process-button" onclick="app.addProcess('Tüm Süturların Alınması')">Tüm Süturların Alınması</button>
+                                <button class="process-button" onclick="app.addProcess('Atlanarak Sütur Alınması')">Atlanarak Sütur Alınması</button>
+                                <button class="process-button" onclick="app.addProcess('İşaretli Süturların Alınması')">İşaretli Süturların Alınması</button>
+                                <button class="process-button" onclick="app.addProcess('İşaretli Süturlar Dışında Süturlar Alınması')">İşaretli Süturlar Dışında Süturlar Alınması</button>
+                                <button class="process-button" onclick="app.addProcess('Dış Süturların Alınması')">Dış Süturların Alınması</button>
+                                <button class="process-button" onclick="app.addProcess('Detaşe Alan Dışında Süturların Alınması')">Detaşe Alan Dışında Süturların Alınması</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- İkinci Sütun: Pansuman Türleri ve Kremle Pansuman Türleri -->
-                    <div class="column">
-                        <div class="process-group">
-                            <div class="group-title">PANSUMAN TÜRLERİ</div>
-                            <div class="process-items">
-                                <div class="process-item" onclick="addProcess('Açık Pansuman')">Açık Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Kapalı Pansuman')">Kapalı Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Dren Pansumanı')">Dren Pansumanı</div>
-                                <div class="process-item" onclick="addProcess('Baskılı Pansuman')">Baskılı Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Islak Nemli Pansuman')">Islak Nemli Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Dekübüt Pansumanı')">Dekübüt Pansumanı</div>
-                                <div class="process-item" onclick="addProcess('Yanık Pansumanı')">Yanık Pansumanı</div>
-                            </div>
-                        </div>
-
-                        <div class="process-group">
-                            <div class="group-title">KREMLE PANSUMAN TÜRLERİ</div>
-                            <div class="process-items">
-                                <div class="process-item" onclick="addProcess('Thiocilline İle Pansuman')">Thiocilline İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Fito İle Pansuman')">Fito İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Thiocilline+Fito İle Pansuman')">Thiocilline+Fito İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Silverdin İle Pansuman')">Silverdin İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Rifocin İle Pansuman')">Rifocin İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('Balaban İle Pansuman')">Balaban İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('D Krem İle Pansuman')">D Krem İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('C Krem İle Pansuman')">C Krem İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('G Krem İle Pansuman')">G Krem İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('D+C Krem İle Pansuman')">D+C Krem İle Pansuman</div>
-                                <div class="process-item" onclick="addProcess('G+C Krem İle Pansuman')">G+C Krem İle Pansuman</div>
-                                <div class="process-item" onclick="showMeshModal()">Mesh İle Pansuman</div>
+                    <div class="process-column">
+                        <div class="process-card">
+                            <div class="card-header">DREN İŞLEMLERİ</div>
+                            <div class="card-body">
+                                <button class="process-button" onclick="app.addProcess('Dren Çekilmesi')">Dren Çekilmesi</button>
+                                <button class="process-button" onclick="app.addProcess('Dren Boşaltılması')">Dren Boşaltılması</button>
+                                <button class="process-button" onclick="app.addProcess('Dren Boşaltılması Eğitimi')">Dren Boşaltılması Eğitimi</button>
+                                <button class="process-button" onclick="app.addProcess('Dren Yıkanması')">Dren Yıkanması</button>
+                                <button class="process-button" onclick="app.addProcess('Dren Yıkanması Eğitimi')">Dren Yıkanması Eğitimi</button>
+                                <button class="process-button" onclick="app.addProcess('Foley Sonda Çekilmesi')">Foley Sonda Çekilmesi</button>
+                                <button class="process-button" onclick="app.addProcess('Foley Sonda Boşaltılması')">Foley Sonda Boşaltılması</button>
+                                <button class="process-button" onclick="app.addProcess('Foley Sonda Boşaltılması Eğitimi')">Foley Sonda Boşaltılması Eğitimi</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Üçüncü Sütun: Kontrol Muayene İşlemleri ve İşlemler -->
-                    <div class="column">
-                        <div class="process-group">
-                            <div class="group-title">KONTROL MUAYENE İŞLEMLERİ</div>
-                            <div class="process-items">
-                                <div class="process-item" onclick="addProcess('Genel Kontrol ve Muayene İçin Hazırlık', '210')">Genel Kontrol ve Muayene İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Abdominoplasti Hastası İçin Hazırlık', '210')">Abdominoplasti Hastası İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Rinoplasti Hastası İçin Hazırlık', '210')">Rinoplasti Hastası İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Otoplasti Hastası İçin Hazırlık', '210')">Otoplasti Hastası İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Meme Ameliyatı Hastası İçin Hazırlık', '210')">Meme Ameliyatı Hastası İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Kenacort Enj. Hastası İçin Hazırlık', '210')">Kenacort Enj. Hastası İçin Hazırlık</div>
+                    <div class="process-column">
+                        <div class="process-card">
+                            <div class="card-header">PANSUMAN TÜRLERİ</div>
+                            <div class="card-body">
+                                <button class="process-button" onclick="app.addProcess('Açık Pansuman')">Açık Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Kapalı Pansuman')">Kapalı Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Dren Pansumanı')">Dren Pansumanı</button>
+                                <button class="process-button" onclick="app.addProcess('Baskılı Pansuman')">Baskılı Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Islak Nemli Pansuman')">Islak Nemli Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Dekübüt Pansumanı')">Dekübüt Pansumanı</button>
+                                <button class="process-button" onclick="app.addProcess('Yanık Pansumanı')">Yanık Pansumanı</button>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="process-group">
-                            <div class="group-title">İŞLEMLER</div>
-                            <div class="process-items">
-                                <div class="process-item" onclick="addProcess('Apse Drenajı İçin Hazırlık', '210')">Apse Drenajı İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Yara Süturasyonu İçin Hazırlık', '210')">Yara Süturasyonu İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Dren Takılması İçin Hazırlık', '210')">Dren Takılması İçin Hazırlık</div>
-                                <div class="process-item" onclick="addProcess('Lokal Eksizyon İçin Hazırlık', '110')">Lokal Eksizyon İçin Hazırlık</div>
+                    <div class="process-column">
+                        <div class="process-card">
+                            <div class="card-header">KREMLE PANSUMAN TÜRLERİ</div>
+                            <div class="card-body">
+                                <button class="process-button" onclick="app.addProcess('Thiocilline İle Pansuman')">Thiocilline İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Fito İle Pansuman')">Fito İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Thiocilline+Fito İle Pansuman')">Thiocilline+Fito İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Silverdin İle Pansuman')">Silverdin İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Rifocin İle Pansuman')">Rifocin İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('Balaban İle Pansuman')">Balaban İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('D Krem İle Pansuman')">D Krem İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('C Krem İle Pansuman')">C Krem İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('G Krem İle Pansuman')">G Krem İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('D+C Krem İle Pansuman')">D+C Krem İle Pansuman</button>
+                                <button class="process-button" onclick="app.addProcess('G+C Krem İle Pansuman')">G+C Krem İle Pansuman</button>
+                                <button class="process-button" onclick="app.showMeshModal()">Mesh İle Pansuman</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="process-column">
+                        <div class="process-card">
+                            <div class="card-header">KONTROL MUAYENE İŞLEMLERİ</div>
+                            <div class="card-body">
+                                <button class="process-button" onclick="app.addProcess('Genel Kontrol ve Muayene İçin Hazırlık', '210')">Genel Kontrol ve Muayene İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Kolostomi Bageti Çıkarılması', '210')">Kolostomi Bageti Çıkarılması</button>
+                                <button class="process-button" onclick="app.addProcess('Abdominoplasti Hastası İçin Hazırlık', '210')">Abdominoplasti Hastası İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Rinoplasti Hastası İçin Hazırlık', '210')">Rinoplasti Hastası İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Otoplasti Hastası İçin Hazırlık', '210')">Otoplasti Hastası İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Meme Ameliyatı Hastası İçin Hazırlık', '210')">Meme Ameliyatı Hastası İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Kenacort Enj. Hastası İçin Hazırlık', '210')">Kenacort Enj. Hastası İçin Hazırlık</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="process-column">
+                        <div class="process-card">
+                            <div class="card-header">İŞLEMLER</div>
+                            <div class="card-body">
+                                <button class="process-button" onclick="app.addProcess('Apse Drenajı İçin Hazırlık', '210')">Apse Drenajı İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Yara Süturasyonu İçin Hazırlık', '210')">Yara Süturasyonu İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Dren Takılması İçin Hazırlık', '210')">Dren Takılması İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.addProcess('Lokal Eksizyon İçin Hazırlık', '110')">Lokal Eksizyon İçin Hazırlık</button>
+                                <button class="process-button" onclick="app.showCustomModal('310')">Özel İstek Yazınız (Hemşire)</button>
+                                <button class="process-button" onclick="app.showCustomModal('210')">Özel İstek Yazınız (Doktor)</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="user-select-icon" onclick="showUserModal()" title="Poliklinik Değiştir">
+                <div class="clinic-toggle" onclick="app.showClinicModal()" title="Poliklinik Değiştir">
                     <i class="fas fa-user-md"></i>
                 </div>
             </div>
 
-            <div class="right-column">
-                <h3 class="section-title"><i class="fas fa-clipboard-list"></i>Kayıtlar</h3>
-                <div class="records-list" id="recordsList">
-                    <div class="no-records">
+            <div class="records-section">
+                <h3 class="section-header"><i class="fas fa-clipboard-list"></i>Kayıtlar</h3>
+                <div class="records-container" id="recordsContainer">
+                    <div class="empty-state">
                         <i class="fas fa-inbox"></i>
                         <div>Henüz kayıt bulunmamaktadır.</div>
                     </div>
@@ -558,483 +779,458 @@
         </div>
     </div>
 
-    <!-- Mesh Selection Modal -->
-    <div id="meshModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideMeshModal()">&times;</span>
-            <h3 style="margin-bottom: 24px; color: var(--text-primary); font-weight: 600;">
+    <div id="meshModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-close" onclick="app.hideMeshModal()">&times;</span>
+            <h3 style="margin-bottom: 16px; color: var(--text-dark); font-weight: 600;">
                 <i class="fas fa-layer-group"></i> Mesh Türü Seçiniz
             </h3>
-            <div class="clinic-select">
-                <div class="clinic-option" onclick="addProcess('Mesh + Thiocilline İle Pansuman')">
+            <p style="margin-bottom: 20px; color: var(--text-medium); font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Birden fazla seçenek seçebilirsiniz
+            </p>
+            <div class="option-grid" id="meshOptions">
+                <div class="option-item" data-value="Thiocilline" onclick="app.toggleMesh(this)">
                     <i class="fas fa-capsules"></i> Thiocilline
+                    <i class="fas fa-check check-icon"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + Fito İle Pansuman')">
+                <div class="option-item" data-value="Fito" onclick="app.toggleMesh(this)">
                     <i class="fas fa-leaf"></i> Fito
+                    <i class="fas fa-check check-icon"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + Balaban İle Pansuman')">
+                <div class="option-item" data-value="Balaban" onclick="app.toggleMesh(this)">
                     <i class="fas fa-band-aid"></i> Balaban
+                    <i class="fas fa-check check-icon"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + D Krem İle Pansuman')">
+                <div class="option-item" data-value="D Krem" onclick="app.toggleMesh(this)">
                     <i class="fas fa-prescription-bottle"></i> D Krem
+                    <i class="fas fa-check check-icon"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + C Krem İle Pansuman')">
+                <div class="option-item" data-value="C Krem" onclick="app.toggleMesh(this)">
                     <i class="fas fa-prescription-bottle"></i> C Krem
+                    <i class="fas fa-check check-icon"></i>
                 </div>
-                <div class="clinic-option" onclick="addProcess('Mesh + G Krem İle Pansuman')">
+                <div class="option-item" data-value="G Krem" onclick="app.toggleMesh(this)">
                     <i class="fas fa-prescription-bottle"></i> G Krem
+                    <i class="fas fa-check check-icon"></i>
                 </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-button" onclick="app.confirmMesh()">
+                    <i class="fas fa-check"></i> Onayla
+                </button>
+                <button class="action-button secondary" onclick="app.clearMesh()">
+                    <i class="fas fa-times"></i> Temizle
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- User Selection Modal -->
-    <div id="userModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideUserModal()">&times;</span>
-            <h3 style="margin-bottom: 24px; color: var(--text-primary); font-weight: 600;">
+    <div id="clinicModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-close" onclick="app.hideClinicModal()">&times;</span>
+            <h3 style="margin-bottom: 24px; color: var(--text-dark); font-weight: 600;">
                 <i class="fas fa-hospital-user"></i> Poliklinik Seçiniz
             </h3>
-            <div class="clinic-select">
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 1')">
+            <div class="option-grid">
+                <div class="option-item" onclick="app.selectClinic('Genel Cerrahi Polikliniği 1')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 1
                 </div>
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 2')">
+                <div class="option-item" onclick="app.selectClinic('Genel Cerrahi Polikliniği 2')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 2
                 </div>
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 3')">
+                <div class="option-item" onclick="app.selectClinic('Genel Cerrahi Polikliniği 3')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 3
                 </div>
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 4')">
+                <div class="option-item" onclick="app.selectClinic('Genel Cerrahi Polikliniği 4')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 4
                 </div>
-                <div class="clinic-option" onclick="selectUser('Genel Cerrahi Polikliniği 5')">
+                <div class="option-item" onclick="app.selectClinic('Genel Cerrahi Polikliniği 5')">
                     <i class="fas fa-user-md"></i> Genel Cerrahi Polikliniği 5
                 </div>
-                <div class="clinic-option" onclick="selectUser('GC Yan Dal Polikliniği')">
+                <div class="option-item" onclick="app.selectClinic('GC Yan Dal Polikliniği')">
                     <i class="fas fa-stethoscope"></i> GC Yan Dal Polikliniği
                 </div>
-                <div class="clinic-option" onclick="selectUser('Plastik Cerrahi Polikliniği')">
+                <div class="option-item" onclick="app.selectClinic('Plastik Cerrahi Polikliniği')">
                     <i class="fas fa-magic"></i> Plastik Cerrahi Polikliniği
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
+    <div id="customModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-close" onclick="app.hideCustomModal()">&times;</span>
+            <h3 style="margin-bottom: 16px; color: var(--text-dark); font-weight: 600;">
+                <i class="fas fa-edit"></i> Özel İstek Yazınız
+            </h3>
+            <p style="margin-bottom: 20px; color: var(--text-medium); font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Lütfen işlem detaylarını yazınız
+            </p>
+            <textarea id="customInput" class="text-input" placeholder="İşlem detaylarını buraya yazınız..."></textarea>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-button" onclick="app.confirmCustom()">
+                    <i class="fas fa-check"></i> Onayla
+                </button>
+                <button class="action-button secondary" onclick="app.hideCustomModal()">
+                    <i class="fas fa-times"></i> İptal
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBoiZFdN-elWsn0LEeT-YdZnOcrbYCrCeI",
-            authDomain: "yeniboard-af11c.firebaseapp.com",
-            projectId: "yeniboard-af11c",
-            storageBucket: "yeniboard-af11c.firebasestorage.app",
-            messagingSenderId: "661813442383",
-            appId: "1:661813442383:web:f2fccb4dca2e9788cc373a",
-            measurementId: "G-SCNPPSJ12W"
-        };
+        const app = {
+            db: null,
+            currentClinic: '',
+            meshSelections: [],
+            customPrefix: '310',
+            listener: null,
+            clientId: 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        let currentUser = '';
-        let unsubscribeListener = null;
-
-        // Initialize the app with distributed sequence management
-        document.addEventListener('DOMContentLoaded', function() {
-            // Always show user modal on page load
-            showUserModal();
-            setupRealtimeListener();
-            
-            // Setup sequence monitoring for multi-client synchronization
-            setupSequenceMonitoring();
-        });
-
-        // Get current date in DD.MM.YY format
-        function getCurrentDateKey() {
-            const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = String(now.getFullYear()).slice(-2);
-            return `${day}.${month}.${year}`;
-        }
-
-        // Distributed sequence management with real-time sync
-        let sequenceCache = new Map();
-        let sequenceCacheLock = new Map();
-        let sequenceListeners = new Map();
-
-        // Generate sequence number with distributed locking
-        async function generateSequenceNumber(prefix = '310') {
-            const dateKey = getCurrentDateKey();
-            const cacheKey = `${dateKey}-${prefix}`;
-            
-            try {
-                // Use Firebase increment for atomic operations
-                const sequenceNumber = await getNextSequenceAtomic(cacheKey, prefix);
-                return `${dateKey}-${sequenceNumber}`;
-            } catch (error) {
-                console.error('Atomic sequence generation failed, using fallback:', error);
-                // Fallback to timestamp-based unique number
-                const fallbackNumber = getInitialNumber(prefix) + Date.now() % 10000;
-                return `${dateKey}-${fallbackNumber}`;
-            }
-        }
-
-        // Atomic sequence generation using Firebase increment
-        async function getNextSequenceAtomic(cacheKey, prefix) {
-            const sequenceDocRef = db.collection('sequences').doc(cacheKey);
-            const dateKey = getCurrentDateKey();
-            
-            try {
-                // Use runTransaction for true atomicity across all clients
-                const result = await db.runTransaction(async (transaction) => {
-                    const doc = await transaction.get(sequenceDocRef);
-                    
-                    let newNumber;
-                    if (!doc.exists) {
-                        newNumber = getInitialNumber(prefix);
-                        transaction.set(sequenceDocRef, {
-                            currentNumber: newNumber,
-                            dateKey: dateKey,
-                            prefix: prefix,
-                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-                            clientId: getClientId()
-                        });
-                    } else {
-                        const currentData = doc.data();
-                        newNumber = currentData.currentNumber + 1;
-                        transaction.update(sequenceDocRef, {
-                            currentNumber: newNumber,
-                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-                            clientId: getClientId()
-                        });
-                    }
-                    
-                    return newNumber;
+            init() {
+                firebase.initializeApp({
+                    apiKey: "AIzaSyBoiZFdN-elWsn0LEeT-YdZnOcrbYCrCeI",
+                    authDomain: "yeniboard-af11c.firebaseapp.com",
+                    projectId: "yeniboard-af11c",
+                    storageBucket: "yeniboard-af11c.firebasestorage.app",
+                    messagingSenderId: "661813442383",
+                    appId: "1:661813442383:web:f2fccb4dca2e9788cc373a",
+                    measurementId: "G-SCNPPSJ12W"
                 });
-                
-                return result;
-                
-            } catch (error) {
-                // If transaction fails, try with server timestamp for uniqueness
-                console.warn('Transaction failed, using server timestamp approach');
-                
-                const serverIncrement = firebase.firestore.FieldValue.increment(1);
+                this.db = firebase.firestore();
+                this.showClinicModal();
+                this.setupListener();
+            },
+
+            getDateKey() {
+                const d = new Date();
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = String(d.getFullYear()).slice(-2);
+                return `${day}.${month}.${year}`;
+            },
+
+            getInitialNum(prefix) {
+                return parseInt(prefix);
+            },
+
+            async generateSequence(prefix = '310') {
+                const dateKey = this.getDateKey();
+                const docId = `${dateKey}-${prefix}`;
+                const docRef = this.db.collection('sequences').doc(docId);
                 
                 try {
-                    await sequenceDocRef.set({
-                        currentNumber: serverIncrement,
-                        dateKey: dateKey,
-                        prefix: prefix,
-                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-                        clientId: getClientId()
-                    }, { merge: true });
-                    
-                    // Get the updated value
-                    const doc = await sequenceDocRef.get();
-                    return doc.data().currentNumber;
-                    
-                } catch (innerError) {
-                    throw innerError;
-                }
-            }
-        }
-
-        // Generate unique client ID for this session
-        function getClientId() {
-            if (!window.clientId) {
-                window.clientId = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            }
-            return window.clientId;
-        }
-
-        // Setup real-time sequence monitoring for conflict detection
-        function setupSequenceMonitoring() {
-            const dateKey = getCurrentDateKey();
-            const prefixes = ['110', '210', '310'];
-            
-            prefixes.forEach(prefix => {
-                const cacheKey = `${dateKey}-${prefix}`;
-                
-                if (!sequenceListeners.has(cacheKey)) {
-                    const unsubscribe = db.collection('sequences').doc(cacheKey)
-                        .onSnapshot(
-                            (doc) => {
-                                if (doc.exists) {
-                                    const data = doc.data();
-                                    // Update local cache if changed by another client
-                                    if (data.clientId !== getClientId()) {
-                                        sequenceCache.set(cacheKey, data.currentNumber);
-                                        console.log(`Sequence updated by another client: ${cacheKey} = ${data.currentNumber}`);
-                                    }
-                                }
-                            },
-                            (error) => {
-                                console.warn('Sequence monitoring error:', error);
-                            }
-                        );
-                    
-                    sequenceListeners.set(cacheKey, unsubscribe);
-                }
-            });
-        }
-
-        // Cleanup sequence listeners
-        function cleanupSequenceListeners() {
-            sequenceListeners.forEach(unsubscribe => {
-                if (typeof unsubscribe === 'function') {
-                    unsubscribe();
-                }
-            });
-            sequenceListeners.clear();
-        }
-
-        function getInitialNumber(prefix) {
-            switch(prefix) {
-                case '110': return 110;
-                case '210': return 210;
-                case '310': return 310;
-                default: return 310;
-            }
-        }
-
-        // User management functions
-        function showUserModal() {
-            document.getElementById('userModal').style.display = 'block';
-        }
-
-        function hideUserModal() {
-            document.getElementById('userModal').style.display = 'none';
-        }
-
-        function selectUser(user) {
-            currentUser = user;
-            if (window.localStorage) {
-                window.localStorage.setItem('selectedUser', user);
-            }
-            hideUserModal();
-        }
-
-        // Show/hide mesh modal
-        function showMeshModal() {
-            if (!currentUser) {
-                alert('Lütfen önce poliklinik seçiniz!');
-                showUserModal();
-                return;
-            }
-            document.getElementById('meshModal').style.display = 'block';
-        }
-
-        function hideMeshModal() {
-            document.getElementById('meshModal').style.display = 'none';
-        }
-
-        // Ultra-fast but thread-safe process addition
-        async function addProcess(processName, prefix = '310') {
-            if (!currentUser) {
-                alert('Lütfen önce poliklinik seçiniz!');
-                showUserModal();
-                return;
-            }
-
-            // Disable button temporarily to prevent double-clicks
-            const clickedButton = event?.target;
-            if (clickedButton) {
-                clickedButton.style.pointerEvents = 'none';
-                clickedButton.style.opacity = '0.7';
-            }
-
-            try {
-                // Generate sequence number with distributed locking
-                const sequenceNumber = await generateSequenceNumber(prefix);
-                
-                // Show sequence notification immediately
-                showSequenceNotification(sequenceNumber, processName);
-                
-                // Prepare record with unique timestamp
-                const now = new Date();
-                const record = {
-                    user: currentUser,
-                    process: processName,
-                    sequenceNumber: sequenceNumber,
-                    date: now.toISOString(),
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    dateKey: getCurrentDateKey(),
-                    prefix: prefix,
-                    clientId: getClientId(),
-                    recordId: `${sequenceNumber}-${getClientId()}-${Date.now()}`
-                };
-
-                // Save to database with duplicate prevention
-                db.collection('processes').add(record)
-                    .then(() => {
-                        console.log('Process saved successfully:', sequenceNumber);
-                    })
-                    .catch(error => {
-                        console.error('Error saving process:', error);
-                        showNotification('Kayıt sırasında bir hata oluştu!', 'error');
-                    });
-                
-                // Hide mesh modal if it was open
-                hideMeshModal();
-                
-            } catch (error) {
-                console.error('Error in addProcess:', error);
-                showNotification('İşlem sırasında bir hata oluştu!', 'error');
-            } finally {
-                // Re-enable button after a short delay
-                setTimeout(() => {
-                    if (clickedButton) {
-                        clickedButton.style.pointerEvents = 'auto';
-                        clickedButton.style.opacity = '1';
-                    }
-                }, 1000);
-            }
-        }
-
-        // Setup realtime listener
-        function setupRealtimeListener() {
-            if (unsubscribeListener) {
-                unsubscribeListener();
-            }
-            
-            unsubscribeListener = db.collection('processes')
-                .orderBy('timestamp', 'desc')
-                .limit(100)
-                .onSnapshot((snapshot) => {
-                    const records = [];
-                    snapshot.forEach((doc) => {
-                        const data = doc.data();
-                        if (data.timestamp && data.timestamp.toDate) {
-                            data.date = data.timestamp.toDate().toISOString();
+                    const result = await this.db.runTransaction(async (t) => {
+                        const doc = await t.get(docRef);
+                        let num;
+                        
+                        if (!doc.exists) {
+                            num = this.getInitialNum(prefix);
+                            t.set(docRef, {
+                                currentNumber: num,
+                                dateKey: dateKey,
+                                prefix: prefix,
+                                lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                                clientId: this.clientId
+                            });
+                        } else {
+                            num = doc.data().currentNumber + 1;
+                            t.update(docRef, {
+                                currentNumber: num,
+                                lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                                clientId: this.clientId
+                            });
                         }
-                        records.push(data);
+                        return num;
                     });
                     
-                    displayRecords(records);
-                }, (error) => {
-                    console.error('Realtime listener error:', error);
-                    showNotification('Bağlantı hatası!', 'error');
-                });
-        }
+                    return `${dateKey}-${result}`;
+                } catch (error) {
+                    console.error('Sequence error:', error);
+                    const fallback = this.getInitialNum(prefix) + (Date.now() % 10000);
+                    return `${dateKey}-${fallback}`;
+                }
+            },
 
-        // Display records in the UI
-        function displayRecords(records) {
-            const recordsList = document.getElementById('recordsList');
-            
-            if (records.length === 0) {
-                recordsList.innerHTML = `
-                    <div class="no-records">
-                        <i class="fas fa-inbox"></i>
-                        <div>Henüz kayıt bulunmamaktadır.</div>
-                    </div>
-                `;
-                return;
-            }
+            async addProcess(name, prefix = '310') {
+                if (!this.currentClinic) {
+                    alert('Lütfen önce poliklinik seçiniz!');
+                    this.showClinicModal();
+                    return;
+                }
 
-            let html = '';
-            records.forEach((record) => {
-                const date = new Date(record.date);
-                const formattedDate = date.toLocaleString('tr-TR');
-                const sequenceOnly = record.sequenceNumber.split('-')[1] || record.sequenceNumber;
+                const btn = event?.target;
+                if (btn) {
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.7';
+                }
+
+                try {
+                    const seq = await this.generateSequence(prefix);
+                    this.showSequencePopup(seq, name, prefix);
+                    
+                    await this.db.collection('processes').add({
+                        user: this.currentClinic,
+                        process: name,
+                        sequenceNumber: seq,
+                        date: new Date().toISOString(),
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        dateKey: this.getDateKey(),
+                        prefix: prefix,
+                        clientId: this.clientId,
+                        recordId: `${seq}-${this.clientId}-${Date.now()}`
+                    });
+                    
+                    this.hideMeshModal();
+                } catch (error) {
+                    console.error('Add process error:', error);
+                    this.showToast('İşlem sırasında hata oluştu!', 'error');
+                } finally {
+                    setTimeout(() => {
+                        if (btn) {
+                            btn.style.pointerEvents = 'auto';
+                            btn.style.opacity = '1';
+                        }
+                    }, 1000);
+                }
+            },
+
+            setupListener() {
+                if (this.listener) this.listener();
                 
-                html += `
-                    <div class="record-item">
-                        <div class="record-sequence-number">${sequenceOnly}</div>
-                        <div class="record-date">
-                            <i class="fas fa-clock"></i> ${formattedDate}
+                this.listener = this.db.collection('processes')
+                    .orderBy('timestamp', 'desc')
+                    .limit(100)
+                    .onSnapshot((snap) => {
+                        const records = [];
+                        snap.forEach((doc) => {
+                            const data = doc.data();
+                            if (data.timestamp && data.timestamp.toDate) {
+                                data.date = data.timestamp.toDate().toISOString();
+                            }
+                            records.push(data);
+                        });
+                        this.displayRecords(records);
+                    }, (err) => {
+                        console.error('Listener error:', err);
+                        this.showToast('Bağlantı hatası!', 'error');
+                    });
+            },
+
+            displayRecords(records) {
+                const container = document.getElementById('recordsContainer');
+                
+                if (records.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <div>Henüz kayıt bulunmamaktadır.</div>
                         </div>
-                        <div class="record-clinic">
-                            <i class="fas fa-hospital"></i> ${record.user}
+                    `;
+                    return;
+                }
+
+                let html = '';
+                records.forEach((rec) => {
+                    const date = new Date(rec.date);
+                    const formatted = date.toLocaleString('tr-TR');
+                    const seqNum = rec.sequenceNumber.split('-')[1] || rec.sequenceNumber;
+                    const highlight = this.currentClinic && rec.user === this.currentClinic ? 'highlighted' : '';
+                    
+                    html += `
+                        <div class="record-card ${highlight}">
+                            <div class="record-top">
+                                <div class="sequence-badge">${seqNum}</div>
+                                <div class="record-details">
+                                    <div class="record-timestamp">
+                                        <i class="fas fa-clock"></i> ${formatted}
+                                    </div>
+                                    <div class="record-clinic">
+                                        <i class="fas fa-hospital"></i> ${rec.user}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="record-description">${rec.process}</div>
                         </div>
-                        <div class="record-process">${record.process}</div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+                container.scrollLeft = 0;
+            },
+
+            showSequencePopup(seq, name, prefix) {
+                const seqNum = seq.split('-')[1] || seq;
+                const popup = document.createElement('div');
+                popup.className = 'sequence-popup';
+                
+                let info = '';
+                if (prefix === '310') {
+                    info = `
+                        <div class="info-panel">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Önemli Bilgilendirme</h4>
+                            <p style="margin-bottom: 12px;">Sağlık Uygulama Tebliği (SUT) ve Girişimsel İşlem Yönergesi (GİY) kodlarını hastaların tetkikler kısmına giriniz:</p>
+                            <ul>
+                                <li><span class="highlight">530570</span> Yara Pansumanı Büyük</li>
+                                <li><span class="highlight">530580</span> Yara Pansumanı Küçük</li>
+                                <li><span class="highlight">530410</span> Sütur Alınması</li>
+                                <li><span class="highlight">530680</span> Kateter Pansumanı</li>
+                            </ul>
+                        </div>
+                    `;
+                } else if (prefix === '110') {
+                    info = `
+                        <div class="info-panel">
+                            <h4><i class="fas fa-bed"></i> Günübirlik Servis Uyarısı</h4>
+                            <p style="line-height: 1.7;">
+                                Hastayı <strong style="color: #ffd700;">Günübirlik Servise</strong> yatırmayı unutmayınız. 
+                                İşlem kodları <strong style="color: #ffd700;">Günübirlik Servis</strong> üzerinden atılacaktır.
+                            </p>
+                        </div>
+                    `;
+                }
+                
+                popup.innerHTML = `
+                    <div class="sequence-display">${seqNum}</div>
+                    <div style="font-size: 18px; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">
+                        <i class="fas fa-ticket-alt"></i> Sıra Numarası
                     </div>
+                    <div style="font-size: 15px; opacity: 0.8; line-height: 1.5; font-weight: 500;">
+                        ${name}
+                    </div>
+                    ${info}
                 `;
-            });
-            
-            recordsList.innerHTML = html;
-        }
+                
+                document.body.appendChild(popup);
+                const duration = (prefix === '310' || prefix === '110') ? 5000 : 2500;
+                setTimeout(() => popup.remove(), duration);
+            },
 
-        // Show sequence notification
-        function showSequenceNotification(sequenceNumber, processName) {
-            const sequenceOnly = sequenceNumber.split('-')[1] || sequenceNumber;
-            
-            const notification = document.createElement('div');
-            notification.className = 'sequence-notification';
-            notification.innerHTML = `
-                <div class="sequence-number">${sequenceOnly}</div>
-                <div style="font-size: 18px; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">
-                    <i class="fas fa-ticket-alt"></i> Sıra Numarası
-                </div>
-                <div style="font-size: 15px; opacity: 0.8; line-height: 1.5; font-weight: 500;">
-                    ${processName}
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
+            showToast(msg, type) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+                toast.innerHTML = `<i class="${icon}"></i><span>${msg}</span>`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            },
 
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
+            showMeshModal() {
+                if (!this.currentClinic) {
+                    alert('Lütfen önce poliklinik seçiniz!');
+                    this.showClinicModal();
+                    return;
                 }
-            }, 2500);
-        }
+                this.meshSelections = [];
+                this.clearMesh();
+                document.getElementById('meshModal').style.display = 'block';
+            },
 
-        // Show notification
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            
-            notification.innerHTML = `
-                <i class="${icon}"></i>
-                <span>${message}</span>
-            `;
-            
-            document.body.appendChild(notification);
+            hideMeshModal() {
+                document.getElementById('meshModal').style.display = 'none';
+                this.meshSelections = [];
+                this.clearMesh();
+            },
 
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
+            toggleMesh(el) {
+                const val = el.getAttribute('data-value');
+                if (el.classList.contains('active')) {
+                    el.classList.remove('active');
+                    this.meshSelections = this.meshSelections.filter(m => m !== val);
+                } else {
+                    el.classList.add('active');
+                    this.meshSelections.push(val);
                 }
-            }, 3000);
-        }
+            },
 
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            const userModal = document.getElementById('userModal');
-            const meshModal = document.getElementById('meshModal');
-            if (event.target === userModal) {
-                hideUserModal();
-            }
-            if (event.target === meshModal) {
-                hideMeshModal();
-            }
-        }
+            clearMesh() {
+                this.meshSelections = [];
+                document.querySelectorAll('#meshOptions .option-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+            },
 
-        // Cleanup listeners when page unloads
-        window.addEventListener('beforeunload', function() {
-            if (unsubscribeListener) {
-                unsubscribeListener();
-            }
-            cleanupSequenceListeners();
-        });
+            confirmMesh() {
+                if (this.meshSelections.length === 0) {
+                    alert('Lütfen en az bir mesh türü seçiniz!');
+                    return;
+                }
+                const meshStr = this.meshSelections.join(' + ');
+                const name = `Mesh + ${meshStr} İle Pansuman`;
+                this.addProcess(name);
+                this.hideMeshModal();
+            },
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
+            showClinicModal() {
+                document.getElementById('clinicModal').style.display = 'block';
+            },
+
+            hideClinicModal() {
+                document.getElementById('clinicModal').style.display = 'none';
+            },
+
+            selectClinic(clinic) {
+                this.currentClinic = clinic;
+                this.hideClinicModal();
+                const container = document.getElementById('recordsContainer');
+                if (container.children.length > 0 && !container.querySelector('.empty-state')) {
+                    this.setupListener();
+                }
+            },
+
+            showCustomModal(prefix) {
+                if (!this.currentClinic) {
+                    alert('Lütfen önce poliklinik seçiniz!');
+                    this.showClinicModal();
+                    return;
+                }
+                this.customPrefix = prefix;
+                document.getElementById('customInput').value = '';
+                document.getElementById('customModal').style.display = 'block';
+            },
+
+            hideCustomModal() {
+                document.getElementById('customModal').style.display = 'none';
+                document.getElementById('customInput').value = '';
+            },
+
+            confirmCustom() {
+                const text = document.getElementById('customInput').value.trim();
+                if (text === '') {
+                    alert('Lütfen bir istek yazınız!');
+                    return;
+                }
+                this.addProcess(text, this.customPrefix);
+                this.hideCustomModal();
+            }
+        };
+
+        window.onclick = (e) => {
+            if (e.target.id === 'clinicModal') app.hideClinicModal();
+            if (e.target.id === 'meshModal') app.hideMeshModal();
+            if (e.target.id === 'customModal') app.hideCustomModal();
+        };
+
+        document.addEventListener('keydown', (e) => {
             if (e.altKey && e.key === 'u') {
                 e.preventDefault();
-                showUserModal();
+                app.showClinicModal();
             }
-            
             if (e.key === 'Escape') {
-                hideUserModal();
-                hideMeshModal();
+                app.hideClinicModal();
+                app.hideMeshModal();
+                app.hideCustomModal();
             }
         });
+
+        window.addEventListener('beforeunload', () => {
+            if (app.listener) app.listener();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => app.init());
     </script>
 </body>
 </html>

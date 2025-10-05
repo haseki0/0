@@ -59,16 +59,37 @@
             background: var(--bg-light);
             overflow-y: auto;
             position: relative;
-            height: 75vh;
+            height: 80vh;
         }
 
         .records-section {
             padding: 22px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             background: var(--bg-main);
-            height: 25vh;
+            height: 20vh;
             overflow: hidden;
+            gap: 16px;
+        }
+
+        .records-header-vertical {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+        }
+
+        .records-header-vertical i {
+            margin-left: 11px;
         }
 
         .section-header {
@@ -113,7 +134,7 @@
 
         .process-card {
             background: var(--bg-main);
-            border-radius: 14px;
+            border-radius: 13px;
             box-shadow: var(--shadow-md);
             display: flex;
             flex-direction: column;
@@ -255,9 +276,12 @@
             transition: all 0.3s ease;
             border: 1px solid var(--border);
             position: relative;
-            min-width: 22.5%;
-            max-width: 22.5%;
+            min-width: 20%;
+            max-width: 20%;
             flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .record-card::before {
@@ -271,14 +295,14 @@
         }
 
         .record-card:hover {
-            transform: translateY(-3px) translateX(2px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
 
         .record-card.highlighted {
             background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
             border-left: 4px solid #ff9800;
-            box-shadow: 0 5px 18px rgba(255, 152, 0, 0.25);
+            box-shadow: 0 4px 14px rgba(255, 152, 0, 0.25);
             border: 2px solid #ffa726;
         }
 
@@ -289,41 +313,45 @@
         .record-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 10px;
-            gap: 12px;
+            gap: 10px;
         }
 
         .sequence-badge {
             background: var(--gradient-danger);
             color: white;
             padding: 10px 16px;
-            border-radius: 5px;
-            font-size: 15px;
+            border-radius: 6px;
+            font-size: 16px;
             font-weight: 800;
-            min-width: 53px;
+            min-width: 50px;
             text-align: center;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
             flex-shrink: 0;
         }
 
         .record-details {
             flex: 1;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .record-timestamp {
             font-size: 10px;
             color: var(--text-medium);
-            margin-bottom: 4px;
             font-weight: 500;
             display: flex;
             align-items: center;
+            line-height: 1.4;
         }
 
         .record-timestamp i {
-            margin-right: 6px;
+            margin-right: 5px;
             color: #3498db;
+            font-size: 9px;
         }
 
         .record-clinic {
@@ -332,11 +360,13 @@
             font-size: 11px;
             display: flex;
             align-items: center;
+            line-height: 1.3;
         }
 
         .record-clinic i {
-            margin-right: 6px;
+            margin-right: 5px;
             color: #667eea;
+            font-size: 10px;
         }
 
         .record-description {
@@ -344,10 +374,12 @@
             font-size: 11px;
             line-height: 1.5;
             background: var(--bg-light);
-            padding: 10px 12px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 6px;
             border-left: 3px solid #3498db;
             font-weight: 500;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .modal-overlay {
@@ -484,17 +516,17 @@
             text-align: center;
             color: var(--text-medium);
             font-style: italic;
-            padding: 57px 20px;
+            padding: 50px 18px;
             background: var(--bg-light);
-            border-radius: 13px;
+            border-radius: 10px;
             border: 2px dashed var(--border-dark);
-            min-width: 22.5%;
+            min-width: 20%;
             flex-shrink: 0;
         }
 
         .empty-state i {
-            font-size: 45px;
-            margin-bottom: 16px;
+            font-size: 40px;
+            margin-bottom: 14px;
             color: var(--text-light);
             opacity: 0.5;
         }
@@ -637,11 +669,43 @@
             }
             
             .processes-section {
-                height: 60vh;
+                height: 70vh;
             }
 
             .records-section {
-                height: 40vh;
+                height: 30vh;
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .records-header-vertical {
+                font-size: 18px;
+                padding: 0 6px;
+            }
+
+            .record-card {
+                min-width: 35%;
+                max-width: 35%;
+                padding: 12px;
+            }
+
+            .sequence-badge {
+                padding: 8px 12px;
+                font-size: 14px;
+                min-width: 45px;
+            }
+
+            .record-timestamp {
+                font-size: 9px;
+            }
+
+            .record-clinic {
+                font-size: 10px;
+            }
+
+            .record-description {
+                font-size: 10px;
+                padding: 8px;
             }
         }
 
@@ -651,11 +715,85 @@
             }
             
             .processes-section {
-                height: 50vh;
+                height: 75vh;
+                padding: 16px;
             }
 
             .records-section {
-                height: 50vh;
+                height: 25vh;
+                padding: 10px;
+                gap: 6px;
+            }
+
+            .records-header-vertical {
+                font-size: 14px;
+                padding: 0 3px;
+            }
+
+            .records-container {
+                gap: 8px;
+            }
+
+            .record-card {
+                min-width: 50%;
+                max-width: 50%;
+                padding: 8px;
+                border-radius: 5px;
+            }
+
+            .record-top {
+                gap: 6px;
+                margin-bottom: 6px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sequence-badge {
+                padding: 5px 8px;
+                font-size: 12px;
+                min-width: 35px;
+                align-self: flex-start;
+            }
+
+            .record-details {
+                width: 100%;
+                gap: 2px;
+            }
+
+            .record-timestamp {
+                font-size: 8px;
+            }
+
+            .record-timestamp i {
+                font-size: 7px;
+                margin-right: 3px;
+            }
+
+            .record-clinic {
+                font-size: 8px;
+            }
+
+            .record-clinic i {
+                font-size: 8px;
+                margin-right: 3px;
+            }
+
+            .record-description {
+                font-size: 9px;
+                padding: 6px;
+                border-radius: 4px;
+                border-left: 2px solid #3498db;
+            }
+
+            .empty-state {
+                min-width: 50%;
+                padding: 25px 10px;
+                font-size: 11px;
+            }
+
+            .empty-state i {
+                font-size: 28px;
+                margin-bottom: 8px;
             }
         }
     </style>
@@ -768,7 +906,7 @@
             </div>
 
             <div class="records-section">
-                <h3 class="section-header"><i class="fas fa-clipboard-list"></i>Kayıtlar</h3>
+                <h3 class="records-header-vertical"><i class="fas fa-clipboard-list"></i>Kayıtlar</h3>
                 <div class="records-container" id="recordsContainer">
                     <div class="empty-state">
                         <i class="fas fa-inbox"></i>

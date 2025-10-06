@@ -86,6 +86,32 @@
             gap: 8px;
         }
 
+        .add-button-trigger {
+            margin-left: auto;
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-header:hover .add-button-trigger {
+            opacity: 1;
+        }
+
+        .add-button-trigger:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: var(--shadow-lg);
+        }
+
         .section-header::after {
             content: '';
             position: absolute;
@@ -170,7 +196,7 @@
             border-left: 3px solid #3498db;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
             text-align: left;
             position: relative;
@@ -459,6 +485,37 @@
             display: block;
         }
 
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 12px;
+        }
+
+        .checkbox-option:hover {
+            background: var(--bg-lighter);
+            border-color: #3498db;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-option label {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11px;
+            flex: 1;
+        }
+
         .action-button {
             background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
@@ -641,6 +698,100 @@
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
         }
 
+        .custom-button-item {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .custom-button-item:hover {
+            background: var(--bg-lighter);
+            border-color: var(--border-dark);
+        }
+
+        .custom-button-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .custom-button-name {
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .custom-button-meta {
+            font-size: 10px;
+            color: var(--text-medium);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .custom-button-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .icon-button.edit {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .icon-button.edit:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .icon-button.delete {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .icon-button.delete:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .edit-mode {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%) !important;
+            border: 2px solid #ffc107 !important;
+        }
+
+        #customButtonsList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #customButtonsList::-webkit-scrollbar-track {
+            background: var(--bg-light);
+            border-radius: 3px;
+        }
+
+        #customButtonsList::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3498db, #667eea);
+            border-radius: 3px;
+        }
+
         @media (max-width: 1400px) {
             .process-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -669,6 +820,9 @@
                 <h3 class="section-header">
                     <i class="fas fa-tasks"></i>
                     <span>İşlemler</span>
+                    <div class="add-button-trigger" onclick="app.showAddButtonModal()" title="Yeni Buton Ekle">
+                        <i class="fas fa-plus"></i>
+                    </div>
                 </h3>
                 
                 <div class="process-grid">
@@ -880,6 +1034,115 @@
         </div>
     </div>
 
+    <div id="drainModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-close" onclick="app.hideDrainModal()">&times;</span>
+            <h3 class="modal-title">
+                <i class="fas fa-syringe"></i>
+                <span>Dren Çekilmesi</span>
+            </h3>
+            <p class="modal-subtitle">
+                <i class="fas fa-info-circle"></i>
+                <span>Lütfen seçim yapınız</span>
+            </p>
+            <div class="option-grid" id="drainOptions">
+                <div class="option-item" data-value="Sağ" onclick="app.toggleDrainOption(this)">
+                    <i class="fas fa-arrow-right"></i> Sağ
+                    <i class="fas fa-check check-icon"></i>
+                </div>
+                <div class="option-item" data-value="Sol" onclick="app.toggleDrainOption(this)">
+                    <i class="fas fa-arrow-left"></i> Sol
+                    <i class="fas fa-check check-icon"></i>
+                </div>
+                <div class="option-item" data-value="İkisi" onclick="app.toggleDrainOption(this)">
+                    <i class="fas fa-arrows-alt-h"></i> İkisi
+                    <i class="fas fa-check check-icon"></i>
+                </div>
+            </div>
+            <div style="margin-top: 16px;">
+                <div class="option-item" id="drainBandageOption" onclick="app.toggleDrainBandage(this)">
+                    <i class="fas fa-compress-alt"></i> Baskılı Pansuman Yapılsın
+                    <i class="fas fa-check check-icon"></i>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 18px;">
+                <button class="action-button" onclick="app.confirmDrainSelection()">
+                    <i class="fas fa-check"></i> Onayla
+                </button>
+                <button class="action-button secondary" onclick="app.hideDrainModal()">
+                    <i class="fas fa-times"></i> İptal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="addButtonModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 600px;">
+            <span class="modal-close" onclick="app.hideAddButtonModal()">&times;</span>
+            <h3 class="modal-title">
+                <i class="fas fa-cog"></i>
+                <span>Buton Yönetimi</span>
+            </h3>
+            <p class="modal-subtitle">
+                <i class="fas fa-info-circle"></i>
+                <span>Mevcut butonları düzenleyin veya yeni buton ekleyin</span>
+            </p>
+            
+            <div style="margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 16px;">
+                <h4 style="font-size: 13px; font-weight: 800; margin-bottom: 12px; color: var(--text-dark);">
+                    <i class="fas fa-plus-circle"></i> Yeni Buton Ekle
+                </h4>
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; font-weight: 600; font-size: 11px; margin-bottom: 6px; color: var(--text-dark);">Kategori Seçiniz:</label>
+                    <select id="categorySelect" class="text-input" style="min-height: 40px;">
+                        <option value="">-- Kategori Seçiniz --</option>
+                        <option value="SÜTUR ALINMASI">SÜTUR ALINMASI</option>
+                        <option value="DREN İŞLEMLERİ">DREN İŞLEMLERİ</option>
+                        <option value="PANSUMAN TÜRLERİ">PANSUMAN TÜRLERİ</option>
+                        <option value="KREMLE PANSUMAN">KREMLE PANSUMAN</option>
+                        <option value="KONTROL & MUAYENE">KONTROL & MUAYENE</option>
+                        <option value="DİĞER İŞLEMLER">DİĞER İŞLEMLER</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; font-weight: 600; font-size: 11px; margin-bottom: 6px; color: var(--text-dark);">Buton Adı:</label>
+                    <input type="text" id="buttonNameInput" class="text-input" style="min-height: 40px;" placeholder="Örn: Yeni İşlem">
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; font-weight: 600; font-size: 11px; margin-bottom: 6px; color: var(--text-dark);">Sıra Numarası Prefixi:</label>
+                    <select id="prefixSelect" class="text-input" style="min-height: 40px;">
+                        <option value="310">310 - Hemşire İşlemleri</option>
+                        <option value="210">210 - Doktor İşlemleri</option>
+                        <option value="110">110 - Plastik Cerrahi (Günübirlik)</option>
+                        <option value="160">160 - Genel Cerrahi (Günübirlik)</option>
+                    </select>
+                </div>
+                <div style="text-align: center; margin-top: 12px;">
+                    <button class="action-button" onclick="app.confirmAddButton()">
+                        <i class="fas fa-plus"></i> Ekle
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <h4 style="font-size: 13px; font-weight: 800; margin-bottom: 12px; color: var(--text-dark);">
+                    <i class="fas fa-list"></i> Mevcut Özel Butonlar
+                </h4>
+                <div id="customButtonsList" style="max-height: 300px; overflow-y: auto;">
+                    <div style="text-align: center; padding: 20px; color: var(--text-medium); font-style: italic; font-size: 11px;">
+                        Henüz özel buton eklenmemiş
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 18px; padding-top: 16px; border-top: 2px solid var(--border);">
+                <button class="action-button secondary" onclick="app.hideAddButtonModal()">
+                    <i class="fas fa-times"></i> Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
@@ -891,6 +1154,10 @@
             customPrefix: '310',
             listener: null,
             clientId: 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            drainSide: '',
+            drainBandage: false,
+            customButtons: {},
+            editingButtonId: null,
 
             init() {
                 firebase.initializeApp({
@@ -905,6 +1172,7 @@
                 this.db = firebase.firestore();
                 this.showClinicModal();
                 this.setupListener();
+                this.loadCustomButtons();
             },
 
             getDateKey() {
@@ -1121,7 +1389,47 @@
             },
 
             showDrainModal() {
-                this.addProcess('Dren Çekilmesi');
+                if (!this.currentClinic) {
+                    alert('Lütfen önce poliklinik seçiniz!');
+                    this.showClinicModal();
+                    return;
+                }
+                this.drainSide = '';
+                this.drainBandage = false;
+                document.getElementById('drainBandage').checked = false;
+                document.querySelectorAll('#drainOptions .option-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.getElementById('drainModal').style.display = 'block';
+            },
+
+            hideDrainModal() {
+                document.getElementById('drainModal').style.display = 'none';
+                this.drainSide = '';
+                this.drainBandage = false;
+            },
+
+            toggleDrainOption(el) {
+                document.querySelectorAll('#drainOptions .option-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                el.classList.add('active');
+                this.drainSide = el.getAttribute('data-value');
+            },
+
+            confirmDrainSelection() {
+                if (!this.drainSide) {
+                    alert('Lütfen bir dren yönü seçiniz!');
+                    return;
+                }
+                
+                this.drainBandage = document.getElementById('drainBandage').checked;
+                let processName = `Dren Çekilmesi (${this.drainSide})`;
+                if (this.drainBandage) {
+                    processName += ' + Baskılı Pansuman';
+                }
+                this.addProcess(processName);
+                this.hideDrainModal();
             },
 
             showMeshModal() {
@@ -1211,6 +1519,234 @@
                 }
                 this.addProcess(text, this.customPrefix);
                 this.hideCustomModal();
+            },
+
+            async loadCustomButtons() {
+                try {
+                    const snapshot = await this.db.collection('customButtons').get();
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (!this.customButtons[data.category]) {
+                            this.customButtons[data.category] = [];
+                        }
+                        this.customButtons[data.category].push({
+                            id: doc.id,
+                            name: data.buttonName,
+                            prefix: data.prefix || '310'
+                        });
+                    });
+                    this.renderCustomButtons();
+                } catch (error) {
+                    console.error('Load custom buttons error:', error);
+                }
+            },
+
+            renderCustomButtons() {
+                const grid = document.querySelector('.process-grid');
+                
+                Object.keys(this.customButtons).forEach(category => {
+                    let card = Array.from(grid.querySelectorAll('.card-header')).find(el => 
+                        el.textContent === category
+                    )?.closest('.process-card');
+                    
+                    if (card) {
+                        const cardBody = card.querySelector('.card-body');
+                        this.customButtons[category].forEach(btn => {
+                            if (!cardBody.querySelector(`[data-button-id="${btn.id}"]`)) {
+                                const button = document.createElement('button');
+                                button.className = 'process-button';
+                                button.setAttribute('data-button-id', btn.id);
+                                button.textContent = btn.name;
+                                button.onclick = () => this.addProcess(btn.name, btn.prefix);
+                                cardBody.appendChild(button);
+                            }
+                        });
+                    }
+                });
+            },
+
+            showAddButtonModal() {
+                this.editingButtonId = null;
+                document.getElementById('categorySelect').value = '';
+                document.getElementById('buttonNameInput').value = '';
+                document.getElementById('prefixSelect').value = '310';
+                this.renderCustomButtonsList();
+                document.getElementById('addButtonModal').style.display = 'block';
+            },
+
+            hideAddButtonModal() {
+                document.getElementById('addButtonModal').style.display = 'none';
+                this.editingButtonId = null;
+                document.getElementById('categorySelect').value = '';
+                document.getElementById('buttonNameInput').value = '';
+                document.getElementById('prefixSelect').value = '310';
+            },
+
+            async confirmAddButton() {
+                const category = document.getElementById('categorySelect').value;
+                const buttonName = document.getElementById('buttonNameInput').value.trim();
+                const prefix = document.getElementById('prefixSelect').value;
+                
+                if (category === '' || buttonName === '') {
+                    alert('Lütfen tüm alanları doldurunuz!');
+                    return;
+                }
+
+                try {
+                    if (this.editingButtonId) {
+                        await this.db.collection('customButtons').doc(this.editingButtonId).update({
+                            category: category,
+                            buttonName: buttonName,
+                            prefix: prefix,
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            updatedBy: this.currentClinic
+                        });
+
+                        for (let cat in this.customButtons) {
+                            const index = this.customButtons[cat].findIndex(btn => btn.id === this.editingButtonId);
+                            if (index !== -1) {
+                                this.customButtons[cat].splice(index, 1);
+                                if (this.customButtons[cat].length === 0) {
+                                    delete this.customButtons[cat];
+                                }
+                                break;
+                            }
+                        }
+
+                        if (!this.customButtons[category]) {
+                            this.customButtons[category] = [];
+                        }
+                        this.customButtons[category].push({
+                            id: this.editingButtonId,
+                            name: buttonName,
+                            prefix: prefix
+                        });
+
+                        this.showToast('Buton başarıyla güncellendi!', 'success');
+                        this.editingButtonId = null;
+                    } else {
+                        const docRef = await this.db.collection('customButtons').add({
+                            category: category,
+                            buttonName: buttonName,
+                            prefix: prefix,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            createdBy: this.currentClinic
+                        });
+
+                        if (!this.customButtons[category]) {
+                            this.customButtons[category] = [];
+                        }
+                        this.customButtons[category].push({
+                            id: docRef.id,
+                            name: buttonName,
+                            prefix: prefix
+                        });
+
+                        this.showToast('Buton başarıyla eklendi!', 'success');
+                    }
+
+                    this.renderCustomButtons();
+                    this.renderCustomButtonsList();
+                    
+                    document.getElementById('categorySelect').value = '';
+                    document.getElementById('buttonNameInput').value = '';
+                    document.getElementById('prefixSelect').value = '310';
+                    
+                } catch (error) {
+                    console.error('Button operation error:', error);
+                    this.showToast('İşlem sırasında hata oluştu!', 'error');
+                }
+            },
+
+            renderCustomButtonsList() {
+                const container = document.getElementById('customButtonsList');
+                let html = '';
+                let hasButtons = false;
+
+                const categories = ['SÜTUR ALINMASI', 'DREN İŞLEMLERİ', 'PANSUMAN TÜRLERİ', 'KREMLE PANSUMAN', 'KONTROL & MUAYENE', 'DİĞER İŞLEMLER'];
+                
+                categories.forEach(category => {
+                    if (this.customButtons[category] && this.customButtons[category].length > 0) {
+                        hasButtons = true;
+                        html += `<div style="margin-bottom: 16px;">
+                            <div style="font-weight: 800; font-size: 11px; color: var(--text-dark); margin-bottom: 8px; padding: 6px 8px; background: var(--bg-lighter); border-radius: 6px;">
+                                ${category}
+                            </div>`;
+                        
+                        this.customButtons[category].forEach(btn => {
+                            const prefixLabel = btn.prefix === '310' ? '310-Hemşire' : 
+                                              btn.prefix === '210' ? '210-Doktor' : 
+                                              btn.prefix === '110' ? '110-Plastik' : '160-Genel';
+                            const editClass = this.editingButtonId === btn.id ? 'edit-mode' : '';
+                            
+                            html += `
+                                <div class="custom-button-item ${editClass}">
+                                    <div class="custom-button-info">
+                                        <div class="custom-button-name">${btn.name}</div>
+                                        <div class="custom-button-meta">
+                                            <span><i class="fas fa-tag"></i> ${prefixLabel}</span>
+                                        </div>
+                                    </div>
+                                    <div class="custom-button-actions">
+                                        <button class="icon-button edit" onclick="app.editCustomButton('${btn.id}', '${category}', '${btn.name.replace(/'/g, "\\'")}', '${btn.prefix}')" title="Düzenle">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="icon-button delete" onclick="app.deleteCustomButton('${btn.id}', '${category}')" title="Sil">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                    }
+                });
+
+                if (!hasButtons) {
+                    html = `<div style="text-align: center; padding: 20px; color: var(--text-medium); font-style: italic; font-size: 11px;">
+                        Henüz özel buton eklenmemiş
+                    </div>`;
+                }
+
+                container.innerHTML = html;
+            },
+
+            editCustomButton(id, category, name, prefix) {
+                this.editingButtonId = id;
+                document.getElementById('categorySelect').value = category;
+                document.getElementById('buttonNameInput').value = name;
+                document.getElementById('prefixSelect').value = prefix;
+                this.renderCustomButtonsList();
+                
+                document.querySelector('#addButtonModal .modal-box').scrollTop = 0;
+            },
+
+            async deleteCustomButton(id, category) {
+                if (!confirm('Bu butonu silmek istediğinizden emin misiniz?')) {
+                    return;
+                }
+
+                try {
+                    await this.db.collection('customButtons').doc(id).delete();
+
+                    if (this.customButtons[category]) {
+                        this.customButtons[category] = this.customButtons[category].filter(btn => btn.id !== id);
+                        if (this.customButtons[category].length === 0) {
+                            delete this.customButtons[category];
+                        }
+                    }
+
+                    const buttonElement = document.querySelector(`[data-button-id="${id}"]`);
+                    if (buttonElement) {
+                        buttonElement.remove();
+                    }
+
+                    this.renderCustomButtonsList();
+                    this.showToast('Buton başarıyla silindi!', 'success');
+                } catch (error) {
+                    console.error('Delete button error:', error);
+                    this.showToast('Buton silinirken hata oluştu!', 'error');
+                }
             }
         };
 
@@ -1218,6 +1754,8 @@
             if (e.target.id === 'clinicModal') app.hideClinicModal();
             if (e.target.id === 'meshModal') app.hideMeshModal();
             if (e.target.id === 'customModal') app.hideCustomModal();
+            if (e.target.id === 'drainModal') app.hideDrainModal();
+            if (e.target.id === 'addButtonModal') app.hideAddButtonModal();
         };
 
         document.addEventListener('keydown', (e) => {
@@ -1229,6 +1767,8 @@
                 app.hideClinicModal();
                 app.hideMeshModal();
                 app.hideCustomModal();
+                app.hideDrainModal();
+                app.hideAddButtonModal();
             }
         });
 

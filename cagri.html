@@ -234,6 +234,29 @@
             flex-shrink: 0;
         }
 
+        .patient-name-input {
+            flex: 1;
+            padding: 6px 10px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition-normal);
+            background: white;
+            color: var(--text-primary);
+        }
+
+        .patient-name-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .patient-name-input::placeholder {
+            color: #bdc3c7;
+            font-weight: 400;
+        }
+
         .record-card.range-100 .record-number { background: #3498db; }
         .record-card.range-200 .record-number { background: #f39c12; }
         .record-card.range-300 .record-number { background: #e74c3c; }
@@ -478,6 +501,41 @@
             transform: translateY(-1px);
         }
 
+        .status-filter {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px;
+            border-radius: var(--border-radius-md);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .status-filter-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-filter-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        .status-filter-btn.active {
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            border-color: rgba(255,255,255,0.9);
+        }
+
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: repeat(2, 1fr);
@@ -705,7 +763,6 @@
                 '300': document.getElementById('records-300')
             };
 
-            // Tarihe göre filtrele
             let filteredRecords = records;
             if (selectedDate) {
                 filteredRecords = records.filter(rec => {
@@ -766,6 +823,14 @@
                 <div class="${cardClass}" data-id="${rec.id}">
                     <div class="record-header">
                         <div class="record-number">${seqOnly}</div>
+                        <input 
+                            type="text" 
+                            class="patient-name-input" 
+                            placeholder="Hasta adı..." 
+                            value="${rec.patientName || ''}"
+                            onchange="updatePatientName('${rec.id}', this.value)"
+                            onclick="event.stopPropagation()"
+                        >
                         <div class="record-actions">
                             <button class="action-btn edit" onclick="editRecord('${rec.id}')">
                                 <i class="fas fa-edit"></i>
@@ -805,6 +870,52 @@
             }
         }
 
+        function updatePatientName(recordId, patientName) {
+            // Önce local storage'a kaydet
+            const localData = {
+                recordId: recordId,
+                patientName: patientName,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Local kayıtları al
+            let localRecords = [];
+            try {
+                const stored = window.localStorage.getItem('patientNames');
+                if (stored) {
+                    localRecords = JSON.parse(stored);
+                }
+            } catch (e) {
+                console.log('Local storage okuma hatası:', e);
+            }
+            
+            // Mevcut kaydı güncelle veya yeni ekle
+            const existingIndex = localRecords.findIndex(r => r.recordId === recordId);
+            if (existingIndex >= 0) {
+                localRecords[existingIndex] = localData;
+            } else {
+                localRecords.push(localData);
+            }
+            
+            // Local storage'a kaydet
+            try {
+                window.localStorage.setItem('patientNames', JSON.stringify(localRecords));
+                console.log('Hasta adı local storage\'a kaydedildi:', patientName);
+            } catch (e) {
+                console.log('Local storage yazma hatası:', e);
+            }
+            
+            // Firestore'a da kaydet
+            db.collection('processes').doc(recordId).update({
+                patientName: patientName,
+                patientNameUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                console.log('Hasta adı Firestore\'a kaydedildi:', patientName);
+            }).catch(error => {
+                console.error('Firestore kaydetme hatası:', error);
+            });
+        }
+
         function resetCallStatus(recId) {
             if (confirm('Bu hastanın durumunu sıfırlamak istediğinizden emin misiniz? Hasta tekrar çağrılabilir hale gelecek.')) {
                 db.collection('processes').doc(recId).update({
@@ -820,19 +931,16 @@
 
         function clearCurrentCall() {
             if (currentCallSequence) {
-                // Mevcut çağrılan hastanın kaydını bul
                 const currentRecord = allRecords.find(rec => {
                     const seqOnly = rec.sequenceNumber.split('-')[1] || rec.sequenceNumber;
                     return seqOnly === currentCallSequence;
                 });
 
-                // Çağrıyı durdur ve hastanın durumunu sıfırla
                 const promises = [
                     db.collection('hastapanel').doc('hastapanel')
                         .set({ cagrisirasi: null, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true })
                 ];
 
-                // Eğer kayıt bulunduysa, onun da isCalled durumunu false yap
                 if (currentRecord && currentRecord.id) {
                     promises.push(
                         db.collection('processes').doc(currentRecord.id).update({

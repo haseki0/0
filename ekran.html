@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasta Çağrı Ekranı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: particleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(30px, -30px); }
+            66% { transform: translate(-20px, 20px); }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 10px;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .top-section {
+            height: 80vh;
+            display: flex;
+            gap: 10px;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .top-section.expanded .call-display {
+            width: 100%;
+        }
+
+        .top-section.expanded .messages-display {
+            width: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .call-display {
+            width: 33.33%;
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .call-display.range-100 {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .call-display.range-200 {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .call-display.range-300 {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .call-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .call-display::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.15) rotate(5deg); opacity: 0.9; }
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            50%, 100% { left: 200%; }
+        }
+
+        .call-number {
+            font-size: 16vw;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 40px rgba(255,255,255,0.3);
+            z-index: 1;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .call-number::before {
+            content: attr(data-number);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            opacity: 0;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.6; }
+        }
+
+        .call-number.blink {
+            animation: smoothPulse 1.5s ease-in-out;
+        }
+
+        @keyframes smoothPulse {
+            0% { 
+                opacity: 1;
+                transform: scale(1);
+                text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 40px rgba(255,255,255,0.3);
+            }
+            20% { 
+                opacity: 0.3;
+                transform: scale(0.95);
+                text-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.2);
+            }
+            40% { 
+                opacity: 1;
+                transform: scale(1.15);
+                text-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 60px rgba(255,255,255,0.7);
+            }
+            60% { 
+                opacity: 0.4;
+                transform: scale(0.98);
+                text-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.3);
+            }
+            80% { 
+                opacity: 1;
+                transform: scale(1.1);
+                text-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 50px rgba(255,255,255,0.6);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1);
+                text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 40px rgba(255,255,255,0.3);
+            }
+        }
+
+        .no-call {
+            font-size: 6vw;
+            color: rgba(255,255,255,0.7);
+            animation: breathe 2s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .messages-display {
+            width: 66.67%;
+            background: #ffffff;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+            padding: 40px;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .messages-display::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/2c/Logo_of_Ministry_of_Health_%28Turkey%29.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            z-index: 0;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.02);
+            }
+        }
+
+        .messages-display::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 15px;
+            padding: 3px;
+            background: linear-gradient(45deg, transparent, rgba(231, 76, 60, 0.3), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateBorder 3s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message-text {
+            font-size: 4vw;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.4;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            letter-spacing: 0.5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            animation: fadeInSlide 1s ease-in-out;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeInSlide {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+                filter: blur(5px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .bottom-section {
+            height: 20vh;
+            display: flex;
+            gap: 10px;
+        }
+
+        .queue-column {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+            animation-fill-mode: backwards;
+        }
+
+        .queue-column:nth-child(1) { animation-delay: 0.1s; }
+        .queue-column:nth-child(2) { animation-delay: 0.2s; }
+        .queue-column:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .queue-header {
+            padding: 20px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.4vw;
+            color: white;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .queue-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: headerShine 4s ease-in-out infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            50%, 100% { left: 200%; }
+        }
+
+        .queue-header.surgery {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .queue-header.checkup {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .queue-header.dressing {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .queue-numbers {
+            flex: 1;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+            gap: 8px;
+            align-content: center;
+            position: relative;
+        }
+
+        .queue-numbers.single-item {
+            grid-template-columns: 1fr;
+        }
+
+        .doctor-waiting {
+            font-size: 1.8vw;
+            color: #e74c3c;
+            font-weight: 900;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: blink 1.5s ease-in-out infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .queue-number {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 3vw;
+            color: #1a1a1a;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            border: 3px solid #e0e0e0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: popIn 0.5s ease-out;
+            letter-spacing: 2px;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .queue-number::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .queue-number:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .queue-number:hover::before {
+            opacity: 1;
+            animation: ripple 0.8s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .page-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.8vw;
+            color: #7f8c8d;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .no-numbers {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #95a5a6;
+            font-style: italic;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .queue-numbers.transitioning {
+            animation: pageFlip 0.5s ease-in-out;
+        }
+
+        @keyframes pageFlip {
+            0% {
+                opacity: 1;
+                transform: rotateY(0deg);
+            }
+            50% {
+                opacity: 0.5;
+                transform: rotateY(90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: rotateY(0deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-section">
+            <div class="call-display">
+                <div class="call-number" id="currentCallNumber">-</div>
+            </div>
+            <div class="messages-display">
+                <div class="message-text" id="messageText"></div>
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="queue-column">
+                <div class="queue-header surgery">LOKAL AMELİYAT SIRASI</div>
+                <div class="queue-numbers" id="queue100"></div>
+            </div>
+            <div class="queue-column">
+                <div class="queue-header checkup">KONTROL VE MUAYENE SIRASI</div>
+                <div class="queue-numbers" id="queue200"></div>
+            </div>
+            <div class="queue-column">
+                <div class="queue-header dressing">DİKİŞ VE PANSUMAN SIRASI</div>
+                <div class="queue-numbers" id="queue300"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const screenWidth = window.screen.width;
+            const screenHeight = window.screen.height;
+            window.moveTo(screenWidth, 0);
+            window.resizeTo(screenWidth, screenHeight);
+            
+            setTimeout(function() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                }
+            }, 2000);
+        });
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBoiZFdN-elWsn0LEeT-YdZnOcrbYCrCeI",
+            authDomain: "yeniboard-af11c.firebaseapp.com",
+            projectId: "yeniboard-af11c",
+            storageBucket: "yeniboard-af11c.firebasestorage.app",
+            messagingSenderId: "661813442383",
+            appId: "1:661813442383:web:f2fccb4dca2e9788cc373a",
+            measurementId: "G-SCNPPSJ12W"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const messages = [
+            "DOKTORA GÖZMEDEN DİKİŞ VE PANSUMAN İŞLEMLERİ YAPILMAMAKTADIR.",
+            "HASTALAR ÖNCELİK VE SIRA NUMARASINA GÖRE ÇAĞRILMAKTADIR.",
+            "1. ÖNCELİKLİ HASTALAR AMELİYAT YAPILACAK HASTALARDIR. DOKTORLARI GELDİĞİNDE ÇAĞRILACAKTIR.",
+            "2. ÖNCELİKLİ HASTALAR KONTROL VE MUAYENE HASTALARIDIR. DOKTORLARI GELDİĞİNDE ÇAĞRILACAKTIR.",
+            "3. ÖNCELİKLİ HASTALAR DİKİŞ VE PANSUMAN HASTALARIDIR. HEMŞİRELER TARAFINDAN ÇAĞRILACAKTIR.",
+            "ÇAĞRILMADIKÇA İÇERİ GİRMEYİNİZ. HASTALAR ODA MÜSAİT OLDUKÇA UYGUNLUĞA VE ÖNCELİĞE GÖRE ÇAĞRILACAKTIR",
+            "SIRA NUMARANIZI TAKİP ETMENİZİ ÖNEMLE RİCA EDERİZ. "
+        ];
+
+        let currentMessageIndex = 0;
+        let queuePages = {
+            '100': { current: 0, total: 0, numbers: [] },
+            '200': { current: 0, total: 0, numbers: [] },
+            '300': { current: 0, total: 0, numbers: [] }
+        };
+
+        function rotateMessages() {
+            const messageElement = document.getElementById('messageText');
+            messageElement.style.opacity = '0';
+            messageElement.style.transform = 'translateY(30px) scale(0.95)';
+            messageElement.style.filter = 'blur(5px)';
+            
+            setTimeout(() => {
+                messageElement.textContent = messages[currentMessageIndex];
+                messageElement.style.opacity = '1';
+                messageElement.style.transform = 'translateY(0) scale(1)';
+                messageElement.style.filter = 'blur(0)';
+                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+            }, 500);
+        }
+
+        function rotateQueuePages() {
+            ['100', '200', '300'].forEach(range => {
+                const pageData = queuePages[range];
+                if (pageData.total > 0) {
+                    const container = document.getElementById(`queue${range}`);
+                    container.classList.add('transitioning');
+                    
+                    setTimeout(() => {
+                        pageData.current = (pageData.current + 1) % pageData.total;
+                        displayQueuePage(range);
+                        container.classList.remove('transitioning');
+                    }, 250);
+                }
+            });
+        }
+
+        rotateMessages();
+        setInterval(rotateMessages, 5000);
+        setInterval(rotateQueuePages, 5000);
+
+        function getCurrentDateKey() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).slice(-2);
+            return `${day}.${month}.${year}`;
+        }
+
+        function getRange(sequenceNumber) {
+            const parts = sequenceNumber.split('-');
+            const number = parseInt(parts[1] || sequenceNumber);
+            
+            console.log('Checking number:', number, 'from sequence:', sequenceNumber);
+            
+            if (number >= 100 && number <= 199) return '100';
+            if (number >= 200 && number <= 299) return '200';
+            if (number >= 300 && number <= 599) return '300';
+            return null;
+        }
+
+        let lastCallNumber = null;
+
+        function loadCurrentCall() {
+            db.collection('hastapanel').doc('hastapanel')
+                .onSnapshot((doc) => {
+                    const callElement = document.getElementById('currentCallNumber');
+                    const callDisplay = document.querySelector('.call-display');
+                    const topSection = document.querySelector('.top-section');
+                    
+                    if (doc.exists && doc.data().cagrisirasi) {
+                        const newCallNumber = doc.data().cagrisirasi;
+                        const range = getRange(newCallNumber);
+                        
+                        callDisplay.classList.remove('range-100', 'range-200', 'range-300');
+                        
+                        if (range) {
+                            callDisplay.classList.add(`range-${range}`);
+                        }
+                        
+                        if (newCallNumber !== lastCallNumber && lastCallNumber !== null) {
+                            topSection.classList.add('expanded');
+                            callElement.textContent = newCallNumber;
+                            callElement.setAttribute('data-number', newCallNumber);
+                            callElement.classList.remove('no-call');
+                            callElement.classList.add('blink');
+                            
+                            setTimeout(() => {
+                                topSection.classList.remove('expanded');
+                                callElement.classList.remove('blink');
+                            }, 4500);
+                        } else {
+                            callElement.textContent = newCallNumber;
+                            callElement.setAttribute('data-number', newCallNumber);
+                            callElement.classList.remove('no-call');
+                        }
+                        
+                        lastCallNumber = newCallNumber;
+                    } else {
+                        callElement.textContent = '-';
+                        callElement.classList.add('no-call');
+                        callDisplay.classList.remove('range-100', 'range-200', 'range-300');
+                        lastCallNumber = null;
+                    }
+                });
+        }
+
+        function loadQueueNumbers() {
+            const today = getCurrentDateKey();
+            console.log('Bugünün tarih anahtarı:', today);
+            
+            db.collection('processes')
+                .orderBy('timestamp', 'desc')
+                .limit(100)
+                .onSnapshot((snapshot) => {
+                    console.log('Toplam kayıt sayısı:', snapshot.size);
+                    
+                    const queues = {
+                        '100': [],
+                        '200': [],
+                        '300': []
+                    };
+
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        console.log('Kayıt:', data.sequenceNumber, 'dateKey:', data.dateKey, 'isCalled:', data.isCalled);
+                        
+                        if (data.sequenceNumber && data.sequenceNumber.startsWith(today) && !data.isCalled) {
+                            const range = getRange(data.sequenceNumber);
+                            if (range && queues[range]) {
+                                const sequenceOnly = data.sequenceNumber.split('-')[1] || data.sequenceNumber;
+                                queues[range].push({
+                                    number: sequenceOnly,
+                                    isCalled: false
+                                });
+                            }
+                        }
+                    });
+
+                    ['100', '200', '300'].forEach(range => {
+                        queues[range].sort((a, b) => parseInt(a.number) - parseInt(b.number));
+                    });
+
+                    console.log('Queue 100:', queues['100'].length);
+                    console.log('Queue 200:', queues['200'].length);
+                    console.log('Queue 300:', queues['300'].length);
+
+                    ['100', '200', '300'].forEach(range => {
+                        const numbers = queues[range];
+                        queuePages[range].numbers = numbers;
+                        const itemsPerPage = (range === '100' || range === '200') ? 1 : 2;
+                        queuePages[range].total = Math.ceil(numbers.length / itemsPerPage);
+                        queuePages[range].current = 0;
+                    });
+
+                    displayQueuePage('100');
+                    displayQueuePage('200');
+                    displayQueuePage('300');
+                });
+        }
+
+        function displayQueuePage(range) {
+            const container = document.getElementById(`queue${range}`);
+            const pageData = queuePages[range];
+            const numbers = pageData.numbers;
+
+            if (numbers.length === 0) {
+                container.innerHTML = '<div class="no-numbers">Sıra yok</div>';
+                container.classList.remove('single-item');
+                return;
+            }
+
+            let displayCount = 2;
+            if (range === '100' || range === '200') {
+                displayCount = 1;
+                container.classList.add('single-item');
+            } else {
+                container.classList.remove('single-item');
+            }
+
+            const startIndex = pageData.current * displayCount;
+            const endIndex = Math.min(startIndex + displayCount, numbers.length);
+            const pageNumbers = numbers.slice(startIndex, endIndex);
+
+            let html = pageNumbers.map(item => {
+                let content = `<div class="queue-number">${item.number}`;
+                if (range === '100' || range === '200') {
+                    content += '<div class="doctor-waiting">DOKTOR BEKLENİYOR</div>';
+                }
+                content += '</div>';
+                return content;
+            }).join('');
+
+            if (displayCount === 2 && pageNumbers.length === 1) {
+                html += '<div class="queue-number" style="opacity: 0;"></div>';
+            }
+
+            if (pageData.total > 1) {
+                html += `<div class="page-indicator">${pageData.current + 1}/${pageData.total}</div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCurrentCall();
+            loadQueueNumbers();
+        });
+    </script>
+</body>
+</html>

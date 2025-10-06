@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poliklinik İşlem Takip Sistemi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,19 +15,20 @@
             --gradient-success: linear-gradient(135deg, #27ae60, #229954);
             --gradient-danger: linear-gradient(135deg, #e74c3c, #c0392b);
             --gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-orange: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --bg-main: #ffffff;
-            --bg-light: #f7f9fc;
-            --bg-lighter: #eef2f7;
+            --bg-light: #f8f9fc;
+            --bg-lighter: #eef3f8;
             --text-dark: #1a202c;
-            --text-medium: #718096;
-            --text-light: #a0aec0;
+            --text-medium: #64748b;
+            --text-light: #94a3b8;
             --border: #e2e8f0;
             --border-dark: #cbd5e0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12);
-            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.15);
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 3px 9px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 20px rgba(0,0,0,0.08);
+            --shadow-xl: 0 16px 32px rgba(0,0,0,0.1);
+            --shadow-2xl: 0 20px 40px rgba(0,0,0,0.12);
         }
 
         body {
@@ -35,6 +36,8 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            font-size: 14px;
         }
 
         .app-container {
@@ -43,44 +46,44 @@
             background: var(--bg-main);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 60px rgba(0,0,0,0.1);
         }
 
         .main-layout {
             display: flex;
             flex-direction: column;
             flex: 1;
-            height: calc(100vh - 20px);
+            height: 100vh;
+            overflow: hidden;
         }
 
         .processes-section {
-            padding: 22px;
-            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            border-bottom: 2px solid var(--border);
             background: var(--bg-light);
             overflow-y: auto;
             position: relative;
-            height: 75vh;
+            height: 70vh;
         }
 
         .records-section {
-            padding: 22px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
             background: var(--bg-main);
-            height: 25vh;
+            height: 30vh;
             overflow: hidden;
         }
 
         .section-header {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 18px;
+            font-weight: 900;
             color: var(--text-dark);
-            margin-bottom: 22px;
-            padding-bottom: 13px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
             position: relative;
-            background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .section-header::after {
@@ -88,39 +91,49 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 72px;
+            width: 60px;
             height: 3px;
             background: linear-gradient(90deg, #3498db 0%, #667eea 100%);
             border-radius: 2px;
         }
 
         .section-header i {
-            margin-right: 11px;
+            font-size: 18px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .process-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 16px;
-            height: auto;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            padding-bottom: 16px;
         }
 
-        .process-column {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        @media (min-width: 1366px) {
+            .process-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        @media (min-width: 1920px) {
+            .process-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 14px;
+            }
         }
 
         .process-card {
             background: var(--bg-main);
-            border-radius: 14px;
+            border-radius: 12px;
             box-shadow: var(--shadow-md);
             display: flex;
             flex-direction: column;
-            height: fit-content;
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
+            height: fit-content;
         }
 
         .process-card:hover {
@@ -129,50 +142,40 @@
         }
 
         .card-header {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 900;
             color: var(--text-dark);
-            padding: 16px;
+            padding: 12px 14px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             text-align: center;
-            letter-spacing: 1px;
-            border-bottom: 2px solid var(--border);
+            letter-spacing: 0.8px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, #3498db, #667eea) 1;
             text-transform: uppercase;
-            position: relative;
-        }
-
-        .card-header::before {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 36px;
-            height: 2px;
-            background: linear-gradient(90deg, #3498db, #667eea);
         }
 
         .card-body {
-            padding: 16px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .process-button {
-            padding: 5px 9px;
-            margin: 3px 0;
-            background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
+            padding: 8px 10px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            border-radius: 5px;
+            border-radius: 8px;
+            border: none;
             border-left: 3px solid #3498db;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-            line-height: 1.3;
-            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 11px;
+            font-weight: 700;
+            text-align: left;
             position: relative;
             overflow: hidden;
-            border: none;
             width: 100%;
-            text-align: left;
         }
 
         .process-button::before {
@@ -182,8 +185,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s;
         }
 
         .process-button:hover::before {
@@ -192,25 +195,29 @@
 
         .process-button:hover {
             background: linear-gradient(135deg, #3498db 0%, #667eea 100%);
-            transform: translateX(8px) scale(1.02);
+            transform: translateX(4px);
             border-left-color: #fff;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .process-button:active {
+            transform: translateX(4px) scale(0.98);
         }
 
         .clinic-toggle {
             position: fixed;
-            bottom: 22px;
-            right: 22px;
-            width: 50px;
-            height: 50px;
+            bottom: 16px;
+            right: 16px;
+            width: 48px;
+            height: 48px;
             background: var(--gradient-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             color: white;
             font-size: 18px;
             border: 3px solid white;
@@ -218,7 +225,7 @@
         }
 
         .clinic-toggle:hover {
-            transform: translateY(-4px) rotate(360deg);
+            transform: translateY(-4px) rotate(180deg);
             box-shadow: var(--shadow-2xl);
         }
 
@@ -226,10 +233,9 @@
             flex: 1;
             overflow-x: auto;
             overflow-y: hidden;
-            max-height: 100%;
-            padding-bottom: 12px;
             display: flex;
-            gap: 13px;
+            gap: 12px;
+            padding-bottom: 12px;
         }
 
         .records-container::-webkit-scrollbar {
@@ -242,48 +248,32 @@
         }
 
         .records-container::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #3498db, #667eea);
+            background: linear-gradient(90deg, #3498db, #667eea);
             border-radius: 4px;
         }
 
         .record-card {
             background: var(--bg-main);
-            border-radius: 8px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 12px;
             border-left: 4px solid #27ae60;
             box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid var(--border);
-            position: relative;
-            min-width: 22.5%;
-            max-width: 22.5%;
+            min-width: 240px;
+            max-width: 240px;
             flex-shrink: 0;
         }
 
-        .record-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #27ae60, #11998e);
-        }
-
         .record-card:hover {
-            transform: translateY(-3px) translateX(2px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
         }
 
         .record-card.highlighted {
-            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
             border-left: 4px solid #ff9800;
-            box-shadow: 0 5px 18px rgba(255, 152, 0, 0.25);
-            border: 2px solid #ffa726;
-        }
-
-        .record-card.highlighted::before {
-            background: linear-gradient(180deg, #ff9800, #f57c00);
+            box-shadow: 0 5px 16px rgba(255, 152, 0, 0.3);
         }
 
         .record-top {
@@ -291,17 +281,17 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 10px;
-            gap: 12px;
+            gap: 10px;
         }
 
         .sequence-badge {
             background: var(--gradient-danger);
             color: white;
-            padding: 10px 16px;
-            border-radius: 5px;
-            font-size: 15px;
-            font-weight: 800;
-            min-width: 53px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 900;
+            min-width: 48px;
             text-align: center;
             box-shadow: var(--shadow-md);
             flex-shrink: 0;
@@ -315,28 +305,20 @@
         .record-timestamp {
             font-size: 10px;
             color: var(--text-medium);
-            margin-bottom: 4px;
-            font-weight: 500;
+            margin-bottom: 5px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-        }
-
-        .record-timestamp i {
-            margin-right: 6px;
-            color: #3498db;
+            gap: 5px;
         }
 
         .record-clinic {
-            font-weight: 600;
+            font-weight: 800;
             color: var(--text-dark);
             font-size: 11px;
             display: flex;
             align-items: center;
-        }
-
-        .record-clinic i {
-            margin-right: 6px;
-            color: #667eea;
+            gap: 5px;
         }
 
         .record-description {
@@ -344,10 +326,10 @@
             font-size: 11px;
             line-height: 1.5;
             background: var(--bg-light);
-            padding: 10px 12px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 6px;
             border-left: 3px solid #3498db;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .modal-overlay {
@@ -358,7 +340,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.65);
+            background-color: rgba(0,0,0,0.7);
             backdrop-filter: blur(8px);
             animation: fadeIn 0.3s ease;
         }
@@ -370,62 +352,83 @@
 
         .modal-box {
             background: var(--bg-main);
-            margin: 6% auto;
-            padding: 36px;
+            margin: 4% auto;
+            padding: 28px 32px;
             border-radius: 16px;
             width: 90%;
-            max-width: 486px;
+            max-width: 420px;
             box-shadow: var(--shadow-2xl);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(32px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
         .modal-close {
             color: var(--text-light);
             float: right;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 300;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin: -15px -15px 0 0;
-            padding: 10px;
+            transition: all 0.3s ease;
+            margin: -14px -14px 0 0;
+            padding: 8px;
             line-height: 1;
         }
 
         .modal-close:hover {
             color: var(--text-dark);
-            transform: rotate(90deg);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .modal-title {
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-subtitle {
+            margin-bottom: 18px;
+            color: var(--text-medium);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
         }
 
         .option-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 11px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .option-item {
-            padding: 16px 18px;
+            padding: 12px 16px;
             background: var(--bg-light);
             border: 2px solid var(--border);
-            border-radius: 9px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             font-weight: 600;
             position: relative;
             color: var(--text-dark);
+            font-size: 11px;
         }
 
         .option-item:hover {
@@ -439,15 +442,15 @@
             background: var(--gradient-success);
             color: white;
             border-color: #27ae60;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
         }
 
         .check-icon {
             position: absolute;
-            right: 16px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 16px;
             color: white;
             display: none;
         }
@@ -460,20 +463,24 @@
             background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
             border: none;
-            padding: 13px 25px;
-            border-radius: 9px;
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 4px;
             font-family: inherit;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
         }
 
         .action-button:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .action-button:active {
+            transform: translateY(-1px);
         }
 
         .action-button.secondary {
@@ -484,35 +491,37 @@
             text-align: center;
             color: var(--text-medium);
             font-style: italic;
-            padding: 57px 20px;
+            padding: 48px 20px;
             background: var(--bg-light);
-            border-radius: 13px;
+            border-radius: 12px;
             border: 2px dashed var(--border-dark);
-            min-width: 22.5%;
+            min-width: 240px;
             flex-shrink: 0;
+            font-size: 11px;
         }
 
         .empty-state i {
-            font-size: 45px;
-            margin-bottom: 16px;
+            font-size: 40px;
+            margin-bottom: 14px;
             color: var(--text-light);
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         .toast {
             position: fixed;
-            top: 25px;
-            right: 25px;
-            padding: 16px 25px;
-            border-radius: 9px;
+            top: 20px;
+            right: 20px;
+            padding: 14px 22px;
+            border-radius: 10px;
             z-index: 1001;
-            box-shadow: var(--shadow-xl);
-            max-width: 324px;
-            font-weight: 600;
+            box-shadow: var(--shadow-2xl);
+            max-width: 300px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 10px;
             animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 11px;
         }
 
         @keyframes slideInRight {
@@ -541,15 +550,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: var(--gradient-secondary);
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            padding: 38px 49px;
+            padding: 32px 44px;
             border-radius: 16px;
             z-index: 1002;
             box-shadow: var(--shadow-2xl);
             text-align: center;
-            min-width: 324px;
-            max-width: 576px;
+            min-width: 280px;
+            max-width: 480px;
             border: 3px solid rgba(255,255,255,0.1);
             animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
@@ -557,38 +566,39 @@
         @keyframes popIn {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
+                transform: translate(-50%, -50%) scale(0.5) rotate(-10deg);
             }
             100% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
             }
         }
 
         .sequence-display {
-            font-size: 56px;
+            font-size: 48px;
             font-weight: 900;
             background: linear-gradient(135deg, #e74c3c, #ff6b6b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             letter-spacing: 2px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.2);
         }
 
         .info-panel {
-            margin-top: 25px;
-            padding-top: 22px;
+            margin-top: 20px;
+            padding-top: 18px;
             border-top: 2px solid rgba(255,255,255,0.2);
             text-align: left;
-            font-size: 12px;
+            font-size: 10px;
             line-height: 1.7;
         }
 
         .info-panel h4 {
-            font-size: 14px;
-            margin-bottom: 13px;
+            font-size: 12px;
+            margin-bottom: 10px;
             color: #ffd700;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .info-panel ul {
@@ -597,45 +607,47 @@
         }
 
         .info-panel li {
-            padding: 7px 0;
-            font-weight: 500;
+            padding: 6px 0;
+            font-weight: 600;
         }
 
         .info-panel .highlight {
             color: #ffd700;
-            font-weight: 800;
-            margin-right: 9px;
-            font-size: 13px;
+            font-weight: 900;
+            margin-right: 8px;
+            font-size: 11px;
+        }
+
+        .info-panel p {
+            font-size: 10px;
+            line-height: 1.6;
         }
 
         .text-input {
             width: 100%;
-            min-height: 108px;
-            padding: 11px;
+            min-height: 96px;
+            padding: 10px;
             border: 2px solid var(--border);
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: inherit;
-            font-size: 13px;
+            font-size: 11px;
             resize: vertical;
+            transition: all 0.3s ease;
         }
 
-        @media (max-width: 1600px) {
-            .process-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+        .text-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 1400px) {
             .process-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .process-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
             .processes-section {
                 height: 60vh;
             }
@@ -643,19 +655,9 @@
             .records-section {
                 height: 40vh;
             }
-        }
 
-        @media (max-width: 480px) {
             .process-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .processes-section {
-                height: 50vh;
-            }
-
-            .records-section {
-                height: 50vh;
             }
         }
     </style>
@@ -664,100 +666,92 @@
     <div class="app-container">
         <div class="main-layout">
             <div class="processes-section">
-                <h3 class="section-header"><i class="fas fa-tasks"></i>İşlemler</h3>
+                <h3 class="section-header">
+                    <i class="fas fa-tasks"></i>
+                    <span>İşlemler</span>
+                </h3>
                 
                 <div class="process-grid">
-                    <div class="process-column">
-                        <div class="process-card">
-                            <div class="card-header">SÜTUR ALINMASI</div>
-                            <div class="card-body">
-                                <button class="process-button" onclick="app.addProcess('Tüm Süturların Alınması')">Tüm Süturların Alınması</button>
-                                <button class="process-button" onclick="app.addProcess('Atlanarak Sütur Alınması')">Atlanarak Sütur Alınması</button>
-                                <button class="process-button" onclick="app.addProcess('İşaretli Süturların Alınması')">İşaretli Süturların Alınması</button>
-                                <button class="process-button" onclick="app.addProcess('İşaretli Süturlar Dışında Süturlar Alınması')">İşaretli Süturlar Dışında Süturlar Alınması</button>
-                                <button class="process-button" onclick="app.addProcess('Dış Süturların Alınması')">Dış Süturların Alınması</button>
-                                <button class="process-button" onclick="app.addProcess('Detaşe Alan Dışında Süturların Alınması')">Detaşe Alan Dışında Süturların Alınması</button>
-                            </div>
+                    <div class="process-card">
+                        <div class="card-header">SÜTUR ALINMASI</div>
+                        <div class="card-body">
+                            <button class="process-button" onclick="app.addProcess('Tüm Süturların Alınması')">Tüm Süturların Alınması</button>
+                            <button class="process-button" onclick="app.addProcess('Atlanarak Sütur Alınması')">Atlanarak Sütur Alınması</button>
+                            <button class="process-button" onclick="app.addProcess('İşaretli Süturların Alınması')">İşaretli Süturların Alınması</button>
+                            <button class="process-button" onclick="app.addProcess('İşaretli Süturlar Dışında Süturlar Alınması')">İşaretli Süturlar Dışında Süturlar Alınması</button>
+                            <button class="process-button" onclick="app.addProcess('Dış Süturların Alınması')">Dış Süturların Alınması</button>
+                            <button class="process-button" onclick="app.addProcess('Detaşe Alan Dışında Süturların Alınması')">Detaşe Alan Dışında Süturların Alınması</button>
                         </div>
                     </div>
 
-                    <div class="process-column">
-                        <div class="process-card">
-                            <div class="card-header">DREN İŞLEMLERİ</div>
-                            <div class="card-body">
-                                <button class="process-button" onclick="app.addProcess('Dren Çekilmesi')">Dren Çekilmesi</button>
-                                <button class="process-button" onclick="app.addProcess('Dren Boşaltılması')">Dren Boşaltılması</button>
-                                <button class="process-button" onclick="app.addProcess('Dren Boşaltılması Eğitimi')">Dren Boşaltılması Eğitimi</button>
-                                <button class="process-button" onclick="app.addProcess('Dren Yıkanması')">Dren Yıkanması</button>
-                                <button class="process-button" onclick="app.addProcess('Dren Yıkanması Eğitimi')">Dren Yıkanması Eğitimi</button>
-                                <button class="process-button" onclick="app.addProcess('Foley Sonda Çekilmesi')">Foley Sonda Çekilmesi</button>
-                                <button class="process-button" onclick="app.addProcess('Foley Sonda Boşaltılması')">Foley Sonda Boşaltılması</button>
-                                <button class="process-button" onclick="app.addProcess('Foley Sonda Boşaltılması Eğitimi')">Foley Sonda Boşaltılması Eğitimi</button>
-                            </div>
+                    <div class="process-card">
+                        <div class="card-header">DREN İŞLEMLERİ</div>
+                        <div class="card-body">
+                            <button class="process-button" onclick="app.showDrainModal()">Dren Çekilmesi</button>
+                            <button class="process-button" onclick="app.addProcess('Dren Boşaltılması')">Dren Boşaltılması</button>
+                            <button class="process-button" onclick="app.addProcess('Dren Boşaltılması Eğitimi')">Dren Boşaltılması Eğitimi</button>
+                            <button class="process-button" onclick="app.addProcess('Dren Yıkanması')">Dren Yıkanması</button>
+                            <button class="process-button" onclick="app.addProcess('Dren Yıkanması Eğitimi')">Dren Yıkanması Eğitimi</button>
+                            <button class="process-button" onclick="app.addProcess('Foley Sonda Çekilmesi')">Foley Sonda Çekilmesi</button>
+                            <button class="process-button" onclick="app.addProcess('Foley Sonda Boşaltılması')">Foley Sonda Boşaltılması</button>
+                            <button class="process-button" onclick="app.addProcess('Foley Sonda Boşaltılması Eğitimi')">Foley Sonda Boşaltılması Eğitimi</button>
                         </div>
                     </div>
 
-                    <div class="process-column">
-                        <div class="process-card">
-                            <div class="card-header">PANSUMAN TÜRLERİ</div>
-                            <div class="card-body">
-                                <button class="process-button" onclick="app.addProcess('Açık Pansuman')">Açık Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Kapalı Pansuman')">Kapalı Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Dren Pansumanı')">Dren Pansumanı</button>
-                                <button class="process-button" onclick="app.addProcess('Baskılı Pansuman')">Baskılı Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Islak Nemli Pansuman')">Islak Nemli Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Dekübüt Pansumanı')">Dekübüt Pansumanı</button>
-                                <button class="process-button" onclick="app.addProcess('Yanık Pansumanı')">Yanık Pansumanı</button>
-                            </div>
+                    <div class="process-card">
+                        <div class="card-header">PANSUMAN TÜRLERİ</div>
+                        <div class="card-body">
+                            <button class="process-button" onclick="app.addProcess('Açık Pansuman')">Açık Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Kapalı Pansuman')">Kapalı Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Dren Pansumanı')">Dren Pansumanı</button>
+                            <button class="process-button" onclick="app.addProcess('Baskılı Pansuman')">Baskılı Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Islak Nemli Pansuman')">Islak Nemli Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Dekübüt Pansumanı')">Dekübüt Pansumanı</button>
+                            <button class="process-button" onclick="app.addProcess('Yanık Pansumanı')">Yanık Pansumanı</button>
                         </div>
                     </div>
 
-                    <div class="process-column">
-                        <div class="process-card">
-                            <div class="card-header">KREMLE PANSUMAN TÜRLERİ</div>
-                            <div class="card-body">
-                                <button class="process-button" onclick="app.addProcess('Thiocilline İle Pansuman')">Thiocilline İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Fito İle Pansuman')">Fito İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Thiocilline+Fito İle Pansuman')">Thiocilline+Fito İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Silverdin İle Pansuman')">Silverdin İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Rifocin İle Pansuman')">Rifocin İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('Balaban İle Pansuman')">Balaban İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('D Krem İle Pansuman')">D Krem İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('C Krem İle Pansuman')">C Krem İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('G Krem İle Pansuman')">G Krem İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('D+C Krem İle Pansuman')">D+C Krem İle Pansuman</button>
-                                <button class="process-button" onclick="app.addProcess('G+C Krem İle Pansuman')">G+C Krem İle Pansuman</button>
-                                <button class="process-button" onclick="app.showMeshModal()">Mesh İle Pansuman</button>
-                            </div>
+                    <div class="process-card">
+                        <div class="card-header">KREMLE PANSUMAN</div>
+                        <div class="card-body">
+                            <button class="process-button" onclick="app.addProcess('Thiocilline İle Pansuman')">Thiocilline İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Fito İle Pansuman')">Fito İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Thiocilline+Fito İle Pansuman')">Thiocilline+Fito İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Silverdin İle Pansuman')">Silverdin İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Rifocin İle Pansuman')">Rifocin İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('Balaban İle Pansuman')">Balaban İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('D Krem İle Pansuman')">D Krem İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('C Krem İle Pansuman')">C Krem İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('G Krem İle Pansuman')">G Krem İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('D+C Krem İle Pansuman')">D+C Krem İle Pansuman</button>
+                            <button class="process-button" onclick="app.addProcess('G+C Krem İle Pansuman')">G+C Krem İle Pansuman</button>
+                            <button class="process-button" onclick="app.showMeshModal()">Mesh İle Pansuman</button>
                         </div>
                     </div>
 
-                    <div class="process-column">
-                        <div class="process-card">
-                            <div class="card-header">KONTROL MUAYENE İŞLEMLERİ</div>
-                            <div class="card-body">
-                                <button class="process-button" onclick="app.addProcess('Genel Kontrol ve Muayene İçin Hazırlık', '210')">Genel Kontrol ve Muayene İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Kolostomi Bageti Çıkarılması', '210')">Kolostomi Bageti Çıkarılması</button>
-                                <button class="process-button" onclick="app.addProcess('Abdominoplasti Hastası İçin Hazırlık', '210')">Abdominoplasti Hastası İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Rinoplasti Hastası İçin Hazırlık', '210')">Rinoplasti Hastası İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Otoplasti Hastası İçin Hazırlık', '210')">Otoplasti Hastası İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Meme Ameliyatı Hastası İçin Hazırlık', '210')">Meme Ameliyatı Hastası İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Kenacort Enj. Hastası İçin Hazırlık', '210')">Kenacort Enj. Hastası İçin Hazırlık</button>
-                            </div>
+                    <div class="process-card">
+                        <div class="card-header">KONTROL & MUAYENE</div>
+                        <div class="card-body">
+                            <button class="process-button" onclick="app.addProcess('Genel Kontrol ve Muayene İçin Hazırlık', '210')">Genel Kontrol ve Muayene İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Kolostomi Bageti Çıkarılması', '210')">Kolostomi Bageti Çıkarılması</button>
+                            <button class="process-button" onclick="app.addProcess('Abdominoplasti Hastası İçin Hazırlık', '210')">Abdominoplasti Hastası İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Rinoplasti Hastası İçin Hazırlık', '210')">Rinoplasti Hastası İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Otoplasti Hastası İçin Hazırlık', '210')">Otoplasti Hastası İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Meme Ameliyatı Hastası İçin Hazırlık', '210')">Meme Ameliyatı Hastası İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Kenacort Enj. Hastası İçin Hazırlık', '210')">Kenacort Enj. Hastası İçin Hazırlık</button>
                         </div>
                     </div>
 
-                    <div class="process-column">
-                        <div class="process-card">
-                            <div class="card-header">İŞLEMLER</div>
-                            <div class="card-body">
-                                <button class="process-button" onclick="app.addProcess('Apse Drenajı İçin Hazırlık', '210')">Apse Drenajı İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Yara Süturasyonu İçin Hazırlık', '210')">Yara Süturasyonu İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Dren Takılması İçin Hazırlık', '210')">Dren Takılması İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.addProcess('Lokal Eksizyon İçin Hazırlık', '110')">Lokal Eksizyon İçin Hazırlık</button>
-                                <button class="process-button" onclick="app.showCustomModal('310')">Özel İstek Yazınız (Hemşire)</button>
-                                <button class="process-button" onclick="app.showCustomModal('210')">Özel İstek Yazınız (Doktor)</button>
-                            </div>
+                    <div class="process-card">
+                        <div class="card-header">DİĞER İŞLEMLER</div>
+                        <div class="card-body">
+                            <button class="process-button" onclick="app.addProcess('Apse Drenajı İçin Hazırlık', '210')">Apse Drenajı İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Yara Süturasyonu İçin Hazırlık', '210')">Yara Süturasyonu İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Dren Takılması İçin Hazırlık', '210')">Dren Takılması İçin Hazırlık</button>
+                            <button class="process-button" onclick="app.addProcess('Lokal Eksizyon İçin Hazırlık (Plastik Cer.)', '110')">Lokal Eksizyon İçin Hazırlık (Plastik Cer.)</button>
+                            <button class="process-button" onclick="app.addProcess('Lokal Eksizyon İçin Hazırlık (Genel Cer.)', '160')">Lokal Eksizyon İçin Hazırlık (Genel Cer.)</button>
+                            <button class="process-button" onclick="app.showCustomModal('310')">Özel İstek Yazınız (Hemşire)</button>
+                            <button class="process-button" onclick="app.showCustomModal('210')">Özel İstek Yazınız (Doktor)</button>
                         </div>
                     </div>
                 </div>
@@ -768,7 +762,10 @@
             </div>
 
             <div class="records-section">
-                <h3 class="section-header"><i class="fas fa-clipboard-list"></i>Kayıtlar</h3>
+                <h3 class="section-header">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Kayıtlar</span>
+                </h3>
                 <div class="records-container" id="recordsContainer">
                     <div class="empty-state">
                         <i class="fas fa-inbox"></i>
@@ -782,11 +779,13 @@
     <div id="meshModal" class="modal-overlay">
         <div class="modal-box">
             <span class="modal-close" onclick="app.hideMeshModal()">&times;</span>
-            <h3 style="margin-bottom: 16px; color: var(--text-dark); font-weight: 600;">
-                <i class="fas fa-layer-group"></i> Mesh Türü Seçiniz
+            <h3 class="modal-title">
+                <i class="fas fa-layer-group"></i>
+                <span>Mesh Türü Seçiniz</span>
             </h3>
-            <p style="margin-bottom: 20px; color: var(--text-medium); font-size: 14px;">
-                <i class="fas fa-info-circle"></i> Birden fazla seçenek seçebilirsiniz
+            <p class="modal-subtitle">
+                <i class="fas fa-info-circle"></i>
+                <span>Birden fazla seçenek seçebilirsiniz</span>
             </p>
             <div class="option-grid" id="meshOptions">
                 <div class="option-item" data-value="Thiocilline" onclick="app.toggleMesh(this)">
@@ -814,7 +813,7 @@
                     <i class="fas fa-check check-icon"></i>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center; margin-top: 18px;">
                 <button class="action-button" onclick="app.confirmMesh()">
                     <i class="fas fa-check"></i> Onayla
                 </button>
@@ -828,8 +827,9 @@
     <div id="clinicModal" class="modal-overlay">
         <div class="modal-box">
             <span class="modal-close" onclick="app.hideClinicModal()">&times;</span>
-            <h3 style="margin-bottom: 24px; color: var(--text-dark); font-weight: 600;">
-                <i class="fas fa-hospital-user"></i> Poliklinik Seçiniz
+            <h3 class="modal-title">
+                <i class="fas fa-hospital-user"></i>
+                <span>Poliklinik Seçiniz</span>
             </h3>
             <div class="option-grid">
                 <div class="option-item" onclick="app.selectClinic('Genel Cerrahi Polikliniği 1')">
@@ -860,14 +860,16 @@
     <div id="customModal" class="modal-overlay">
         <div class="modal-box">
             <span class="modal-close" onclick="app.hideCustomModal()">&times;</span>
-            <h3 style="margin-bottom: 16px; color: var(--text-dark); font-weight: 600;">
-                <i class="fas fa-edit"></i> Özel İstek Yazınız
+            <h3 class="modal-title">
+                <i class="fas fa-edit"></i>
+                <span>Özel İstek Yazınız</span>
             </h3>
-            <p style="margin-bottom: 20px; color: var(--text-medium); font-size: 14px;">
-                <i class="fas fa-info-circle"></i> Lütfen işlem detaylarını yazınız
+            <p class="modal-subtitle">
+                <i class="fas fa-info-circle"></i>
+                <span>Lütfen işlem detaylarını yazınız</span>
             </p>
             <textarea id="customInput" class="text-input" placeholder="İşlem detaylarını buraya yazınız..."></textarea>
-            <div style="text-align: center; margin-top: 20px;">
+            <div style="text-align: center; margin-top: 18px;">
                 <button class="action-button" onclick="app.confirmCustom()">
                     <i class="fas fa-check"></i> Onayla
                 </button>
@@ -1046,10 +1048,10 @@
                                 <div class="sequence-badge">${seqNum}</div>
                                 <div class="record-details">
                                     <div class="record-timestamp">
-                                        <i class="fas fa-clock"></i> ${formatted}
+                                        <i class="fas fa-clock"></i>${formatted}
                                     </div>
                                     <div class="record-clinic">
-                                        <i class="fas fa-hospital"></i> ${rec.user}
+                                        <i class="fas fa-hospital"></i>${rec.user}
                                     </div>
                                 </div>
                             </div>
@@ -1072,7 +1074,7 @@
                     info = `
                         <div class="info-panel">
                             <h4><i class="fas fa-exclamation-triangle"></i> Önemli Bilgilendirme</h4>
-                            <p style="margin-bottom: 12px;">Sağlık Uygulama Tebliği (SUT) ve Girişimsel İşlem Yönergesi (GİY) kodlarını hastaların tetkikler kısmına giriniz:</p>
+                            <p style="margin-bottom: 10px;">Sağlık Uygulama Tebliği (SUT) ve Girişimsel İşlem Yönergesi (GİY) kodlarını hastaların tetkikler kısmına giriniz:</p>
                             <ul>
                                 <li><span class="highlight">530570</span> Yara Pansumanı Büyük</li>
                                 <li><span class="highlight">530580</span> Yara Pansumanı Küçük</li>
@@ -1085,7 +1087,7 @@
                     info = `
                         <div class="info-panel">
                             <h4><i class="fas fa-bed"></i> Günübirlik Servis Uyarısı</h4>
-                            <p style="line-height: 1.7;">
+                            <p style="line-height: 1.6;">
                                 Hastayı <strong style="color: #ffd700;">Günübirlik Servise</strong> yatırmayı unutmayınız. 
                                 İşlem kodları <strong style="color: #ffd700;">Günübirlik Servis</strong> üzerinden atılacaktır.
                             </p>
@@ -1095,10 +1097,10 @@
                 
                 popup.innerHTML = `
                     <div class="sequence-display">${seqNum}</div>
-                    <div style="font-size: 18px; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">
+                    <div style="font-size: 16px; opacity: 0.95; margin-bottom: 8px; font-weight: 700;">
                         <i class="fas fa-ticket-alt"></i> Sıra Numarası
                     </div>
-                    <div style="font-size: 15px; opacity: 0.8; line-height: 1.5; font-weight: 500;">
+                    <div style="font-size: 13px; opacity: 0.85; line-height: 1.5; font-weight: 600;">
                         ${name}
                     </div>
                     ${info}
@@ -1116,6 +1118,10 @@
                 toast.innerHTML = `<i class="${icon}"></i><span>${msg}</span>`;
                 document.body.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);
+            },
+
+            showDrainModal() {
+                this.addProcess('Dren Çekilmesi');
             },
 
             showMeshModal() {

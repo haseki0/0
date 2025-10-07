@@ -1665,15 +1665,6 @@
                 });
             },
 
-            showAddButtonModalWithPassword() {
-                const password = prompt('Şifre giriniz:');
-                if (password === '225511') {
-                    this.showAddButtonModal();
-                } else if (password !== null) {
-                    alert('Hatalı şifre!');
-                }
-            },
-
             showAddButtonModal() {
                 this.editingButtonId = null;
                 document.getElementById('categorySelect').value = '';

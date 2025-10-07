@@ -87,7 +87,7 @@
         }
 
         .add-button-trigger {
-            margin-left: auto;
+            margin-left: 12px;
             width: 32px;
             height: 32px;
             background: var(--gradient-primary);
@@ -1663,6 +1663,15 @@
                         });
                     }
                 });
+            },
+
+            showAddButtonModalWithPassword() {
+                const password = prompt('Şifre giriniz:');
+                if (password === '225511') {
+                    this.showAddButtonModal();
+                } else if (password !== null) {
+                    alert('Hatalı şifre!');
+                }
             },
 
             showAddButtonModal() {

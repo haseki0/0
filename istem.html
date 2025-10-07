@@ -792,6 +792,52 @@
             border-radius: 3px;
         }
 
+        .date-picker {
+            padding: 6px 10px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-dark);
+            background: var(--bg-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .date-picker:hover {
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+
+        .date-picker:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+        }
+
+        .date-clear-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .date-clear-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
         @media (max-width: 1400px) {
             .process-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -820,7 +866,7 @@
                 <h3 class="section-header">
                     <i class="fas fa-tasks"></i>
                     <span>İşlemler</span>
-                    <div class="add-button-trigger" onclick="app.showAddButtonModal()" title="Yeni Buton Ekle">
+                    <div class="add-button-trigger" onclick="app.showAddButtonModalWithPassword()" title="Yeni Buton Ekle">
                         <i class="fas fa-plus"></i>
                     </div>
                 </h3>
@@ -919,10 +965,10 @@
                 <h3 class="section-header">
                     <i class="fas fa-clipboard-list"></i>
                     <span>Kayıtlar</span>
-                    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
-                        <input type="date" id="dateFilter" class="date-input" onchange="app.filterByDate()">
-                        <button class="icon-button" style="background: var(--gradient-primary); color: white;" onclick="app.setToday()" title="Bugüne Git">
-                            <i class="fas fa-calendar-day"></i>
+                    <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+                        <input type="date" id="dateFilter" class="date-picker" onchange="app.filterByDate()" title="Tarih Seçiniz">
+                        <button class="date-clear-btn" onclick="app.clearDateFilter()" title="Tarihi Temizle">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </h3>
@@ -1164,6 +1210,7 @@
             drainBandage: false,
             customButtons: {},
             editingButtonId: null,
+            selectedDate: null,
 
             init() {
                 firebase.initializeApp({
@@ -1176,9 +1223,31 @@
                     measurementId: "G-SCNPPSJ12W"
                 });
                 this.db = firebase.firestore();
+                this.setTodayDate();
                 this.showClinicModal();
                 this.setupListener();
                 this.loadCustomButtons();
+            },
+
+            setTodayDate() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const dateString = `${year}-${month}-${day}`;
+                document.getElementById('dateFilter').value = dateString;
+                this.selectedDate = dateString;
+            },
+
+            filterByDate() {
+                const dateInput = document.getElementById('dateFilter').value;
+                this.selectedDate = dateInput;
+                this.setupListener();
+            },
+
+            clearDateFilter() {
+                this.setTodayDate();
+                this.setupListener();
             },
 
             getDateKey() {
@@ -1277,23 +1346,36 @@
             setupListener() {
                 if (this.listener) this.listener();
                 
-                this.listener = this.db.collection('processes')
+                let query = this.db.collection('processes')
                     .orderBy('timestamp', 'desc')
-                    .limit(100)
-                    .onSnapshot((snap) => {
-                        const records = [];
-                        snap.forEach((doc) => {
-                            const data = doc.data();
-                            if (data.timestamp && data.timestamp.toDate) {
-                                data.date = data.timestamp.toDate().toISOString();
-                            }
-                            records.push(data);
-                        });
-                        this.displayRecords(records);
-                    }, (err) => {
-                        console.error('Listener error:', err);
-                        this.showToast('Bağlantı hatası!', 'error');
+                    .limit(100);
+                
+                if (this.selectedDate) {
+                    const selectedDateObj = new Date(this.selectedDate);
+                    const startOfDay = new Date(selectedDateObj.setHours(0, 0, 0, 0));
+                    const endOfDay = new Date(selectedDateObj.setHours(23, 59, 59, 999));
+                    
+                    query = this.db.collection('processes')
+                        .where('timestamp', '>=', startOfDay)
+                        .where('timestamp', '<=', endOfDay)
+                        .orderBy('timestamp', 'desc')
+                        .limit(100);
+                }
+                
+                this.listener = query.onSnapshot((snap) => {
+                    const records = [];
+                    snap.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.timestamp && data.timestamp.toDate) {
+                            data.date = data.timestamp.toDate().toISOString();
+                        }
+                        records.push(data);
                     });
+                    this.displayRecords(records);
+                }, (err) => {
+                    console.error('Listener error:', err);
+                    this.showToast('Bağlantı hatası!', 'error');
+                });
             },
 
             displayRecords(records) {
